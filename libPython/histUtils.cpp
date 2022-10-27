@@ -1326,11 +1326,13 @@ static const char __pyx_k_histFile[] = "histFile";
 static const char __pyx_k_outcount[] = "outcount";
 static const char __pyx_k_is_number[] = "is_number";
 static const char __pyx_k_maxWeight[] = "maxWeight";
-static const char __pyx_k_pair_mass[] = " pair_mass ";
+//static const char __pyx_k_pair_mass[] = " pair_mass ";
+static const char __pyx_k_pair_mass[] = " JpsiKE_Jpsi_mass ";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_cutBinList[] = "cutBinList";
 static const char __pyx_k_s_mcTrue_1[] = "%s && mcTrue==1";
-static const char __pyx_k_pair_mass_2[] = "pair_mass";
+//static const char __pyx_k_pair_mass_2[] = "pair_mass";
+static const char __pyx_k_pair_mass_2[] = "JpsiKE_Jpsi_mass";
 static const char __pyx_k_s_Selection[] = "%s_Selection";
 static const char __pyx_k_s_s_f_s_1_0[] = "( %s ) * (%s < %f ? %s : 1.0 )";
 static const char __pyx_k_bin_formulas[] = "bin_formulas";
@@ -3106,7 +3108,7 @@ static PyObject *__pyx_pf_9libPython_9histUtils_2makePassFailHistograms(CYTHON_U
  * 
  *     ################
  */
-  __pyx_v_tree->SetBranchAddress(((const char *)"pair_mass"), ((void *)(&__pyx_v_pair_mass)));
+  __pyx_v_tree->SetBranchAddress(((const char *)"JpsiKE_Jpsi_mass"), ((void *)(&__pyx_v_pair_mass)));
 
   /* "libPython/histUtils.pyx":137
  *     ################
@@ -3116,7 +3118,7 @@ static PyObject *__pyx_pf_9libPython_9histUtils_2makePassFailHistograms(CYTHON_U
  * 
  */
   __pyx_v_nevts = __pyx_v_tree->GetEntries();
-
+  std::cout << __pyx_v_tree->GetEntries() << std::endl;
   /* "libPython/histUtils.pyx":138
  * 
  *     nevts = tree.GetEntries()

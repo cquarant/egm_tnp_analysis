@@ -228,7 +228,7 @@ def reweight( sample, puType = 0,useCustomW=False  ):
         dirs = fmc.GetListOfKeys()
         for d in dirs:
             if (d.GetName() == "sampleInfo"): continue
-            tmc = fmc.Get("%s/fitter_tree" % d.GetName())
+            tmc = fmc.Get("%s/tree" % d.GetName())
     else:
         tmc = fmc.Get(sample.tnpTree)
     

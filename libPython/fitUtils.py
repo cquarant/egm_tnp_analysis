@@ -4,6 +4,7 @@ rt.gROOT.LoadMacro('./libCpp/RooCBExGaussShape.cc+')
 rt.gROOT.LoadMacro('./libCpp/RooCMSShape.cc+')
 rt.gROOT.LoadMacro('./libCpp/RooCruijff.cc+')  
 rt.gROOT.LoadMacro('./libCpp/RooDoubleCB.cc+')  
+rt.gROOT.LoadMacro('./libCpp/RooFermiDirac.cc+')  
 
 rt.gROOT.SetBatch(1)
 
@@ -200,6 +201,7 @@ def histFitterAltBkg( sample, tnpBin, tnpWorkspaceParam ):
         "Gaussian::sigResFail(x,meanF,sigmaF)",
         "Exponential::bkgPass(x, alphaP)",
         "Exponential::bkgFail(x, alphaF)",
+
         ]
 
     tnpWorkspace = []
@@ -250,8 +252,11 @@ def histFitterNominalJPsi( sample, tnpBin, tnpWorkspaceParam ):
     tnpWorkspaceFunc = [
         "RooDoubleCB::sigResPass(x,meanP,sigmaP,alphaLP,alphaRP,nLP,nRP)",
         "RooDoubleCB::sigResFail(x,meanF,sigmaF,alphaLF,alphaRF,nLF,nRF)",
+        #"Gaussian::sigResPass(x,meanP,sigmaP)",
+        #"Gaussian::sigResFail(x,meanF,sigmaF)",
         "Exponential::bkgPass(x, expalphaP)",
         "Exponential::bkgFail(x, expalphaF)",
+        #"RooFermiDirac::bkgFail(x, shiftF, betaF, c0F)",
     ]
  
     print "tnpWorkspace"

@@ -24,7 +24,7 @@ for sName in tnpSamples.Data2018_10_1_X.keys():
         if   puType == 0 : sample.set_puTree( dirout + '%s_%s.pu.puTree.root'   % (sample.name,tree) )
         elif puType == 1 : sample.set_puTree( dirout + '%s_%s.nVtx.puTree.root' % (sample.name,tree) )
         elif puType == 2 : sample.set_puTree( dirout + '%s_%s.rho.puTree.root'  % (sample.name,tree) )
-        sample.set_tnpTree(trees[tree]+'/fitter_tree')
+        sample.set_tnpTree(trees[tree]+'/tree')
         sample.dump()
         pu.reweight(sample, puType )
     

@@ -61,6 +61,7 @@ tnpFitter::tnpFitter(TFile *filein, std::string histname   ) : _useMinos(false),
   for( int ib = 0; ib <= hPass->GetXaxis()->GetNbins()+1; ib++ )
     // chiara, for JPsi
     //if(  hPass->GetXaxis()->GetBinCenter(ib) <= 60 || hPass->GetXaxis()->GetBinCenter(ib) >= 120 ) {
+    //if(  hPass->GetXaxis()->GetBinCenter(ib) <= 2.3 || hPass->GetXaxis()->GetBinCenter(ib) >= 4.0 ) {
     if(  hPass->GetXaxis()->GetBinCenter(ib) <= 2.3 || hPass->GetXaxis()->GetBinCenter(ib) >= 3.6 ) {
     //if(  hPass->GetXaxis()->GetBinCenter(ib) <= 2.6 || hPass->GetXaxis()->GetBinCenter(ib) >= 3.5 ) {
      hPass->SetBinContent(ib,0);
@@ -70,6 +71,7 @@ tnpFitter::tnpFitter(TFile *filein, std::string histname   ) : _useMinos(false),
   _work = new RooWorkspace("w") ;
   // chiara, for JPsi 
   // _work->factory("x[50,130]");
+  //_work->factory("x[2.3,4.0]");
   _work->factory("x[2.3,3.6]");
   //_work->factory("x[2.6,3.5]");
 
@@ -80,10 +82,12 @@ tnpFitter::tnpFitter(TFile *filein, std::string histname   ) : _useMinos(false),
   // chiara, for JPsi 
   //_xFitMin = 60;
   //_xFitMax = 120;
+  //_xFitMin = 2.3;
+  //_xFitMax = 4.0;
   _xFitMin = 2.3;
   _xFitMax = 3.6;
-  //_xFitMin = 2.6;
-  //_xFitMax = 3.5;
+  // _xFitMin = 2.6;
+  // _xFitMax = 3.5;
 }
 
 tnpFitter::tnpFitter(TH1 *hPass, TH1 *hFail, std::string histname  ) : _useMinos(false),_fixSigmaFtoSigmaP(false) {
@@ -95,8 +99,9 @@ tnpFitter::tnpFitter(TH1 *hPass, TH1 *hFail, std::string histname  ) : _useMinos
   for( int ib = 0; ib <= hPass->GetXaxis()->GetNbins()+1; ib++ )
     // chiara, for JPsi 
     //if(  hPass->GetXaxis()->GetBinCenter(ib) <= 60 || hPass->GetXaxis()->GetBinCenter(ib) >= 120 ) {
+    //if(  hPass->GetXaxis()->GetBinCenter(ib) <= 2.3 || hPass->GetXaxis()->GetBinCenter(ib) >= 4.0 ) {
     if(  hPass->GetXaxis()->GetBinCenter(ib) <= 2.3 || hPass->GetXaxis()->GetBinCenter(ib) >= 3.6 ) {
-      //if(  hPass->GetXaxis()->GetBinCenter(ib) <= 2.6 || hPass->GetXaxis()->GetBinCenter(ib) >= 3.5 ) {
+    //if(  hPass->GetXaxis()->GetBinCenter(ib) <= 2.6 || hPass->GetXaxis()->GetBinCenter(ib) >= 3.5 ) {
       hPass->SetBinContent(ib,0);
       hFail->SetBinContent(ib,0);
     }
@@ -104,6 +109,7 @@ tnpFitter::tnpFitter(TH1 *hPass, TH1 *hFail, std::string histname  ) : _useMinos
   _work = new RooWorkspace("w") ;
   // chiara, for JPsi  
   // _work->factory("x[50,130]");
+  //_work->factory("x[2.3,4.0]");
   _work->factory("x[2.3,3.6]");
   //_work->factory("x[2.6,3.5]");
   
@@ -114,10 +120,12 @@ tnpFitter::tnpFitter(TH1 *hPass, TH1 *hFail, std::string histname  ) : _useMinos
   // chiara, for JPsi   
   //_xFitMin = 60;
   //_xFitMax = 120;
+  //_xFitMin = 2.3;
+  //_xFitMax = 4.0;
   _xFitMin = 2.3;
   _xFitMax = 3.6;
-  //_xFitMin = 2.6;
-  //_xFitMax = 3.5;
+  // _xFitMin = 2.6;
+  // _xFitMax = 3.5;
 }
 
 
@@ -193,14 +201,10 @@ void tnpFitter::fits(bool mcTruth,string title) {
   }
 
   // chiara
-  if (_work->var("sigmaF")) {
-    _work->var("sigmaF")->setVal( _work->var("sigmaP")->getVal() );
-    _work->var("sigmaF")->setConstant();
-  }
-  if (_work->var("meanF")) {
-    _work->var("meanF")->setVal( _work->var("meanP")->getVal() );
-    _work->var("meanF")->setConstant();
-  }
+  _work->var("sigmaF")->setVal( _work->var("sigmaP")->getVal() );
+  //_work->var("sigmaF")->setConstant();
+  _work->var("meanF")->setVal( _work->var("meanP")->getVal() );
+  //_work->var("meanF")->setConstant();
   if (_work->var("alphaLF")) {
     _work->var("alphaLF")->setVal( _work->var("alphaLP")->getVal() );
     _work->var("alphaLF")->setConstant();
@@ -217,18 +221,50 @@ void tnpFitter::fits(bool mcTruth,string title) {
     _work->var("nRF")->setVal( _work->var("nRP")->getVal() );
     _work->var("nRF")->setConstant();
   }
+
+  //if (_work->var("sigmaF")) _work->var("sigmaF")->setRange(0.8* _work->var("sigmaP")->getVal(), 3.0* _work->var("sigmaP")->getVal());
+  RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
   // chiara
 
-  if (_work->var("sigmaF")) _work->var("sigmaF")->setRange(0.8* _work->var("sigmaP")->getVal(), 3.0* _work->var("sigmaP")->getVal());
-  RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
+  // // claudio (fit to fail before pass)
 
-    // chiara, for JPsi
+  // _work->var("x")->setRange("fitMassRange",_xFitMin,_xFitMax);
+  // //if (_work->var("sigmaF")) _work->var("sigmaF")->setRange(0.8* _work->var("sigmaP")->getVal(), 3.0* _work->var("sigmaP")->getVal());
+  // RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
+
+  // _work->var("sigmaP")->setVal( _work->var("sigmaF")->getVal() );
+  // //_work->var("sigmaP")->setConstant();
+  // _work->var("meanP")->setVal( _work->var("meanF")->getVal() );
+  //   //_work->var("meanP")->setConstant();
+  // if (_work->var("alphaLP")) {
+  //   _work->var("alphaLP")->setVal( _work->var("alphaLF")->getVal() );
+  //   _work->var("alphaLP")->setConstant();
+  // }
+  // if (_work->var("nLP")) {
+  //   _work->var("nLP")->setVal( _work->var("nLF")->getVal() );
+  //   _work->var("nLP")->setConstant();
+  // }
+  // if (_work->var("alphaRP")) {
+  //   _work->var("alphaRP")->setVal( _work->var("alphaRF")->getVal() );
+  //   _work->var("alphaRP")->setConstant();
+  // }
+  // if (_work->var("nRP")) {
+  //   _work->var("nRP")->setVal( _work->var("nRF")->getVal() );
+  //   _work->var("nRP")->setConstant();
+  // }
+
+  // RooFitResult* resPass = pdfPass->fitTo(*_work->data("hPass"),Minos(_useMinos),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
+  // // claudio 
+
+  // chiara, for JPsi
   //RooPlot *pPass = _work->var("x")->frame(60,120);
   //RooPlot *pFail = _work->var("x")->frame(60,120);
+  //RooPlot *pPass = _work->var("x")->frame(2.3,4.0);
+  //RooPlot *pFail = _work->var("x")->frame(2.3,4.0);
   RooPlot *pPass = _work->var("x")->frame(2.3,3.6);
   RooPlot *pFail = _work->var("x")->frame(2.3,3.6);
-  //RooPlot *pPass = _work->var("x")->frame(2.6,3.5);
-  //RooPlot *pFail = _work->var("x")->frame(2.6,3.5);
+  // RooPlot *pPass = _work->var("x")->frame(2.6,3.5);
+  // RooPlot *pFail = _work->var("x")->frame(2.6,3.5);
   pPass->SetTitle("passing probe");
   pFail->SetTitle("failing probe");
   
@@ -300,9 +336,9 @@ void tnpFitter::textParForCanvas(RooFitResult *resP, RooFitResult *resF,TPad *p)
   for( int ip = 0; ip < listParFinalP.getSize(); ip++ ) {
     TString vName = listParFinalP[ip].GetName();
     text->AddText(TString::Format("   - %s \t= %1.3f #pm %1.3f",
-				  vName.Data(),
-				  _work->var(vName)->getVal(),
-				  _work->var(vName)->getError() ) );
+  				  vName.Data(),
+  				  _work->var(vName)->getVal(),
+  				  _work->var(vName)->getError() ) );
   }
 
 //  text->AddText("* Failing parameters");
