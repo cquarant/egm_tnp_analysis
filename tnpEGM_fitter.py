@@ -83,7 +83,7 @@ tnpBins = pickle.load( open( '%s/bining.pkl'%(outputDirectory),'rb') )
 for s in tnpConf.samplesDef.keys():
     sample =  tnpConf.samplesDef[s]
     if sample is None: continue
-    setattr( sample, 'tree'     ,'%s/fitter_tree' % tnpConf.tnpTreeDir )
+    setattr( sample, 'tree'     ,'%s/tree' % tnpConf.tnpTreeDir )
     setattr( sample, 'histFile' , '%s/%s_%s.root' % ( outputDirectory , sample.name, args.flag ) )
 
 if args.createHists:
@@ -96,11 +96,11 @@ if args.createHists:
         if sampleType == args.sample or args.sample == 'all' :
             print 'creating histogram for sample '
             sample.dump()
-            var = { 'name' : 'pair_mass', 'nbins' : 26, 'min' : 2.3, 'max': 3.6 }
-            #var = { 'name' : 'pair_mass', 'nbins' : 18, 'min' : 2.6, 'max': 3.5 }
+            var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 10, 'min' : 2.3, 'max': 3.6 }
+            #var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 18, 'min' : 2.6, 'max': 3.5 }
             if sample.mcTruth:
-                var = { 'name' : 'pair_mass', 'nbins' : 26, 'min' : 2.3, 'max': 3.6 }
-                #var = { 'name' : 'pair_mass', 'nbins' : 18, 'min' : 2.6, 'max': 3.5 }
+                var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 10, 'min' : 2.3, 'max': 3.6 }
+                #var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 18, 'min' : 2.6, 'max': 3.5 }
             tnpHist.makePassFailHistograms( sample, tnpConf.flags[args.flag], tnpBins, var )
 
     sys.exit(0)
@@ -144,6 +144,8 @@ if  args.doFit:
             else:
                 tnpRoot.histFitterNominalJPsi( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFitJPsi )
                 print 'tnpRoot.histFitterNominalJPsi'
+                # tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFitJPsi )
+                # print 'tnpRoot.histFitterNominal'
 
     args.doPlot = True
      
