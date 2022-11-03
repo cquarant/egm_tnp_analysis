@@ -56,18 +56,18 @@ void JsonFilter::fillRunLSMap()
     }
 
 
-  std::cout << "[GoodRunLSMap]::Good Run LS map filled with " << goodRunLS.size() << " runs" << std::endl;
-  for (runsLSSegmentsMap::const_iterator itR=goodRunLS.begin(); itR!=goodRunLS.end(); ++itR)
-    {
-      std::cout << "[GoodRunLSMap]::Run " << (*itR).first <<  " LS ranges are: ";
-      for (LSSegments::const_iterator iSeg=(*itR).second.begin();iSeg!=(*itR).second.end();++iSeg)
-        std::cout << "[" << (*iSeg).first << "," << (*iSeg).second << "] "; 
-      std::cout << std::endl;
-    }
-  std::cout << "And that's all folks " << std::endl;
+  // std::cout << "[GoodRunLSMap]::Good Run LS map filled with " << goodRunLS.size() << " runs" << std::endl;
+  // for (runsLSSegmentsMap::const_iterator itR=goodRunLS.begin(); itR!=goodRunLS.end(); ++itR)
+  //   {
+  //     std::cout << "[GoodRunLSMap]::Run " << (*itR).first <<  " LS ranges are: ";
+  //     for (LSSegments::const_iterator iSeg=(*itR).second.begin();iSeg!=(*itR).second.end();++iSeg)
+  //       std::cout << "[" << (*iSeg).first << "," << (*iSeg).second << "] "; 
+  //     std::cout << std::endl;
+  //   }
+  // std::cout << "And that is the list of good runs/lumi considered " << std::endl;
 }
 
-bool JsonFilter::isGoodRunLS(int run, int lumi)
+bool JsonFilter::isGoodRunLS(unsigned int run, unsigned int lumi)
 {
 
   if (jsonFile_ == "") return true;

@@ -1,6 +1,9 @@
 include "ROOT.pxi"
 import math
-#from fitUtils import *
+from fitUtils import *
+
+import ROOT as rt
+rt.gROOT.LoadMacro('/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/JSON/src/JsonFilter.cc+')
 
 ##################
 # Helper functions
@@ -23,13 +26,15 @@ cdef void removeNegativeBins(TH1D* h):
 # To Fill Tag and Probe histograms
 ##################################
 
-def makePassFailHistograms( sample, flag, bindef, var ):
+def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):
 
     #####################
     # C++ Initializations
     #####################
 
     # For tree branches
+    cdef unsigned int   run
+    cdef unsigned int   lumi
     cdef float pair_mass
 
     # For the loop
@@ -115,6 +120,12 @@ def makePassFailHistograms( sample, flag, bindef, var ):
     # Find out with variables are used to activate the corresponding branches
     replace_patterns = ['&', '|', '-', 'cos(', 'sqrt(', 'fabs(', 'abs(', '(', ')', '>', '<', '=', '!', '*', '/']
     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass " + flag
+
+    if jsonfile != "":
+       jsonfilter = rt.vecbos.JsonFilter(jsonfile)
+       jsonfilter.fillRunLSMap()
+       branches = branches + " run luminosityBlock"    
+
     for p in replace_patterns:
         branches = branches.replace(p, ' ')
 
@@ -129,6 +140,8 @@ def makePassFailHistograms( sample, flag, bindef, var ):
 
     # Set adress of pair mass
     tree.SetBranchAddress("JpsiKE_Jpsi_mass", <void*>&pair_mass)
+    tree.SetBranchAddress("run"             , <void*>&run      )
+    tree.SetBranchAddress("luminosityBlock" , <void*>&lumi     )
 
     ################
     # Loop over Tree
@@ -147,6 +160,11 @@ def makePassFailHistograms( sample, flag, bindef, var ):
         tree.GetEntry(index)
 
         for bnidx in range(nbins):
+            if jsonfilter.isGoodRunLS(run, lumi):
+                print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
+            if not jsonfilter.isGoodRunLS(run, lumi):
+                print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
+                continue
             weight = bin_formulas[bnidx].EvalInstance(0)
             if weight:
                 if flag_formula.EvalInstance(0):

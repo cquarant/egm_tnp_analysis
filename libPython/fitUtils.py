@@ -1,4 +1,5 @@
 import ROOT as rt
+rt.gROOT.LoadMacro('/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/JSON/src/JsonFilter.cc+')
 rt.gROOT.LoadMacro('./libCpp/histFitter.C+')
 rt.gROOT.LoadMacro('./libCpp/RooCBExGaussShape.cc+')
 rt.gROOT.LoadMacro('./libCpp/RooCMSShape.cc+')

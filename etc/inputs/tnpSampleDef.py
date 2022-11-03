@@ -7,7 +7,8 @@ cmsswbase = '~/CMSSW_10_6_29/src/'
 
 eosTnp = '/eos/cms/store/user/crovelli/LowPtEle/TnpData/March21noRegression/'
 
-cquarantlxplus = '/afs/cern.ch/work/c/cquarant/RKanalysis/data/'
+#cquarantlxplus = '/afs/cern.ch/work/c/cquarant/RKanalysis/data/merged/'
+cquarantlxplus = '/afs/cern.ch/work/c/cquarant/RKanalysis/data/merged_3Nov2022/'
 
 Parking_Jan16 = {
     'BuToKJpsi'          : tnpSample('BuToKJpsi',
@@ -20,7 +21,7 @@ Parking_Jan16 = {
                                   lumi = 1.), 
 
     'data_Run2022CD-Prompt': tnpSample('data_Run2022CD-Prompt' , 
-                                  cquarantlxplus + 'JPsi_ElePlusJet_controlTrigger_merged_2022CD.root' ,
+                                  cquarantlxplus + 'JPsi_ElePlusJet_controlTrigger_merged_2022CD_24Oct2022.root' ,
                                   lumi = 7.), 
 
     'data_Run2022EF-Prompt': tnpSample('data_Run2022EF-Prompt' , 
@@ -28,21 +29,18 @@ Parking_Jan16 = {
                                   lumi = 1.), 
 
     'data_Run2022CDEF-Prompt': tnpSample('data_Run2022CDEF-Prompt' , 
-                                  cquarantlxplus + 'JPsi_ElePlusJet_controlTrigger_merged_2022CDEF_24Oct2022.root' ,
+                                  cquarantlxplus + 'JPsi_ElePlusJet_controlTrigger_2022CDEF.root' ,
                                   lumi = 1.), 
+
     'data_SingleEle_Run2022F-Prompt': tnpSample('data_SingleEle_Run2022F-Prompt' , 
                                   cquarantlxplus + 'JPsi_SingleEle_controlTrigger_merged_2022F.root' ,
                                   lumi = 1.), 
     }
 
-# eosTnp = '/eos/cms/store/user/crovelli/LowPtEle/TnpData/Sept/Jan16/'
+# jsonDir = '/afs/cern.ch/work/c/cquarant/RKanalysis/data/json/'
 
-# Parking_Jan16 = {
-#     ### NanoAOD TnP for IDs scale factors
-#     'BuToKJpsi'          : tnpSample('BuToKJpsi',
-#                                      eosTnp + 'Formatted_BuToKJpsi_Toee_BParkNANO_mc_2020May16_ext_probeLowPt__tagIdCutsAt0__withNvtxWeights.root',
-#                                      isMC = True, nEvts =  -1 ),
-
-#     'data_Run2018ALL' : tnpSample('data_Run2018ALL' , eosTnp + 'Formatted_Parking_Run2018ALL_probeLowPt__tagIdCutsAt0.root' , lumi = 20.), 
-#     }
-
+# L1_trigger_activation_filter = {
+#     'L1_11p0_HLT_6p5' : tnpSample('L1_11p0_HLT_6p5',
+#                                   jsonDir + 'L1_10p5_HLT_5p0_final.json',
+#                                   lumi=1.),
+# }

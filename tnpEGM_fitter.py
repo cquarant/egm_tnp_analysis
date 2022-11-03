@@ -101,7 +101,8 @@ if args.createHists:
             if sample.mcTruth:
                 var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 10, 'min' : 2.3, 'max': 3.6 }
                 #var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 18, 'min' : 2.6, 'max': 3.5 }
-            tnpHist.makePassFailHistograms( sample, tnpConf.flags[args.flag], tnpBins, var )
+            jsonfile = tnpConf.jsonfileDef
+            tnpHist.makePassFailHistograms( sample, tnpConf.flags[args.flag], tnpBins, var, jsonfile )
 
     sys.exit(0)
 

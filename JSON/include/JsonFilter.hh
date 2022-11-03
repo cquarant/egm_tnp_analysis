@@ -27,7 +27,7 @@ namespace vecbos {
     /// Set Good Run LS
     void setJsonGoodRunList(std::string jsonFilePath) { jsonFile_ = jsonFilePath; }
     /// check if Run/LS is a good one
-    bool isGoodRunLS(int run, int lumi);
+    bool isGoodRunLS(unsigned int run, unsigned int lumi);
 
   private:
     runsLSSegmentsMap goodRunLS; 
