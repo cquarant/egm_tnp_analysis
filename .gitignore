@@ -1,1 +1,15 @@
 *.pyc
+*.pyx
+*.so
+*ACLiC*
+\#*\#
+*~
+*.bak
+*.d
+*.png
+*.pdf
+*.root
+*.pkl
+*.php
+*.txt
+*.o
