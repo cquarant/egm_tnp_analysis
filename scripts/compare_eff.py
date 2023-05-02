@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+import array as ar
 import json
 
 from collections import OrderedDict
@@ -21,73 +22,74 @@ parser.add_argument('-t', '--tag', dest='tag', help = 'output tag')
 args = parser.parse_args()
 
 varConfig = {
-    'nvtx'         : { 'minvalue':00, 'maxvalue':70, 'axis_label':'N_{vtx}' },
-    'JpsiKE_e2_pt' : { 'minvalue':05, 'maxvalue':20, 'axis_label':'Probe Pt [GeV]' },
-    'JpsiKE_elesDr': { 'minvalue':00, 'maxvalue':0.6, 'axis_label':'#DeltaR(e_{1},e_{2})' },
+    'nvtx'         : { 'minvalue':0, 'maxvalue':70 , 'axis_label':'N_{vtx}'             , 'alias':'' },
+    'JpsiKE_e2_pt' : { 'minvalue':5, 'maxvalue':20 , 'axis_label':'Probe Pt [GeV]'      , 'alias':'pt' },
+    'JpsiKE_elesDr': { 'minvalue':0, 'maxvalue':0.6, 'axis_label':'#DeltaR(e_{1},e_{2})', 'alias':'' },
 }
 var = varConfig[args.var]
 tag = args.tag
 
-flaglist = ['doubleEle4BothMatchedL1_4p5_Match'   :{'alias':L1_4p5_HLT_4p0_Incl},
-            'doubleEle4BothMatchedL1_5p0_Match'   :{'alias':L1_5p0_HLT_4p0_Incl},
-            'doubleEle4BothMatchedL1_5p5_Match'   :{'alias':L1_5p5_HLT_4p0_Incl},
-            'doubleEle4BothMatchedL1_6p0_Match'   :{'alias':L1_6p0_HLT_4p0_Incl},
-            'doubleEle4p5BothMatchedL1_6p5_Match' :{'alias':L1_6p5_HLT_4p5_Incl},
-            'doubleEle5BothMatchedL1_7p0_Match'   :{'alias':L1_7p0_HLT_5p0_Incl},
-            'doubleEle5BothMatchedL1_7p5_Match'   :{'alias':L1_7p5_HLT_5p0_Incl},
-            'doubleEle5BothMatchedL1_8p0_Match'   :{'alias':L1_8p0_HLT_5p0_Incl},
-            'doubleEle5BothMatchedL1_8p5_Match'   :{'alias':L1_8p5_HLT_5p0_Incl},
-            'doubleEle5BothMatchedL1_10p5_Match'  :{'alias':L1_10p5_HLT_5p0_Incl},
-            'doubleEle5p5BothMatchedL1_8p5_Match' :{'alias':L1_8p5_HLT_5p5_Incl},
-            'doubleEle6BothMatchedL1_5p5_Match'   :{'alias':L1_5p5_HLT_6p0_Incl},
-            'doubleEle6BothMatchedL1_9p0_Match'   :{'alias':L1_9p0_HLT_6p0_Incl},
-            'doubleEle6p5BothMatchedL1_10p5_Match':{'alias':L1_10p5_HLT_6p5_Incl},
-            'doubleEle6p5BothMatchedL1_11p0_Match':{'alias':L1_11p0_HLT_6p5_Incl},
-            'doubleEle6p5BothMatchedL1_9p5_Match' :{'alias':L1_9p5_HLT_6p5_Incl},
-]
+flaglist = OrderedDict([
+            ('doubleEle4BothMatchedL1_4p5_Match'   ,{'alias':'L1_4p5_HLT_4p0_Incl'}),
+            ('doubleEle4BothMatchedL1_5p0_Match'   ,{'alias':'L1_5p0_HLT_4p0_Incl'}),
+            ('doubleEle4BothMatchedL1_5p5_Match'   ,{'alias':'L1_5p5_HLT_4p0_Incl'}),
+            ('doubleEle4BothMatchedL1_6p0_Match'   ,{'alias':'L1_6p0_HLT_4p0_Incl'}),
+            ('doubleEle4p5BothMatchedL1_6p5_Match' ,{'alias':'L1_6p5_HLT_4p5_Incl'}),
+            ('doubleEle5BothMatchedL1_7p0_Match'   ,{'alias':'L1_7p0_HLT_5p0_Incl'}),
+            ('doubleEle5BothMatchedL1_7p5_Match'   ,{'alias':'L1_7p5_HLT_5p0_Incl'}),
+            ('doubleEle5BothMatchedL1_8p0_Match'   ,{'alias':'L1_8p0_HLT_5p0_Incl'}),
+            ('doubleEle5BothMatchedL1_8p5_Match'   ,{'alias':'L1_8p5_HLT_5p0_Incl'}),
+            ('doubleEle5BothMatchedL1_10p5_Match'  ,{'alias':'L1_10p5_HLT_5p0_Incl'}),
+            ('doubleEle5p5BothMatchedL1_8p5_Match' ,{'alias':'L1_8p5_HLT_5p5_Incl'}),
+            ('doubleEle6BothMatchedL1_5p5_Match'   ,{'alias':'L1_5p5_HLT_6p0_Incl'}),
+            ('doubleEle6BothMatchedL1_9p0_Match'   ,{'alias':'L1_9p0_HLT_6p0_Incl'}),
+            ('doubleEle6p5BothMatchedL1_10p5_Match',{'alias':'L1_10p5_HLT_6p5_Incl'}),
+            ('doubleEle6p5BothMatchedL1_11p0_Match',{'alias':'L1_11p0_HLT_6p5_Incl'}),
+           # ('doubleEle6p5BothMatchedL1_9p5_Match' :{'alias':'L1_9p5_HLT_6p5_Incl'}),
+])
 
 samplesDict = OrderedDict([
 
     # Eff vs Probe Pt Noah's binning
-    ('MC'                 , { 'dir':'Eff_vs_Probe_Pt_MC_NoahBins'                  , 'col':kBlack, 'mrk':kFullCircle }, 'source':'root'),
-    ('Ele8 + Jet30'       , { 'dir':'Eff_vs_Probe_Pt_ElePlusJet_NoahBins'          , 'col':kRed  , 'mrk':kFullSquare }, 'source':'root'),
-    ('SingleEleSingleEGL1', { 'dir':'Eff_vs_Probe_Pt_SingleEle_SingleEGL1_NoahBins', 'col':kBlue , 'mrk':kFullTriangleUp }, 'source':'root'),
-    ('DoubleMu'           , { 'dir':'Noah_results/TrigSFs_Incl_2_9_23_ptbinned.json', 'col':kBlue , 'mrk':kFullTriangleUp }, 'source':'json'),
-    # ('SingleEle (DoubleEGL1)', { 'dir':'doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mrk':kFullTriangleDown }),
+    # ('MC'                 , { 'dir':'Eff_vs_Probe_Pt_MC_NoahBins'                   , 'col':kBlack, 'mrk':kFullCircle    , 'source':'root'}),
+    # ('Ele8 + Jet30'       , { 'dir':'Eff_vs_Probe_Pt_ElePlusJet_NoahBins'           , 'col':kRed  , 'mrk':kFullSquare    , 'source':'root'}),
+    ('SingleEle (1 EGL1)', { 'dir':'Eff_vs_Probe_Pt_SingleEle_SingleEGL1_NoahBins' , 'col':kBlue , 'mrk':kFullTriangleUp, 'source':'root'}),
+    ('DoubleMu'           , { 'dir':'Noah_results/TrigEffs_Incl_5_2_23_ptbinned.json', 'col':kGreen , 'mrk':kFullTriangleDown, 'source':'json'}),
+    # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }),
 
     # # Eff vs PU
     # ('MC'                    , { 'dir':'Eff_vs_PU_MC', 'col':kBlack, 'mrk':kFullCircle }),
     # ('Ele8 + Jet30'          , { 'dir':'Eff_vs_PU_ElePlusJet'       , 'col':kRed  , 'mrk':kFullSquare }),
-    # ('SingleEleSingleEGL1'   , { 'dir':'Eff_vs_PU_SingleEleSingleEGL1', 'col':kBlue, 'mrk':kFullTriangleUp }),
+    # ('SingleEle (1 EGL1)'   , { 'dir':'Eff_vs_PU_SingleEle (1 EGL1)', 'col':kBlue, 'mrk':kFullTriangleUp }),
     # # ('SingleEle (DoubleEGL1)', { 'dir':'Eff_vs_PU_SingleEleDieleEGL1' , 'col':kGreen , 'mrk':kFullTriangleDown }),
 
     # # Eff vs elesDr
     # ('MC'                    , { 'dir':'Eff_vs_elesDr_MC', 'col':kBlack, 'mrk':kFullCircle }),
     # ('Ele8 + Jet30'          , { 'dir':'Eff_vs_elesDr_ElePlusJet'       , 'col':kRed  , 'mrk':kFullSquare }),
-    # ('SingleEleSingleEGL1'   , { 'dir':'Eff_vs_elesDr_SingleEleSingleEGL1', 'col':kBlue, 'mrk':kFullTriangleUp }),
+    # ('SingleEle (1 EGL1)'   , { 'dir':'Eff_vs_elesDr_SingleEle (1 EGL1)', 'col':kBlue, 'mrk':kFullTriangleUp }),
     # ('SingleEle (DoubleEGL1)', { 'dir':'Eff_vs_elesDr_SingleEleDieleEGL1_rebinned' , 'col':kGreen , 'mrk':kFullTriangleDown }),
 
     # Eff vs elesDr rebinned
     # ('MC'                    , { 'dir':'Eff_vs_elesDr_MC_rebinned', 'col':kBlack, 'mrk':kFullCircle }),
-    # ('SingleEleSingleEGL1'   , { 'dir':'Eff_vs_elesDr_SingleEleSingleEGL1_rebinned', 'col':kBlue, 'mrk':kFullTriangleUp }),
+    # ('SingleEle (1 EGL1)'   , { 'dir':'Eff_vs_elesDr_SingleEle (1 EGL1)_rebinned', 'col':kBlue, 'mrk':kFullTriangleUp }),
 
     # HLTeff vs Probe Pt 
     # ('MC'                    , { 'dir':'HLTeff_vs_Probe_Pt_MC', 'col':kBlack, 'mrk':kFullCircle }),
     # # ('Ele8 + Jet30'          , { 'dir':'HLTeff_vs_Probe_Pt_ElePlusJet'       , 'col':kRed  , 'mrk':kFullSquare }),
-    # ('SingleEleSingleEGL1'   , { 'dir':'HLTeff_vs_Probe_Pt_SingleEle_SingleEGL1', 'col':kGreen, 'mrk':kFullTriangleUp }),
+    # ('SingleEle (1 EGL1)'   , { 'dir':'HLTeff_vs_Probe_Pt_SingleEle_SingleEGL1', 'col':kGreen, 'mrk':kFullTriangleUp }),
     # ('SingleEle (DoubleEGL1)', { 'dir':'HLTeff_vs_Probe_Pt_SingleEleDieleEGL1' , 'col':kBlue , 'mrk':kFullTriangleDown }),
 
     # Eff vs elesDr BothLegs
     # ('MC'                    , { 'dir':'EffBothLegs_vs_elesDr_MC'                 , 'col':kBlack, 'mrk':kFullCircle }),
     # ('Ele8 + Jet30'          , { 'dir':'EffBothLegs_vs_elesDr_ElePlusJet'         , 'col':kRed  , 'mrk':kFullSquare }),
-    # ('SingleEleSingleEGL1'   , { 'dir':'EffBothLegs_vs_elesDr_SingleEleSingleEGL1', 'col':kBlue , 'mrk':kFullTriangleUp }),
-    # # ('SingleEle (DoubleEGL1)', { 'dir':'doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mrk':kFullTriangleDown }),
+    # ('SingleEle (1 EGL1)'   , { 'dir':'EffBothLegs_vs_elesDr_SingleEle (1 EGL1)', 'col':kBlue , 'mrk':kFullTriangleUp }),
+    # # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }),
 
     # Eff vs Nvtx BothLegs
     # ('MC'                    , { 'dir':'EffBothLegs_vs_Nvtx_MC'                 , 'col':kBlack, 'mrk':kFullCircle }),
     # ('Ele8 + Jet30'          , { 'dir':'EffBothLegs_vs_Nvtx_ElePlusJet'         , 'col':kRed  , 'mrk':kFullSquare }),
-    # ('SingleEleSingleEGL1'   , { 'dir':'EffBothLegs_vs_Nvtx_SingleEleSingleEGL1', 'col':kBlue , 'mrk':kFullTriangleUp }),
-    # ('SingleEle (DoubleEGL1)', { 'dir':'doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mrk':kFullTriangleDown }
+    # ('SingleEle (1 EGL1)'   , { 'dir':'EffBothLegs_vs_Nvtx_SingleEle (1 EGL1)', 'col':kBlue , 'mrk':kFullTriangleUp }),
+    # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }
 
 ])
 
@@ -113,9 +115,10 @@ hset.GetYaxis().SetLabelSize( 0.06 )
 hset.GetYaxis().SetRangeUser( 0.0, 1.0 )
 hset.GetYaxis().SetNdivisions( 505 )
 
-legend_top = TLegend(0.35, 0.55, 0.88, 0.88)
+legend_top = TLegend(0.2, 0.7, 0.95, 0.88)
 # legend_top = TLegend(0.65, 0.65, 0.88, 0.88)
 legend_top.SetFillStyle(0)
+legend_top.SetNColumns(2)
 legend_bot = TLegend(0.35, 0.15, 0.88, 0.28)
 legend_bot.SetFillStyle(0)
 
@@ -129,6 +132,8 @@ for flag in flaglist:
     legend_bot.Clear()
     hset.Draw()
 
+    histoSF = {}
+
     for isample, sample in enumerate(samplesDict.keys()):
 
         if samplesDict[sample]['source'] == 'root':
@@ -138,18 +143,39 @@ for flag in flaglist:
                 inputfile = TFile.Open(inputfilename)
                 teff = inputfile.Get("htot_clone")
                 heff = teff.CreateGraph()
-                inputfile = TFile.Open(inputfilename)
+                LastBinLowEdge = heff.GetPointX(heff.GetN()-1) - heff.GetErrorX(heff.GetN()-1)
+                heff.SetPointX(heff.GetN()-1, 0.5*(var['maxvalue']+LastBinLowEdge) )
+                heff.SetPointEXlow(heff.GetN()-1,  heff.GetPointX(heff.GetN()-1)-LastBinLowEdge )
+                heff.SetPointEXhigh(heff.GetN()-1,  heff.GetPointX(heff.GetN()-1)-LastBinLowEdge )
             else:
                 inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/FullDoubleEleEff_"+flag+".root"
                 inputfile = TFile.Open(inputfilename)
                 heff = inputfile.Get("Graph")
-        
+                LastBinLowEdge = heff.GetPointX(heff.GetN()-1) - heff.GetErrorX(heff.GetN()-1)
+                heff.SetPointX(heff.GetN()-1, 0.5*(var['maxvalue']+LastBinLowEdge) )
+                heff.SetPointError(heff.GetN()-1,  heff.GetPointX(heff.GetN()-1)-LastBinLowEdge, heff.GetErrorY(heff.GetN()-1) )
+                
+        elif samplesDict[sample]['source'] == 'json':
+            inputjson = open('results/'+samplesDict[sample]['dir'])
+            inputdata = json.load(inputjson)
+            
+            trigger_data = inputdata[flaglist[flag]['alias']]
+
+            xbins = ar.array('f',trigger_data[var['alias']])
+            xbins.append(var['maxvalue'])
+            print xbins
+
+            heff = TH1F(sample,'',len(xbins),xbins)
+            for bin in range(len(xbins)-1):
+                print bin, heff.GetBinLowEdge(bin+1), trigger_data['effs'][bin]
+                heff.SetBinContent(bin+1, trigger_data['effs'][bin])
+
         print ""
         print "Opening file ", inputfilename
         
         heff.SetMarkerStyle(samplesDict[sample]["mrk"])
         heff.SetMarkerColor(samplesDict[sample]["col"])
-        heff.SetMarkerSize(1)
+        heff.SetMarkerSize(1.2)
         heff.SetLineColor(samplesDict[sample]["col"])
         heff.SetLineWidth(1)
 

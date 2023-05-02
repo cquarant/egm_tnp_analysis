@@ -77,7 +77,7 @@ bool JsonFilter::isGoodRunLS(unsigned int run, unsigned int lumi)
 
   runsLSSegmentsMap::const_iterator thisRun=goodRunLS.find(run);
   if (thisRun == goodRunLS.end()) {
-    std::cout << "[GoodRunLS]::Run " << run << " is rejected" << std::endl;
+    //std::cout << "[GoodRunLS]::Run " << run << " is rejected" << std::endl;
     return false;
   }
   for (LSSegments::const_iterator iSeg=goodRunLS[run].begin();iSeg!=goodRunLS[run].end();++iSeg)
@@ -86,7 +86,7 @@ bool JsonFilter::isGoodRunLS(unsigned int run, unsigned int lumi)
         if(lastRun_ != run || lastLumi_ != lumi) {
           lastRun_ = run;  
           lastLumi_ = lumi;
-          std::cout << "[GoodRunLS]::Run " << lastRun_ << " LS " << lastLumi_ << " is OK" << std::endl;
+          //std::cout << "[GoodRunLS]::Run " << lastRun_ << " LS " << lastLumi_ << " is OK" << std::endl;
         }
         return true;
       }
@@ -95,7 +95,7 @@ bool JsonFilter::isGoodRunLS(unsigned int run, unsigned int lumi)
     lastRun_ = run;  
     lastLumi_ = lumi;
   }
-  std::cout << "[GoodRunLS]::Run " << lastRun_ << " LS " << lastLumi_ << " is rejected" << std::endl;
+  //std::cout << "[GoodRunLS]::Run " << lastRun_ << " LS " << lastLumi_ << " is rejected" << std::endl;
   return false;
 }
 

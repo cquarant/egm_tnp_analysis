@@ -26,7 +26,7 @@ cdef void removeNegativeBins(TH1D* h):
 # To Fill Tag and Probe histograms
 ##################################
 
-def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):
+def makePassFailHistograms( sample, flag, bindef, var, jsonfile='' ):
 
     #####################
     # C++ Initializations
@@ -119,9 +119,9 @@ def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):
 
     # Find out with variables are used to activate the corresponding branches
     replace_patterns = ['&', '|', '-', 'cos(', 'sqrt(', 'fabs(', 'abs(', '(', ')', '>', '<', '=', '!', '*', '/']
-    branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass " + flag
+    branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass_nofit " + flag
 
-    if jsonfile != "":
+    if jsonfile != '':
        jsonfilter = rt.vecbos.JsonFilter(jsonfile)
        jsonfilter.fillRunLSMap()
        branches = branches + " run luminosityBlock"    
@@ -139,7 +139,7 @@ def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):
         tree.SetBranchStatus(br, 1)
 
     # Set adress of pair mass
-    tree.SetBranchAddress("JpsiKE_Jpsi_mass", <void*>&pair_mass)
+    tree.SetBranchAddress("JpsiKE_Jpsi_mass_nofit", <void*>&pair_mass)
     tree.SetBranchAddress("run"             , <void*>&run      )
     tree.SetBranchAddress("luminosityBlock" , <void*>&lumi     )
 
@@ -152,6 +152,8 @@ def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):
 
     print("Starting event loop to fill histograms..")
 
+    passjson = 0
+    failjson = 0
     for index in range(nevts):
         if index % frac_of_nevts == 0:
             print outcount, "%"
@@ -159,12 +161,15 @@ def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):
 
         tree.GetEntry(index)
 
+        if jsonfile != '' and jsonfilter.isGoodRunLS(run, lumi):
+            #print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
+            passjson = passjson+1
+        if jsonfile != '' and not jsonfilter.isGoodRunLS(run, lumi):
+            #print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
+            failjson += 1
+            continue
+
         for bnidx in range(nbins):
-            if jsonfilter.isGoodRunLS(run, lumi):
-                print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
-            if not jsonfilter.isGoodRunLS(run, lumi):
-                print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
-                continue
             weight = bin_formulas[bnidx].EvalInstance(0)
             if weight:
                 if flag_formula.EvalInstance(0):
@@ -172,7 +177,10 @@ def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):
                 else:
                     hFail[bnidx].Fill(pair_mass, weight)
                 break
-
+    print "Pass JSON filter: ", passjson
+    print "Fail JSON filter: ", failjson
+    
+			
     #####################
     # Deal with the Hists
     #####################

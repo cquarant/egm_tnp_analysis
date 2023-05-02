@@ -55,7 +55,7 @@ print outputDirectory
 ##### Create (check) Bins
 ####################################################################
 if args.checkBins:
-    tnpBins = tnpBiner.createBins(tnpConf.biningDef,tnpConf.cutBase)
+    tnpBins = tnpBiner.createBins(tnpConf.biningDef,tnpConf.cutBase+tnpConf.specialCut[args.flag])
     tnpBiner.tuneCuts( tnpBins, tnpConf.additionalCuts )
     for ib in range(len(tnpBins['bins'])):
         print tnpBins['bins'][ib]['name']
@@ -66,7 +66,7 @@ if args.createBins:
     if os.path.exists( outputDirectory ):
             shutil.rmtree( outputDirectory )
     os.makedirs( outputDirectory )
-    tnpBins = tnpBiner.createBins(tnpConf.biningDef,tnpConf.cutBase)
+    tnpBins = tnpBiner.createBins(tnpConf.biningDef,tnpConf.cutBase+tnpConf.specialCut[args.flag])
     tnpBiner.tuneCuts( tnpBins, tnpConf.additionalCuts )
     pickle.dump( tnpBins, open( '%s/bining.pkl'%(outputDirectory),'wb') )
     print 'created dir: %s ' % outputDirectory
@@ -90,18 +90,25 @@ if args.createHists:
 
     import libPython.histUtils as tnpHist
 
-    for sampleType in tnpConf.samplesDef.keys():
+    #for sampleType in tnpConf.samplesDef.keys():
+    for sampleType in ['data']:
         sample =  tnpConf.samplesDef[sampleType]
         if sample is None : continue
         if sampleType == args.sample or args.sample == 'all' :
             print 'creating histogram for sample '
             sample.dump()
-            var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 10, 'min' : 2.3, 'max': 3.6 }
+            #var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 10, 'min' : 2.3, 'max': 3.6 }
+            var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 12, 'min' : 2.5, 'max': 3.6 }
             #var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 18, 'min' : 2.6, 'max': 3.5 }
             if sample.mcTruth:
-                var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 10, 'min' : 2.3, 'max': 3.6 }
+                #var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 10, 'min' : 2.3, 'max': 3.6 }
+                var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 16, 'min' : 2.5, 'max': 3.6 }
                 #var = { 'name' : 'JpsiKE_Jpsi_mass', 'nbins' : 18, 'min' : 2.6, 'max': 3.5 }
-            jsonfile = tnpConf.jsonfileDef
+            if tnpConf.jsonfilter: 
+                jsonfile = tnpConf.jsonfileDict[args.flag]
+            else:
+                jsonfile = ''
+            print jsonfile
             tnpHist.makePassFailHistograms( sample, tnpConf.flags[args.flag], tnpBins, var, jsonfile )
 
     sys.exit(0)

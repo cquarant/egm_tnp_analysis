@@ -2,80 +2,74 @@ import os
 import sys
 import argparse
 
+from ROOT import *
+
+gROOT.SetBatch(True)
+sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/../")
+
 parser = argparse.ArgumentParser(description='Plot global efficiencies for different triggers')
 parser.add_argument('-s', '--settings' , dest='settings'  , help = 'input settings file')
 parser.add_argument('-o', '--outputdir', dest='outputdir' , help = 'output directory with plots')
-parser.add_argument('-f', '--fitonly'  , action='store_true' , help = 'output directory with plots')
+parser.add_argument('-f', '--fitonly'  , action='store_true' , help = 'skip bin/hist creation and do fit+plot')
+parser.add_argument('-p', '--plotonly' , action='store_true' , help = 'skip bin creation and fit and do only plots')
+parser.add_argument('-b', '--bin_idx'  , dest='bin_index' , default=False, help = 're-do the fit for selected bin')
 
 args = parser.parse_args()
 
-# flaglist = ['doubleEle10Fired', 'doubleEle9p5Fired', 'doubleEle9Fired', 'doubleEle8p5Fired', 'doubleEle8Fired', 'doubleEle7p5Fired', 'doubleEle7Fired', 'doubleEle6p5Fired', 'doubleEle6Fired', 'doubleEle5p5Fired', 'doubleEle5Fired', 'doubleEle4p5Fired', 'doubleEle4Fired']
-
-# flaglist = ['doubleEle10ProbeMatched' , 'doubleEle10BothMatched' ,
-#             'doubleEle9p5ProbeMatched', 'doubleEle9p5BothMatched',
-#             'doubleEle9ProbeMatched'  , 'doubleEle9BothMatched'  ,
-#             'doubleEle8p5ProbeMatched', 'doubleEle8p5BothMatched',
-#             'doubleEle8ProbeMatched'  , 'doubleEle8BothMatched'  ,
-#             'doubleEle7p5ProbeMatched', 'doubleEle7p5BothMatched',
-#             'doubleEle7ProbeMatched'  , 'doubleEle7BothMatched'  ,
-#             'doubleEle6p5ProbeMatched', 'doubleEle6p5BothMatched',
-#             'doubleEle6ProbeMatched'  , 'doubleEle6BothMatched'  ,
-#             'doubleEle5p5ProbeMatched', 'doubleEle5p5BothMatched',
-#             'doubleEle5ProbeMatched'  , 'doubleEle5BothMatched'  ,
-#             'doubleEle4p5ProbeMatched', 'doubleEle4p5BothMatched',
-#             'doubleEle4ProbeMatched'  , 'doubleEle4BothMatched'  ,
-# ]
-
-flaglist = ['doubleEle10Fired' , 'doubleEle10ProbeMatched' , 'doubleEle10BothMatched' ,
-            'doubleEle9p5Fired', 'doubleEle9p5ProbeMatched', 'doubleEle9p5BothMatched',
-            'doubleEle9Fired'  , 'doubleEle9ProbeMatched'  , 'doubleEle9BothMatched'  ,
-            'doubleEle8p5Fired', 'doubleEle8p5ProbeMatched', 'doubleEle8p5BothMatched',
-            'doubleEle8Fired'  , 'doubleEle8ProbeMatched'  , 'doubleEle8BothMatched'  ,
-            'doubleEle7p5Fired', 'doubleEle7p5ProbeMatched', 'doubleEle7p5BothMatched',
-            'doubleEle7Fired'  , 'doubleEle7ProbeMatched'  , 'doubleEle7BothMatched'  ,
-            'doubleEle6p5Fired', 'doubleEle6p5ProbeMatched', 'doubleEle6p5BothMatched',
-            'doubleEle6Fired'  , 'doubleEle6ProbeMatched'  , 'doubleEle6BothMatched'  ,
-            'doubleEle5p5Fired', 'doubleEle5p5ProbeMatched', 'doubleEle5p5BothMatched',
-            'doubleEle5Fired'  , 'doubleEle5ProbeMatched'  , 'doubleEle5BothMatched'  ,
-            'doubleEle4p5Fired', 'doubleEle4p5ProbeMatched', 'doubleEle4p5BothMatched',
-            'doubleEle4Fired'  , 'doubleEle4ProbeMatched'  , 'doubleEle4BothMatched'  ,
+flaglist = [
+    'probe_fired',
+    # 'doubleEle4BothMatchedL1_4p5_Match',
+    # 'doubleEle4BothMatchedL1_5p0_Match',
+    # 'doubleEle4BothMatchedL1_5p5_Match',
+    # 'doubleEle4BothMatchedL1_6p0_Match',
+    # 'doubleEle4p5BothMatchedL1_6p5_Match',
+    # 'doubleEle5BothMatchedL1_7p0_Match',
+    # 'doubleEle5BothMatchedL1_7p5_Match',
+    # 'doubleEle5BothMatchedL1_8p0_Match',
+    # 'doubleEle5BothMatchedL1_8p5_Match',
+    # 'doubleEle5BothMatchedL1_10p5_Match',
+    # 'doubleEle5p5BothMatchedL1_8p5_Match',
+    # 'doubleEle6BothMatchedL1_5p5_Match',
+    # 'doubleEle6BothMatchedL1_9p0_Match',
+    # 'doubleEle6p5BothMatchedL1_10p5_Match',
+    # 'doubleEle6p5BothMatchedL1_11p0_Match',
+    # 'doubleEle6p5BothMatchedL1_9p5_Match',
 ]
 
-flaglist = ['doubleEle5p5Fired', 
-            'doubleEle5p5ProbeMatched', 
-            'doubleEle5p5BothMatched',
-            'doubleEle6p5Fired', 
-            'doubleEle6p5ProbeMatched', 
-            'doubleEle6p5BothMatched',
-            'doubleEle7p5Fired', 
-            'doubleEle7p5ProbeMatched', 
-            'doubleEle7p5BothMatched',
-]
+print '===> settings %s <===' % args.settings
+importSetting = 'import %s as tnpConf' % args.settings.replace('/','.').split('.py')[0]
+print importSetting
+exec(importSetting)
 
-flaglist = ['doubleEle6p5Fired', 
-            'doubleEle6p5ProbeMatched', 
-            'doubleEle6p5BothMatched',
-]
-#flaglist = ['doubleEle6BothMatched']
-
-#data_tag = "data_Run2022CD-Prompt"
-#settings = "settings_CD.py"
-
-#data_tag = "data_Run2022EF-Prompt"
-#settings = "settings_EF.py"
-
-data_tag = "data_Run2022CDEF-Prompt"
-#data_tag = "data_SingleEle_Run2022F-Prompt"
+data_tag = tnpConf.samplesDef['data'].name
 settings = args.settings
-outdir   = args.outputdir
-#os.system("cd ~/CMSSW_10_6_29/src/JPsiFit/")
+outdir   = tnpConf.baseOutDir.split("/")[-1]
+print ''
 
 for flag in flaglist:
-    if not args.fitonly:
+    # skip bin/hist creation if fitonly option is selected
+    if not args.fitonly and not args.plotonly:
         os.system("python tnpEGM_fitter.py "+settings+" --flag "+flag+" --createBins")
         os.system("python tnpEGM_fitter.py "+settings+" --flag "+flag+" --createHists")
-    os.system("python tnpEGM_fitter.py "+settings+" --flag "+flag+" --doFit")
-    os.system("mkdir -p /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots/"+outdir+"/"+flag)
-    os.system("cp /afs/cern.ch/user/c/cquarant/www/index.php /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots/"+outdir)
-    os.system("cp /afs/cern.ch/user/c/cquarant/www/index.php /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots/"+outdir+"/"+flag)
-    os.system("cp results/"+outdir+"/"+flag+"/plots/"+data_tag+"/nominalFit/bin*.png /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots/"+outdir+"/"+flag)
+
+    # skip fit if plotonly option is selected
+    if not args.plotonly:
+        if args.bin_index:
+            os.system("python tnpEGM_fitter.py "+settings+" --flag "+flag+" --doFit --iBin "+args.bin_index)
+        else:
+            os.system("python tnpEGM_fitter.py "+settings+" --flag "+flag+" --doFit")
+
+    os.system("mkdir -p /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots_2022_final/"+outdir+"/"+flag)
+    os.system("cp /afs/cern.ch/user/c/cquarant/www/index.php /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots_2022_final/"+outdir)
+    os.system("cp /afs/cern.ch/user/c/cquarant/www/index.php /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots_2022_final/"+outdir+"/"+flag)
+    os.system("cp results/"+outdir+"/"+flag+"/plots/"+data_tag+"/nominalFit/bin*.png /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots_2022_final/"+outdir+"/"+flag)
+
+    # evaluate full doubleEle trigger efficiency if ref trigger efficiency file is provided
+    if len(tnpConf.biningDef)==1:
+        os.system("python scripts/plot_differential_eff.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root -v "+tnpConf.biningDef[0]['var'])
+        if hasattr(tnpConf, 'refEffFile'):
+            os.system("python scripts/plot_full_doubleEleEff.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root -r "+tnpConf.refEffFile+" -v "+tnpConf.biningDef[0]['var'])
+    elif hasattr(tnpConf, 'refEffFile'):
+        os.system("python scripts/plot_2D_eff.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root -r "+tnpConf.refEffFile)
+    else:
+        os.system("python scripts/plot_2D_eff.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root")

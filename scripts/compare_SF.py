@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+import array as ar
 import json
 
 from collections import OrderedDict
@@ -28,32 +29,33 @@ varConfig = {
 var = varConfig[args.var]
 tag = args.tag
 
-flaglist = ['doubleEle4BothMatchedL1_4p5_Match'   :{'alias':L1_4p5_HLT_4p0_Incl},
-            'doubleEle4BothMatchedL1_5p0_Match'   :{'alias':L1_5p0_HLT_4p0_Incl},
-            'doubleEle4BothMatchedL1_5p5_Match'   :{'alias':L1_5p5_HLT_4p0_Incl},
-            'doubleEle4BothMatchedL1_6p0_Match'   :{'alias':L1_6p0_HLT_4p0_Incl},
-            'doubleEle4p5BothMatchedL1_6p5_Match' :{'alias':L1_6p5_HLT_4p5_Incl},
-            'doubleEle5BothMatchedL1_7p0_Match'   :{'alias':L1_7p0_HLT_5p0_Incl},
-            'doubleEle5BothMatchedL1_7p5_Match'   :{'alias':L1_7p5_HLT_5p0_Incl},
-            'doubleEle5BothMatchedL1_8p0_Match'   :{'alias':L1_8p0_HLT_5p0_Incl},
-            'doubleEle5BothMatchedL1_8p5_Match'   :{'alias':L1_8p5_HLT_5p0_Incl},
-            'doubleEle5BothMatchedL1_10p5_Match'  :{'alias':L1_10p5_HLT_5p0_Incl},
-            'doubleEle5p5BothMatchedL1_8p5_Match' :{'alias':L1_8p5_HLT_5p5_Incl},
-            'doubleEle6BothMatchedL1_5p5_Match'   :{'alias':L1_5p5_HLT_6p0_Incl},
-            'doubleEle6BothMatchedL1_9p0_Match'   :{'alias':L1_9p0_HLT_6p0_Incl},
-            'doubleEle6p5BothMatchedL1_10p5_Match':{'alias':L1_10p5_HLT_6p5_Incl},
-            'doubleEle6p5BothMatchedL1_11p0_Match':{'alias':L1_11p0_HLT_6p5_Incl},
-            'doubleEle6p5BothMatchedL1_9p5_Match' :{'alias':L1_9p5_HLT_6p5_Incl},
-]
+flaglist = OrderedDict([
+            ('doubleEle4BothMatchedL1_4p5_Match'   ,{'alias':'L1_4p5_HLT_4p0_Incl'}),
+            ('doubleEle4BothMatchedL1_5p0_Match'   ,{'alias':'L1_5p0_HLT_4p0_Incl'}),
+            ('doubleEle4BothMatchedL1_5p5_Match'   ,{'alias':'L1_5p5_HLT_4p0_Incl'}),
+            ('doubleEle4BothMatchedL1_6p0_Match'   ,{'alias':'L1_6p0_HLT_4p0_Incl'}),
+            ('doubleEle4p5BothMatchedL1_6p5_Match' ,{'alias':'L1_6p5_HLT_4p5_Incl'}),
+            ('doubleEle5BothMatchedL1_7p0_Match'   ,{'alias':'L1_7p0_HLT_5p0_Incl'}),
+            ('doubleEle5BothMatchedL1_7p5_Match'   ,{'alias':'L1_7p5_HLT_5p0_Incl'}),
+            ('doubleEle5BothMatchedL1_8p0_Match'   ,{'alias':'L1_8p0_HLT_5p0_Incl'}),
+            ('doubleEle5BothMatchedL1_8p5_Match'   ,{'alias':'L1_8p5_HLT_5p0_Incl'}),
+            ('doubleEle5BothMatchedL1_10p5_Match'  ,{'alias':'L1_10p5_HLT_5p0_Incl'}),
+            ('doubleEle5p5BothMatchedL1_8p5_Match' ,{'alias':'L1_8p5_HLT_5p5_Incl'}),
+            ('doubleEle6BothMatchedL1_5p5_Match'   ,{'alias':'L1_5p5_HLT_6p0_Incl'}),
+            ('doubleEle6BothMatchedL1_9p0_Match'   ,{'alias':'L1_9p0_HLT_6p0_Incl'}),
+            ('doubleEle6p5BothMatchedL1_10p5_Match',{'alias':'L1_10p5_HLT_6p5_Incl'}),
+            ('doubleEle6p5BothMatchedL1_11p0_Match',{'alias':'L1_11p0_HLT_6p5_Incl'}),
+           # ('doubleEle6p5BothMatchedL1_9p5_Match' :{'alias':'L1_9p5_HLT_6p5_Incl'}),
+])
 
 samplesDict = OrderedDict([
 
     # Eff vs Probe Pt Noah's binning
-    ('MC'                 , { 'dir':'Eff_vs_Probe_Pt_MC_NoahBins'                  , 'col':kBlack, 'mrk':kFullCircle }, 'source':'root'),
-    ('Ele8 + Jet30'       , { 'dir':'Eff_vs_Probe_Pt_ElePlusJet_NoahBins'          , 'col':kRed  , 'mrk':kFullSquare }, 'source':'root'),
-    ('SingleEleSingleEGL1', { 'dir':'Eff_vs_Probe_Pt_SingleEle_SingleEGL1_NoahBins', 'col':kBlue , 'mrk':kFullTriangleUp }, 'source':'root'),
-    ('DoubleMu'           , { 'dir':'Noah_results/TrigSFs_Incl_2_9_23_ptbinned.json', 'col':kBlue , 'mrk':kFullTriangleUp }, 'source':'json'),
-    # ('SingleEle (DoubleEGL1)', { 'dir':'doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mrk':kFullTriangleDown }),
+    ('MC'                 , { 'dir':'Eff_vs_Probe_Pt_MC_NoahBins'                   , 'col':kBlack, 'mrk':kFullCircle    , 'source':'root'}),
+    ('Ele8 + Jet30'       , { 'dir':'Eff_vs_Probe_Pt_ElePlusJet_NoahBins'           , 'col':kRed  , 'mrk':kFullSquare    , 'source':'root'}),
+    ('SingleEleSingleEGL1', { 'dir':'Eff_vs_Probe_Pt_SingleEle_SingleEGL1_NoahBins' , 'col':kBlue , 'mrk':kFullTriangleUp, 'source':'root'}),
+    ('DoubleMu'           , { 'dir':'Noah_results/TrigSFs_Incl_2_9_23_ptbinned.json', 'col':kGreen , 'mrk':kFullTriangleUp, 'source':'json'}),
+    # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }),
 
     # # Eff vs PU
     # ('MC'                    , { 'dir':'Eff_vs_PU_MC', 'col':kBlack, 'mrk':kFullCircle }),
@@ -81,13 +83,13 @@ samplesDict = OrderedDict([
     # ('MC'                    , { 'dir':'EffBothLegs_vs_elesDr_MC'                 , 'col':kBlack, 'mrk':kFullCircle }),
     # ('Ele8 + Jet30'          , { 'dir':'EffBothLegs_vs_elesDr_ElePlusJet'         , 'col':kRed  , 'mrk':kFullSquare }),
     # ('SingleEleSingleEGL1'   , { 'dir':'EffBothLegs_vs_elesDr_SingleEleSingleEGL1', 'col':kBlue , 'mrk':kFullTriangleUp }),
-    # # ('SingleEle (DoubleEGL1)', { 'dir':'doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mrk':kFullTriangleDown }),
+    # # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }),
 
     # Eff vs Nvtx BothLegs
     # ('MC'                    , { 'dir':'EffBothLegs_vs_Nvtx_MC'                 , 'col':kBlack, 'mrk':kFullCircle }),
     # ('Ele8 + Jet30'          , { 'dir':'EffBothLegs_vs_Nvtx_ElePlusJet'         , 'col':kRed  , 'mrk':kFullSquare }),
     # ('SingleEleSingleEGL1'   , { 'dir':'EffBothLegs_vs_Nvtx_SingleEleSingleEGL1', 'col':kBlue , 'mrk':kFullTriangleUp }),
-    # ('SingleEle (DoubleEGL1)', { 'dir':'doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mrk':kFullTriangleDown }
+    # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }
 
 ])
 
@@ -110,7 +112,7 @@ hset.GetYaxis().SetTitle('')
 hset.GetYaxis().SetTitleSize( 0.055 )
 hset.GetYaxis().SetTitleOffset( 0.95 )
 hset.GetYaxis().SetLabelSize( 0.06 )
-hset.GetYaxis().SetRangeUser( 0.0, 1.0 )
+hset.GetYaxis().SetRangeUser( 0.0, 10.0 )
 hset.GetYaxis().SetNdivisions( 505 )
 
 legend_top = TLegend(0.35, 0.55, 0.88, 0.88)
@@ -129,6 +131,8 @@ for flag in flaglist:
     legend_bot.Clear()
     hset.Draw()
 
+    histoSF = {}
+
     for isample, sample in enumerate(samplesDict.keys()):
 
         if samplesDict[sample]['source'] == 'root':
@@ -138,34 +142,53 @@ for flag in flaglist:
                 inputfile = TFile.Open(inputfilename)
                 teff = inputfile.Get("htot_clone")
                 heff = teff.CreateGraph()
-                inputfile = TFile.Open(inputfilename)
+                histoSF['MC'] = heff
             else:
                 inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/FullDoubleEleEff_"+flag+".root"
                 inputfile = TFile.Open(inputfilename)
                 heff = inputfile.Get("Graph")
-        
+                histoSF[sample] = heff
+                for point in range(histoSF[sample].GetN()):
+                    histoSF[sample].SetPointY( point, histoSF[sample].GetPointY(point)/histoSF['MC'].GetPointY(point) )
+                    histoSF[sample].SetPointError( point, 0, histoSF[sample].GetErrorY(point)/histoSF['MC'].GetPointY(point) )
+
+        elif samplesDict[sample]['source'] == 'json':
+            inputjson = open('results/'+samplesDict[sample]['dir'])
+            inputdata = json.load(inputjson)   
+            
+            trigger_data = inputdata[flaglist[flag]['alias']]
+
+            xbins = ar.array('f',trigger_data['pT'])
+            print xbins
+
+            histoSF[sample] = TH1F(sample,'',len(xbins),xbins)
+            for bin in range(len(xbins)):
+                print bin, histoSF[sample].GetBinLowEdge(bin+1), trigger_data['effs'][bin]
+                histoSF[sample].SetBinContent(bin, trigger_data['effs'][bin][0])
+
         print ""
         print "Opening file ", inputfilename
         
-        heff.SetMarkerStyle(samplesDict[sample]["mrk"])
-        heff.SetMarkerColor(samplesDict[sample]["col"])
-        heff.SetMarkerSize(1)
-        heff.SetLineColor(samplesDict[sample]["col"])
-        heff.SetLineWidth(1)
+        histoSF[sample].SetMarkerStyle(samplesDict[sample]["mrk"])
+        histoSF[sample].SetMarkerColor(samplesDict[sample]["col"])
+        histoSF[sample].SetMarkerSize(1)
+        histoSF[sample].SetLineColor(samplesDict[sample]["col"])
+        histoSF[sample].SetLineWidth(1)
 
-        # for ipoint in range(heff.GetN()):
-        #     heff.SetPointEXlow(ipoint, 0) 
-        #     heff.SetPointEXhigh(ipoint, 0) 
+        # for ipoint in range(histoSF[sample].GetN()):
+        #     histoSF[sample].SetPointEXlow(ipoint, 0) 
+        #     histoSF[sample].SetPointEXhigh(ipoint, 0) 
 
-        heff.Draw("same P")
+        if sample != 'MC':
+            histoSF[sample].Draw("same P")
 
-        # eff_lastbin = heff.GetEfficiency(5)
-        # print eff_lastbin
-        # if eff_lastbin>eff_max:
-        #     eff_max = eff_lastbin
+            # eff_lastbin = histoSF[sample].GetEfficiency(5)
+            # print eff_lastbin
+            # if eff_lastbin>eff_max:
+            #     eff_max = eff_lastbin
 
-        legend_top.AddEntry(heff, sample, "pl")
-        legend_bot.AddEntry(heff, sample, "pl")
+            legend_top.AddEntry(histoSF[sample], sample, "pl")
+            legend_bot.AddEntry(histoSF[sample], sample, "pl")
 
     # if eff_max <= 0.5:
     #     legend_top.Draw("same")

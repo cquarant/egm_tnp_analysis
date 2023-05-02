@@ -1267,6 +1267,14 @@ static CYTHON_INLINE int __Pyx_mod_int(int, int);
 /* None.proto */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
 
+/* PyIntBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
+#endif
+
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
@@ -1429,27 +1437,26 @@ int __pyx_module_is_main_histUtils = 0;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_xrange;
 static PyObject *__pyx_builtin_range;
-static const char __pyx_k_[] = ".";
+static const char __pyx_k_[] = "";
 static const char __pyx_k_p[] = "p";
 static const char __pyx_k_s[] = "%s";
 static const char __pyx_k_x[] = "x";
-static const char __pyx_k_OK[] = "OK";
-static const char __pyx_k__2[] = "&";
-static const char __pyx_k__3[] = "|";
-static const char __pyx_k__4[] = "-";
-static const char __pyx_k__5[] = "(";
-static const char __pyx_k__6[] = ")";
-static const char __pyx_k__7[] = ">";
-static const char __pyx_k__8[] = "<";
-static const char __pyx_k__9[] = "=";
+static const char __pyx_k__2[] = ".";
+static const char __pyx_k__3[] = "&";
+static const char __pyx_k__4[] = "|";
+static const char __pyx_k__5[] = "-";
+static const char __pyx_k__6[] = "(";
+static const char __pyx_k__7[] = ")";
+static const char __pyx_k__8[] = ">";
+static const char __pyx_k__9[] = "<";
 static const char __pyx_k_br[] = "br";
 static const char __pyx_k_ib[] = "ib";
 static const char __pyx_k_rt[] = "rt";
-static const char __pyx_k__10[] = "!";
-static const char __pyx_k__11[] = "*";
-static const char __pyx_k__12[] = "/";
-static const char __pyx_k__13[] = " ";
-static const char __pyx_k__14[] = "";
+static const char __pyx_k__10[] = "=";
+static const char __pyx_k__11[] = "!";
+static const char __pyx_k__12[] = "*";
+static const char __pyx_k__13[] = "/";
+static const char __pyx_k__14[] = " ";
 static const char __pyx_k__15[] = "%";
 static const char __pyx_k_abs[] = "abs(";
 static const char __pyx_k_cos[] = "cos(";
@@ -1498,7 +1505,6 @@ static const char __pyx_k_range[] = "range";
 static const char __pyx_k_s_s_2[] = "( %s ) * %s ";
 static const char __pyx_k_split[] = "split";
 static const char __pyx_k_title[] = "title";
-static const char __pyx_k_NOT_OK[] = "NOT OK";
 static const char __pyx_k_bindef[] = "bindef";
 static const char __pyx_k_cutBin[] = "cutBin";
 static const char __pyx_k_encode[] = "encode";
@@ -1516,10 +1522,12 @@ static const char __pyx_k_mcTruth[] = "mcTruth";
 static const char __pyx_k_outfile[] = "outfile";
 static const char __pyx_k_replace[] = "replace";
 static const char __pyx_k_branches[] = "branches";
+static const char __pyx_k_failjson[] = "failjson";
 static const char __pyx_k_fitUtils[] = "fitUtils";
 static const char __pyx_k_histFile[] = "histFile";
 static const char __pyx_k_jsonfile[] = "jsonfile";
 static const char __pyx_k_outcount[] = "outcount";
+static const char __pyx_k_passjson[] = "passjson";
 static const char __pyx_k_LoadMacro[] = "LoadMacro";
 static const char __pyx_k_histUtils[] = "histUtils";
 static const char __pyx_k_is_number[] = "is_number";
@@ -1540,21 +1548,23 @@ static const char __pyx_k_formulas_list[] = "formulas_list";
 static const char __pyx_k_frac_of_nevts[] = "frac_of_nevts";
 static const char __pyx_k_histUtils_pyx[] = "histUtils.pyx";
 static const char __pyx_k_adding_rootfile[] = " adding rootfile: ";
-static const char __pyx_k_JpsiKE_Jpsi_mass[] = " JpsiKE_Jpsi_mass ";
+static const char __pyx_k_Fail_JSON_filter[] = "Fail JSON filter: ";
+static const char __pyx_k_Pass_JSON_filter[] = "Pass JSON filter: ";
 static const char __pyx_k_replace_patterns[] = "replace_patterns";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_run_luminosityBlock[] = " run luminosityBlock";
+static const char __pyx_k_JpsiKE_Jpsi_mass_nofit[] = " JpsiKE_Jpsi_mass_nofit ";
 static const char __pyx_k_makePassFailHistograms[] = "makePassFailHistograms";
 static const char __pyx_k_Adding_weight_tree_s_from_file[] = " - Adding weight tree: %s from file %s ";
 static const char __pyx_k_afs_cern_ch_work_c_cquarant_RKa[] = "/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/JSON/src/JsonFilter.cc+";
 static const char __pyx_k_Starting_event_loop_to_fill_hist[] = "Starting event loop to fill histograms..";
 static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_kp_s_Adding_weight_tree_s_from_file;
-static PyObject *__pyx_kp_s_JpsiKE_Jpsi_mass;
+static PyObject *__pyx_kp_s_Fail_JSON_filter;
+static PyObject *__pyx_kp_s_JpsiKE_Jpsi_mass_nofit;
 static PyObject *__pyx_n_s_JsonFilter;
 static PyObject *__pyx_n_s_LoadMacro;
-static PyObject *__pyx_kp_s_NOT_OK;
-static PyObject *__pyx_n_s_OK;
+static PyObject *__pyx_kp_s_Pass_JSON_filter;
 static PyObject *__pyx_n_s_ROOT;
 static PyObject *__pyx_kp_s_Starting_event_loop_to_fill_hist;
 static PyObject *__pyx_n_s_ValueError;
@@ -1597,6 +1607,7 @@ static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_epass;
 static PyObject *__pyx_kp_s_fabs;
 static PyObject *__pyx_n_s_failI;
+static PyObject *__pyx_n_s_failjson;
 static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_fillRunLSMap;
 static PyObject *__pyx_n_s_fitUtils;
@@ -1637,6 +1648,7 @@ static PyObject *__pyx_n_s_outfile;
 static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_pair_mass;
 static PyObject *__pyx_n_s_passI;
+static PyObject *__pyx_n_s_passjson;
 static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_puTree;
@@ -1670,6 +1682,7 @@ static PyObject *__pyx_n_s_xrange;
 static PyObject *__pyx_pf_9histUtils_is_number(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s); /* proto */
 static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_sample, PyObject *__pyx_v_flag, PyObject *__pyx_v_bindef, PyObject *__pyx_v_var, PyObject *__pyx_v_jsonfile); /* proto */
 static PyObject *__pyx_int_0;
+static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_999;
 static PyObject *__pyx_tuple__16;
 static PyObject *__pyx_tuple__17;
@@ -1913,7 +1926,7 @@ static void __pyx_f_9histUtils_removeNegativeBins(TH1D *__pyx_v_h) {
 /* "histUtils.pyx":29
  * ##################################
  * 
- * def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):             # <<<<<<<<<<<<<<
+ * def makePassFailHistograms( sample, flag, bindef, var, jsonfile='' ):             # <<<<<<<<<<<<<<
  * 
  *     #####################
  */
@@ -1933,6 +1946,7 @@ static PyObject *__pyx_pw_9histUtils_3makePassFailHistograms(PyObject *__pyx_sel
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_sample,&__pyx_n_s_flag,&__pyx_n_s_bindef,&__pyx_n_s_var,&__pyx_n_s_jsonfile,0};
     PyObject* values[5] = {0,0,0,0,0};
+    values[4] = ((PyObject *)__pyx_kp_s_);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
@@ -1959,38 +1973,41 @@ static PyObject *__pyx_pw_9histUtils_3makePassFailHistograms(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_flag)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 1, 5, 5, 1); __PYX_ERR(0, 29, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 0, 4, 5, 1); __PYX_ERR(0, 29, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_bindef)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 1, 5, 5, 2); __PYX_ERR(0, 29, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 0, 4, 5, 2); __PYX_ERR(0, 29, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_var)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 1, 5, 5, 3); __PYX_ERR(0, 29, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 0, 4, 5, 3); __PYX_ERR(0, 29, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
-        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_jsonfile)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 1, 5, 5, 4); __PYX_ERR(0, 29, __pyx_L3_error)
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_jsonfile);
+          if (value) { values[4] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "makePassFailHistograms") < 0)) __PYX_ERR(0, 29, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
-      goto __pyx_L5_argtuple_error;
     } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
     __pyx_v_sample = values[0];
     __pyx_v_flag = values[1];
@@ -2000,7 +2017,7 @@ static PyObject *__pyx_pw_9histUtils_3makePassFailHistograms(PyObject *__pyx_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 29, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("makePassFailHistograms", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 29, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("histUtils.makePassFailHistograms", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2042,6 +2059,8 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   PyObject *__pyx_v_branches = NULL;
   PyObject *__pyx_v_jsonfilter = NULL;
   PyObject *__pyx_v_br = NULL;
+  PyObject *__pyx_v_passjson = NULL;
+  PyObject *__pyx_v_failjson = NULL;
   long __pyx_v_bin1;
   int __pyx_v_bin2;
   double __pyx_v_passI;
@@ -2073,13 +2092,9 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   int __pyx_t_19;
   int __pyx_t_20;
   int __pyx_t_21;
-  int __pyx_t_22;
+  PyObject *__pyx_t_22 = NULL;
   int __pyx_t_23;
   int __pyx_t_24;
-  PyObject *__pyx_t_25 = NULL;
-  PyObject *__pyx_t_26 = NULL;
-  PyObject *__pyx_t_27 = NULL;
-  PyObject *__pyx_t_28 = NULL;
   __Pyx_RefNannySetupContext("makePassFailHistograms", 0);
 
   /* "histUtils.pyx":41
@@ -2275,7 +2290,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
         __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_1, __pyx_kp_s_) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_);
+    __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_1, __pyx_kp_s__2) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s__2);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -2321,7 +2336,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
         __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_1, __pyx_kp_s_) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_);
+    __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_1, __pyx_kp_s__2) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s__2);
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -2872,20 +2887,20 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  * 
  *     # Find out with variables are used to activate the corresponding branches
  *     replace_patterns = ['&', '|', '-', 'cos(', 'sqrt(', 'fabs(', 'abs(', '(', ')', '>', '<', '=', '!', '*', '/']             # <<<<<<<<<<<<<<
- *     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass " + flag
+ *     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass_nofit " + flag
  * 
  */
   __pyx_t_1 = PyList_New(15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_kp_s__2);
-  __Pyx_GIVEREF(__pyx_kp_s__2);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s__2);
   __Pyx_INCREF(__pyx_kp_s__3);
   __Pyx_GIVEREF(__pyx_kp_s__3);
-  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_kp_s__3);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s__3);
   __Pyx_INCREF(__pyx_kp_s__4);
   __Pyx_GIVEREF(__pyx_kp_s__4);
-  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_kp_s__4);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_kp_s__4);
+  __Pyx_INCREF(__pyx_kp_s__5);
+  __Pyx_GIVEREF(__pyx_kp_s__5);
+  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_kp_s__5);
   __Pyx_INCREF(__pyx_kp_s_cos);
   __Pyx_GIVEREF(__pyx_kp_s_cos);
   PyList_SET_ITEM(__pyx_t_1, 3, __pyx_kp_s_cos);
@@ -2898,43 +2913,43 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   __Pyx_INCREF(__pyx_kp_s_abs);
   __Pyx_GIVEREF(__pyx_kp_s_abs);
   PyList_SET_ITEM(__pyx_t_1, 6, __pyx_kp_s_abs);
-  __Pyx_INCREF(__pyx_kp_s__5);
-  __Pyx_GIVEREF(__pyx_kp_s__5);
-  PyList_SET_ITEM(__pyx_t_1, 7, __pyx_kp_s__5);
   __Pyx_INCREF(__pyx_kp_s__6);
   __Pyx_GIVEREF(__pyx_kp_s__6);
-  PyList_SET_ITEM(__pyx_t_1, 8, __pyx_kp_s__6);
+  PyList_SET_ITEM(__pyx_t_1, 7, __pyx_kp_s__6);
   __Pyx_INCREF(__pyx_kp_s__7);
   __Pyx_GIVEREF(__pyx_kp_s__7);
-  PyList_SET_ITEM(__pyx_t_1, 9, __pyx_kp_s__7);
+  PyList_SET_ITEM(__pyx_t_1, 8, __pyx_kp_s__7);
   __Pyx_INCREF(__pyx_kp_s__8);
   __Pyx_GIVEREF(__pyx_kp_s__8);
-  PyList_SET_ITEM(__pyx_t_1, 10, __pyx_kp_s__8);
+  PyList_SET_ITEM(__pyx_t_1, 9, __pyx_kp_s__8);
   __Pyx_INCREF(__pyx_kp_s__9);
   __Pyx_GIVEREF(__pyx_kp_s__9);
-  PyList_SET_ITEM(__pyx_t_1, 11, __pyx_kp_s__9);
+  PyList_SET_ITEM(__pyx_t_1, 10, __pyx_kp_s__9);
   __Pyx_INCREF(__pyx_kp_s__10);
   __Pyx_GIVEREF(__pyx_kp_s__10);
-  PyList_SET_ITEM(__pyx_t_1, 12, __pyx_kp_s__10);
+  PyList_SET_ITEM(__pyx_t_1, 11, __pyx_kp_s__10);
   __Pyx_INCREF(__pyx_kp_s__11);
   __Pyx_GIVEREF(__pyx_kp_s__11);
-  PyList_SET_ITEM(__pyx_t_1, 13, __pyx_kp_s__11);
+  PyList_SET_ITEM(__pyx_t_1, 12, __pyx_kp_s__11);
   __Pyx_INCREF(__pyx_kp_s__12);
   __Pyx_GIVEREF(__pyx_kp_s__12);
-  PyList_SET_ITEM(__pyx_t_1, 14, __pyx_kp_s__12);
+  PyList_SET_ITEM(__pyx_t_1, 13, __pyx_kp_s__12);
+  __Pyx_INCREF(__pyx_kp_s__13);
+  __Pyx_GIVEREF(__pyx_kp_s__13);
+  PyList_SET_ITEM(__pyx_t_1, 14, __pyx_kp_s__13);
   __pyx_v_replace_patterns = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "histUtils.pyx":122
  *     # Find out with variables are used to activate the corresponding branches
  *     replace_patterns = ['&', '|', '-', 'cos(', 'sqrt(', 'fabs(', 'abs(', '(', ')', '>', '<', '=', '!', '*', '/']
- *     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass " + flag             # <<<<<<<<<<<<<<
+ *     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass_nofit " + flag             # <<<<<<<<<<<<<<
  * 
- *     if jsonfile != "":
+ *     if jsonfile != '':
  */
-  __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s__13, __pyx_v_cutBinList); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyString_Join(__pyx_kp_s__14, __pyx_v_cutBinList); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_JpsiKE_Jpsi_mass); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_JpsiKE_Jpsi_mass_nofit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_v_flag); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
@@ -2944,18 +2959,18 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   __pyx_t_1 = 0;
 
   /* "histUtils.pyx":124
- *     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass " + flag
+ *     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass_nofit " + flag
  * 
- *     if jsonfile != "":             # <<<<<<<<<<<<<<
+ *     if jsonfile != '':             # <<<<<<<<<<<<<<
  *        jsonfilter = rt.vecbos.JsonFilter(jsonfile)
  *        jsonfilter.fillRunLSMap()
  */
-  __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_v_jsonfile, __pyx_kp_s__14, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 124, __pyx_L1_error)
+  __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_v_jsonfile, __pyx_kp_s_, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 124, __pyx_L1_error)
   if (__pyx_t_8) {
 
     /* "histUtils.pyx":125
  * 
- *     if jsonfile != "":
+ *     if jsonfile != '':
  *        jsonfilter = rt.vecbos.JsonFilter(jsonfile)             # <<<<<<<<<<<<<<
  *        jsonfilter.fillRunLSMap()
  *        branches = branches + " run luminosityBlock"
@@ -2987,7 +3002,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
     __pyx_t_1 = 0;
 
     /* "histUtils.pyx":126
- *     if jsonfile != "":
+ *     if jsonfile != '':
  *        jsonfilter = rt.vecbos.JsonFilter(jsonfile)
  *        jsonfilter.fillRunLSMap()             # <<<<<<<<<<<<<<
  *        branches = branches + " run luminosityBlock"
@@ -3025,9 +3040,9 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
     __pyx_t_1 = 0;
 
     /* "histUtils.pyx":124
- *     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass " + flag
+ *     branches = " ".join(cutBinList) + " JpsiKE_Jpsi_mass_nofit " + flag
  * 
- *     if jsonfile != "":             # <<<<<<<<<<<<<<
+ *     if jsonfile != '':             # <<<<<<<<<<<<<<
  *        jsonfilter = rt.vecbos.JsonFilter(jsonfile)
  *        jsonfilter.fillRunLSMap()
  */
@@ -3075,7 +3090,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_p, __pyx_kp_s__13};
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_p, __pyx_kp_s__14};
       __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_13, 2+__pyx_t_13); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_7);
@@ -3083,7 +3098,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_p, __pyx_kp_s__13};
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_p, __pyx_kp_s__14};
       __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_13, 2+__pyx_t_13); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_7);
@@ -3098,9 +3113,9 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
       __Pyx_INCREF(__pyx_v_p);
       __Pyx_GIVEREF(__pyx_v_p);
       PyTuple_SET_ITEM(__pyx_t_18, 0+__pyx_t_13, __pyx_v_p);
-      __Pyx_INCREF(__pyx_kp_s__13);
-      __Pyx_GIVEREF(__pyx_kp_s__13);
-      PyTuple_SET_ITEM(__pyx_t_18, 1+__pyx_t_13, __pyx_kp_s__13);
+      __Pyx_INCREF(__pyx_kp_s__14);
+      __Pyx_GIVEREF(__pyx_kp_s__14);
+      PyTuple_SET_ITEM(__pyx_t_18, 1+__pyx_t_13, __pyx_kp_s__14);
       __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_18, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
@@ -3140,7 +3155,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_7 = (__pyx_t_18) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_18, __pyx_kp_s__13) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s__13);
+  __pyx_t_7 = (__pyx_t_18) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_18, __pyx_kp_s__14) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s__14);
   __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
   if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -3187,7 +3202,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
     }
     __Pyx_XDECREF_SET(__pyx_v_x, __pyx_t_7);
     __pyx_t_7 = 0;
-    __pyx_t_16 = (__Pyx_PyString_Equals(__pyx_v_x, __pyx_kp_s__14, Py_NE)); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
+    __pyx_t_16 = (__Pyx_PyString_Equals(__pyx_v_x, __pyx_kp_s_, Py_NE)); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 133, __pyx_L1_error)
     if (__pyx_t_16) {
     } else {
       __pyx_t_8 = __pyx_t_16;
@@ -3289,15 +3304,15 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   /* "histUtils.pyx":142
  * 
  *     # Set adress of pair mass
- *     tree.SetBranchAddress("JpsiKE_Jpsi_mass", <void*>&pair_mass)             # <<<<<<<<<<<<<<
+ *     tree.SetBranchAddress("JpsiKE_Jpsi_mass_nofit", <void*>&pair_mass)             # <<<<<<<<<<<<<<
  *     tree.SetBranchAddress("run"             , <void*>&run      )
  *     tree.SetBranchAddress("luminosityBlock" , <void*>&lumi     )
  */
-  __pyx_v_tree->SetBranchAddress(((const char *)"JpsiKE_Jpsi_mass"), ((void *)(&__pyx_v_pair_mass)));
+  __pyx_v_tree->SetBranchAddress(((const char *)"JpsiKE_Jpsi_mass_nofit"), ((void *)(&__pyx_v_pair_mass)));
 
   /* "histUtils.pyx":143
  *     # Set adress of pair mass
- *     tree.SetBranchAddress("JpsiKE_Jpsi_mass", <void*>&pair_mass)
+ *     tree.SetBranchAddress("JpsiKE_Jpsi_mass_nofit", <void*>&pair_mass)
  *     tree.SetBranchAddress("run"             , <void*>&run      )             # <<<<<<<<<<<<<<
  *     tree.SetBranchAddress("luminosityBlock" , <void*>&lumi     )
  * 
@@ -3305,7 +3320,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   __pyx_v_tree->SetBranchAddress(((const char *)"run"), ((void *)(&__pyx_v_run)));
 
   /* "histUtils.pyx":144
- *     tree.SetBranchAddress("JpsiKE_Jpsi_mass", <void*>&pair_mass)
+ *     tree.SetBranchAddress("JpsiKE_Jpsi_mass_nofit", <void*>&pair_mass)
  *     tree.SetBranchAddress("run"             , <void*>&run      )
  *     tree.SetBranchAddress("luminosityBlock" , <void*>&lumi     )             # <<<<<<<<<<<<<<
  * 
@@ -3336,13 +3351,33 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  * 
  *     print("Starting event loop to fill histograms..")             # <<<<<<<<<<<<<<
  * 
- *     for index in range(nevts):
+ *     passjson = 0
  */
   if (__Pyx_PrintOne(0, __pyx_kp_s_Starting_event_loop_to_fill_hist) < 0) __PYX_ERR(0, 153, __pyx_L1_error)
 
   /* "histUtils.pyx":155
  *     print("Starting event loop to fill histograms..")
  * 
+ *     passjson = 0             # <<<<<<<<<<<<<<
+ *     failjson = 0
+ *     for index in range(nevts):
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_v_passjson = __pyx_int_0;
+
+  /* "histUtils.pyx":156
+ * 
+ *     passjson = 0
+ *     failjson = 0             # <<<<<<<<<<<<<<
+ *     for index in range(nevts):
+ *         if index % frac_of_nevts == 0:
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_v_failjson = __pyx_int_0;
+
+  /* "histUtils.pyx":157
+ *     passjson = 0
+ *     failjson = 0
  *     for index in range(nevts):             # <<<<<<<<<<<<<<
  *         if index % frac_of_nevts == 0:
  *             print outcount, "%"
@@ -3352,8 +3387,8 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   for (__pyx_t_20 = 0; __pyx_t_20 < __pyx_t_19; __pyx_t_20+=1) {
     __pyx_v_index = __pyx_t_20;
 
-    /* "histUtils.pyx":156
- * 
+    /* "histUtils.pyx":158
+ *     failjson = 0
  *     for index in range(nevts):
  *         if index % frac_of_nevts == 0:             # <<<<<<<<<<<<<<
  *             print outcount, "%"
@@ -3361,21 +3396,21 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     if (unlikely(__pyx_v_frac_of_nevts == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-      __PYX_ERR(0, 156, __pyx_L1_error)
+      __PYX_ERR(0, 158, __pyx_L1_error)
     }
     __pyx_t_8 = ((__Pyx_mod_int(__pyx_v_index, __pyx_v_frac_of_nevts) == 0) != 0);
     if (__pyx_t_8) {
 
-      /* "histUtils.pyx":157
+      /* "histUtils.pyx":159
  *     for index in range(nevts):
  *         if index % frac_of_nevts == 0:
  *             print outcount, "%"             # <<<<<<<<<<<<<<
  *             outcount = outcount + 5
  * 
  */
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_outcount); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_outcount); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
@@ -3383,10 +3418,10 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
       __Pyx_GIVEREF(__pyx_kp_s__15);
       PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_kp_s__15);
       __pyx_t_3 = 0;
-      if (__Pyx_Print(0, __pyx_t_1, 1) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
+      if (__Pyx_Print(0, __pyx_t_1, 1) < 0) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "histUtils.pyx":158
+      /* "histUtils.pyx":160
  *         if index % frac_of_nevts == 0:
  *             print outcount, "%"
  *             outcount = outcount + 5             # <<<<<<<<<<<<<<
@@ -3395,8 +3430,8 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
       __pyx_v_outcount = (__pyx_v_outcount + 5);
 
-      /* "histUtils.pyx":156
- * 
+      /* "histUtils.pyx":158
+ *     failjson = 0
  *     for index in range(nevts):
  *         if index % frac_of_nevts == 0:             # <<<<<<<<<<<<<<
  *             print outcount, "%"
@@ -3404,397 +3439,259 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     }
 
-    /* "histUtils.pyx":160
+    /* "histUtils.pyx":162
  *             outcount = outcount + 5
  * 
  *         tree.GetEntry(index)             # <<<<<<<<<<<<<<
  * 
- *         for bnidx in range(nbins):
+ *         if jsonfile != '' and jsonfilter.isGoodRunLS(run, lumi):
  */
     (void)(__pyx_v_tree->GetEntry(__pyx_v_index));
 
-    /* "histUtils.pyx":162
+    /* "histUtils.pyx":164
  *         tree.GetEntry(index)
  * 
- *         for bnidx in range(nbins):             # <<<<<<<<<<<<<<
- *             if jsonfilter.isGoodRunLS(run, lumi):
- *                 print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
+ *         if jsonfile != '' and jsonfilter.isGoodRunLS(run, lumi):             # <<<<<<<<<<<<<<
+ *             #print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
+ *             passjson = passjson+1
  */
-    __pyx_t_21 = __pyx_v_nbins;
-    __pyx_t_22 = __pyx_t_21;
-    for (__pyx_t_23 = 0; __pyx_t_23 < __pyx_t_22; __pyx_t_23+=1) {
-      __pyx_v_bnidx = __pyx_t_23;
-
-      /* "histUtils.pyx":163
- * 
- *         for bnidx in range(nbins):
- *             if jsonfilter.isGoodRunLS(run, lumi):             # <<<<<<<<<<<<<<
- *                 print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
- *             if not jsonfilter.isGoodRunLS(run, lumi):
- */
-      if (unlikely(!__pyx_v_jsonfilter)) { __Pyx_RaiseUnboundLocalError("jsonfilter"); __PYX_ERR(0, 163, __pyx_L1_error) }
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_jsonfilter, __pyx_n_s_isGoodRunLS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = __Pyx_PyInt_From_unsigned_int(__pyx_v_run); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 163, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_18 = __Pyx_PyInt_From_unsigned_int(__pyx_v_lumi); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 163, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_18);
-      __pyx_t_6 = NULL;
-      __pyx_t_24 = 0;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-        if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-          __Pyx_INCREF(__pyx_t_6);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_3, function);
-          __pyx_t_24 = 1;
-        }
+    __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_jsonfile, __pyx_kp_s_, Py_NE)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 164, __pyx_L1_error)
+    if (__pyx_t_9) {
+    } else {
+      __pyx_t_8 = __pyx_t_9;
+      goto __pyx_L28_bool_binop_done;
+    }
+    if (unlikely(!__pyx_v_jsonfilter)) { __Pyx_RaiseUnboundLocalError("jsonfilter"); __PYX_ERR(0, 164, __pyx_L1_error) }
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_jsonfilter, __pyx_n_s_isGoodRunLS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_7 = __Pyx_PyInt_From_unsigned_int(__pyx_v_run); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_18 = __Pyx_PyInt_From_unsigned_int(__pyx_v_lumi); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_18);
+    __pyx_t_6 = NULL;
+    __pyx_t_21 = 0;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+        __pyx_t_21 = 1;
       }
-      #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_3)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_7, __pyx_t_18};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_24, 2+__pyx_t_24); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-      } else
-      #endif
-      #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_7, __pyx_t_18};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_24, 2+__pyx_t_24); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-      } else
-      #endif
-      {
-        __pyx_t_25 = PyTuple_New(2+__pyx_t_24); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 163, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_25);
-        if (__pyx_t_6) {
-          __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_25, 0, __pyx_t_6); __pyx_t_6 = NULL;
-        }
-        __Pyx_GIVEREF(__pyx_t_7);
-        PyTuple_SET_ITEM(__pyx_t_25, 0+__pyx_t_24, __pyx_t_7);
-        __Pyx_GIVEREF(__pyx_t_18);
-        PyTuple_SET_ITEM(__pyx_t_25, 1+__pyx_t_24, __pyx_t_18);
-        __pyx_t_7 = 0;
-        __pyx_t_18 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_25, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (__pyx_t_8) {
-
-        /* "histUtils.pyx":164
- *         for bnidx in range(nbins):
- *             if jsonfilter.isGoodRunLS(run, lumi):
- *                 print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)             # <<<<<<<<<<<<<<
- *             if not jsonfilter.isGoodRunLS(run, lumi):
- *                 print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
- */
-        __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_run); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_25 = __Pyx_PyInt_From_unsigned_int(__pyx_v_lumi); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_25);
-        if (unlikely(!__pyx_v_jsonfilter)) { __Pyx_RaiseUnboundLocalError("jsonfilter"); __PYX_ERR(0, 164, __pyx_L1_error) }
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_jsonfilter, __pyx_n_s_isGoodRunLS); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_6 = __Pyx_PyInt_From_unsigned_int(__pyx_v_run); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_26 = __Pyx_PyInt_From_unsigned_int(__pyx_v_lumi); if (unlikely(!__pyx_t_26)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_26);
-        __pyx_t_27 = NULL;
-        __pyx_t_24 = 0;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-          __pyx_t_27 = PyMethod_GET_SELF(__pyx_t_7);
-          if (likely(__pyx_t_27)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-            __Pyx_INCREF(__pyx_t_27);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_7, function);
-            __pyx_t_24 = 1;
-          }
-        }
-        #if CYTHON_FAST_PYCALL
-        if (PyFunction_Check(__pyx_t_7)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_27, __pyx_t_6, __pyx_t_26};
-          __pyx_t_18 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_24, 2+__pyx_t_24); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 164, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_27); __pyx_t_27 = 0;
-          __Pyx_GOTREF(__pyx_t_18);
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_26); __pyx_t_26 = 0;
-        } else
-        #endif
-        #if CYTHON_FAST_PYCCALL
-        if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_27, __pyx_t_6, __pyx_t_26};
-          __pyx_t_18 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_24, 2+__pyx_t_24); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 164, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_27); __pyx_t_27 = 0;
-          __Pyx_GOTREF(__pyx_t_18);
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_26); __pyx_t_26 = 0;
-        } else
-        #endif
-        {
-          __pyx_t_28 = PyTuple_New(2+__pyx_t_24); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 164, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_28);
-          if (__pyx_t_27) {
-            __Pyx_GIVEREF(__pyx_t_27); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_27); __pyx_t_27 = NULL;
-          }
-          __Pyx_GIVEREF(__pyx_t_6);
-          PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_24, __pyx_t_6);
-          __Pyx_GIVEREF(__pyx_t_26);
-          PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_24, __pyx_t_26);
-          __pyx_t_6 = 0;
-          __pyx_t_26 = 0;
-          __pyx_t_18 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_28, NULL); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 164, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_18);
-          __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-        }
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyTuple_New(5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_GIVEREF(__pyx_t_1);
-        PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_1);
-        __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_3);
-        __Pyx_GIVEREF(__pyx_t_25);
-        PyTuple_SET_ITEM(__pyx_t_7, 2, __pyx_t_25);
-        __Pyx_INCREF(__pyx_n_s_OK);
-        __Pyx_GIVEREF(__pyx_n_s_OK);
-        PyTuple_SET_ITEM(__pyx_t_7, 3, __pyx_n_s_OK);
-        __Pyx_GIVEREF(__pyx_t_18);
-        PyTuple_SET_ITEM(__pyx_t_7, 4, __pyx_t_18);
-        __pyx_t_1 = 0;
-        __pyx_t_3 = 0;
-        __pyx_t_25 = 0;
-        __pyx_t_18 = 0;
-        if (__Pyx_Print(0, __pyx_t_7, 1) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-        /* "histUtils.pyx":163
- * 
- *         for bnidx in range(nbins):
- *             if jsonfilter.isGoodRunLS(run, lumi):             # <<<<<<<<<<<<<<
- *                 print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
- *             if not jsonfilter.isGoodRunLS(run, lumi):
- */
-      }
-
-      /* "histUtils.pyx":165
- *             if jsonfilter.isGoodRunLS(run, lumi):
- *                 print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
- *             if not jsonfilter.isGoodRunLS(run, lumi):             # <<<<<<<<<<<<<<
- *                 print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
- *                 continue
- */
-      if (unlikely(!__pyx_v_jsonfilter)) { __Pyx_RaiseUnboundLocalError("jsonfilter"); __PYX_ERR(0, 165, __pyx_L1_error) }
-      __pyx_t_18 = __Pyx_PyObject_GetAttrStr(__pyx_v_jsonfilter, __pyx_n_s_isGoodRunLS); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 165, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_18);
-      __pyx_t_25 = __Pyx_PyInt_From_unsigned_int(__pyx_v_run); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 165, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_25);
-      __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_lumi); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_1 = NULL;
-      __pyx_t_24 = 0;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_18))) {
-        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_18);
-        if (likely(__pyx_t_1)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_18);
-          __Pyx_INCREF(__pyx_t_1);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_18, function);
-          __pyx_t_24 = 1;
-        }
-      }
-      #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_18)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_t_25, __pyx_t_3};
-        __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_18, __pyx_temp+1-__pyx_t_24, 2+__pyx_t_24); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 165, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      } else
-      #endif
-      #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_18)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_t_25, __pyx_t_3};
-        __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_18, __pyx_temp+1-__pyx_t_24, 2+__pyx_t_24); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 165, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      } else
-      #endif
-      {
-        __pyx_t_28 = PyTuple_New(2+__pyx_t_24); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 165, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_28);
-        if (__pyx_t_1) {
-          __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_1); __pyx_t_1 = NULL;
-        }
-        __Pyx_GIVEREF(__pyx_t_25);
-        PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_24, __pyx_t_25);
-        __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_24, __pyx_t_3);
-        __pyx_t_25 = 0;
-        __pyx_t_3 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_18, __pyx_t_28, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 165, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 165, __pyx_L1_error)
+    }
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_7, __pyx_t_18};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_9 = ((!__pyx_t_8) != 0);
-      if (__pyx_t_9) {
+      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_7, __pyx_t_18};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_22 = PyTuple_New(2+__pyx_t_21); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 164, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_22);
+      if (__pyx_t_6) {
+        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_22, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      }
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_22, 0+__pyx_t_21, __pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_18);
+      PyTuple_SET_ITEM(__pyx_t_22, 1+__pyx_t_21, __pyx_t_18);
+      __pyx_t_7 = 0;
+      __pyx_t_18 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_8 = __pyx_t_9;
+    __pyx_L28_bool_binop_done:;
+    if (__pyx_t_8) {
 
-        /* "histUtils.pyx":166
- *                 print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
- *             if not jsonfilter.isGoodRunLS(run, lumi):
- *                 print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)             # <<<<<<<<<<<<<<
- *                 continue
- *             weight = bin_formulas[bnidx].EvalInstance(0)
+      /* "histUtils.pyx":166
+ *         if jsonfile != '' and jsonfilter.isGoodRunLS(run, lumi):
+ *             #print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
+ *             passjson = passjson+1             # <<<<<<<<<<<<<<
+ *         if jsonfile != '' and not jsonfilter.isGoodRunLS(run, lumi):
+ *             #print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
  */
-        __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 166, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_18 = __Pyx_PyInt_From_unsigned_int(__pyx_v_run); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 166, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_18);
-        __pyx_t_28 = __Pyx_PyInt_From_unsigned_int(__pyx_v_lumi); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 166, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_28);
-        if (unlikely(!__pyx_v_jsonfilter)) { __Pyx_RaiseUnboundLocalError("jsonfilter"); __PYX_ERR(0, 166, __pyx_L1_error) }
-        __pyx_t_25 = __Pyx_PyObject_GetAttrStr(__pyx_v_jsonfilter, __pyx_n_s_isGoodRunLS); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 166, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_25);
-        __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_26 = __Pyx_PyInt_From_unsigned_int(__pyx_v_lumi); if (unlikely(!__pyx_t_26)) __PYX_ERR(0, 166, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_26);
-        __pyx_t_6 = NULL;
-        __pyx_t_24 = 0;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_25))) {
-          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_25);
-          if (likely(__pyx_t_6)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_25);
-            __Pyx_INCREF(__pyx_t_6);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_25, function);
-            __pyx_t_24 = 1;
-          }
-        }
-        #if CYTHON_FAST_PYCALL
-        if (PyFunction_Check(__pyx_t_25)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_1, __pyx_t_26};
-          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_25, __pyx_temp+1-__pyx_t_24, 2+__pyx_t_24); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_DECREF(__pyx_t_26); __pyx_t_26 = 0;
-        } else
-        #endif
-        #if CYTHON_FAST_PYCCALL
-        if (__Pyx_PyFastCFunction_Check(__pyx_t_25)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_1, __pyx_t_26};
-          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_25, __pyx_temp+1-__pyx_t_24, 2+__pyx_t_24); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_DECREF(__pyx_t_26); __pyx_t_26 = 0;
-        } else
-        #endif
-        {
-          __pyx_t_27 = PyTuple_New(2+__pyx_t_24); if (unlikely(!__pyx_t_27)) __PYX_ERR(0, 166, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_27);
-          if (__pyx_t_6) {
-            __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_27, 0, __pyx_t_6); __pyx_t_6 = NULL;
-          }
-          __Pyx_GIVEREF(__pyx_t_1);
-          PyTuple_SET_ITEM(__pyx_t_27, 0+__pyx_t_24, __pyx_t_1);
-          __Pyx_GIVEREF(__pyx_t_26);
-          PyTuple_SET_ITEM(__pyx_t_27, 1+__pyx_t_24, __pyx_t_26);
-          __pyx_t_1 = 0;
-          __pyx_t_26 = 0;
-          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_25, __pyx_t_27, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_27); __pyx_t_27 = 0;
-        }
-        __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-        __pyx_t_25 = PyTuple_New(5); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 166, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_25);
-        __Pyx_GIVEREF(__pyx_t_7);
-        PyTuple_SET_ITEM(__pyx_t_25, 0, __pyx_t_7);
-        __Pyx_GIVEREF(__pyx_t_18);
-        PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_t_18);
-        __Pyx_GIVEREF(__pyx_t_28);
-        PyTuple_SET_ITEM(__pyx_t_25, 2, __pyx_t_28);
-        __Pyx_INCREF(__pyx_kp_s_NOT_OK);
-        __Pyx_GIVEREF(__pyx_kp_s_NOT_OK);
-        PyTuple_SET_ITEM(__pyx_t_25, 3, __pyx_kp_s_NOT_OK);
-        __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_25, 4, __pyx_t_3);
-        __pyx_t_7 = 0;
-        __pyx_t_18 = 0;
-        __pyx_t_28 = 0;
-        __pyx_t_3 = 0;
-        if (__Pyx_Print(0, __pyx_t_25, 1) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
+      __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_passjson, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF_SET(__pyx_v_passjson, __pyx_t_1);
+      __pyx_t_1 = 0;
 
-        /* "histUtils.pyx":167
- *             if not jsonfilter.isGoodRunLS(run, lumi):
- *                 print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
- *                 continue             # <<<<<<<<<<<<<<
+      /* "histUtils.pyx":164
+ *         tree.GetEntry(index)
+ * 
+ *         if jsonfile != '' and jsonfilter.isGoodRunLS(run, lumi):             # <<<<<<<<<<<<<<
+ *             #print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
+ *             passjson = passjson+1
+ */
+    }
+
+    /* "histUtils.pyx":167
+ *             #print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
+ *             passjson = passjson+1
+ *         if jsonfile != '' and not jsonfilter.isGoodRunLS(run, lumi):             # <<<<<<<<<<<<<<
+ *             #print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
+ *             failjson += 1
+ */
+    __pyx_t_9 = (__Pyx_PyString_Equals(__pyx_v_jsonfile, __pyx_kp_s_, Py_NE)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 167, __pyx_L1_error)
+    if (__pyx_t_9) {
+    } else {
+      __pyx_t_8 = __pyx_t_9;
+      goto __pyx_L31_bool_binop_done;
+    }
+    if (unlikely(!__pyx_v_jsonfilter)) { __Pyx_RaiseUnboundLocalError("jsonfilter"); __PYX_ERR(0, 167, __pyx_L1_error) }
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_jsonfilter, __pyx_n_s_isGoodRunLS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_22 = __Pyx_PyInt_From_unsigned_int(__pyx_v_run); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_22);
+    __pyx_t_18 = __Pyx_PyInt_From_unsigned_int(__pyx_v_lumi); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_18);
+    __pyx_t_7 = NULL;
+    __pyx_t_21 = 0;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+        __pyx_t_21 = 1;
+      }
+    }
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_22, __pyx_t_18};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
+      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_22, __pyx_t_18};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
+      __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_6 = PyTuple_New(2+__pyx_t_21); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 167, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      if (__pyx_t_7) {
+        __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      }
+      __Pyx_GIVEREF(__pyx_t_22);
+      PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_21, __pyx_t_22);
+      __Pyx_GIVEREF(__pyx_t_18);
+      PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_21, __pyx_t_18);
+      __pyx_t_22 = 0;
+      __pyx_t_18 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_16 = ((!__pyx_t_9) != 0);
+    __pyx_t_8 = __pyx_t_16;
+    __pyx_L31_bool_binop_done:;
+    if (__pyx_t_8) {
+
+      /* "histUtils.pyx":169
+ *         if jsonfile != '' and not jsonfilter.isGoodRunLS(run, lumi):
+ *             #print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
+ *             failjson += 1             # <<<<<<<<<<<<<<
+ *             continue
+ * 
+ */
+      __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_failjson, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF_SET(__pyx_v_failjson, __pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "histUtils.pyx":170
+ *             #print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
+ *             failjson += 1
+ *             continue             # <<<<<<<<<<<<<<
+ * 
+ *         for bnidx in range(nbins):
+ */
+      goto __pyx_L24_continue;
+
+      /* "histUtils.pyx":167
+ *             #print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
+ *             passjson = passjson+1
+ *         if jsonfile != '' and not jsonfilter.isGoodRunLS(run, lumi):             # <<<<<<<<<<<<<<
+ *             #print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
+ *             failjson += 1
+ */
+    }
+
+    /* "histUtils.pyx":172
+ *             continue
+ * 
+ *         for bnidx in range(nbins):             # <<<<<<<<<<<<<<
  *             weight = bin_formulas[bnidx].EvalInstance(0)
  *             if weight:
  */
-        goto __pyx_L27_continue;
+    __pyx_t_21 = __pyx_v_nbins;
+    __pyx_t_23 = __pyx_t_21;
+    for (__pyx_t_24 = 0; __pyx_t_24 < __pyx_t_23; __pyx_t_24+=1) {
+      __pyx_v_bnidx = __pyx_t_24;
 
-        /* "histUtils.pyx":165
- *             if jsonfilter.isGoodRunLS(run, lumi):
- *                 print index, run, lumi, 'OK', jsonfilter.isGoodRunLS(run, lumi)
- *             if not jsonfilter.isGoodRunLS(run, lumi):             # <<<<<<<<<<<<<<
- *                 print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
- *                 continue
- */
-      }
-
-      /* "histUtils.pyx":168
- *                 print index, run, lumi, "NOT OK", jsonfilter.isGoodRunLS(run, lumi)
- *                 continue
+      /* "histUtils.pyx":173
+ * 
+ *         for bnidx in range(nbins):
  *             weight = bin_formulas[bnidx].EvalInstance(0)             # <<<<<<<<<<<<<<
  *             if weight:
  *                 if flag_formula.EvalInstance(0):
  */
       __pyx_v_weight = (__pyx_v_bin_formulas[__pyx_v_bnidx])->EvalInstance(0);
 
-      /* "histUtils.pyx":169
- *                 continue
+      /* "histUtils.pyx":174
+ *         for bnidx in range(nbins):
  *             weight = bin_formulas[bnidx].EvalInstance(0)
  *             if weight:             # <<<<<<<<<<<<<<
  *                 if flag_formula.EvalInstance(0):
  *                     hPass[bnidx].Fill(pair_mass, weight)
  */
-      __pyx_t_9 = (__pyx_v_weight != 0);
-      if (__pyx_t_9) {
+      __pyx_t_8 = (__pyx_v_weight != 0);
+      if (__pyx_t_8) {
 
-        /* "histUtils.pyx":170
+        /* "histUtils.pyx":175
  *             weight = bin_formulas[bnidx].EvalInstance(0)
  *             if weight:
  *                 if flag_formula.EvalInstance(0):             # <<<<<<<<<<<<<<
  *                     hPass[bnidx].Fill(pair_mass, weight)
  *                 else:
  */
-        __pyx_t_9 = (__pyx_v_flag_formula->EvalInstance(0) != 0);
-        if (__pyx_t_9) {
+        __pyx_t_8 = (__pyx_v_flag_formula->EvalInstance(0) != 0);
+        if (__pyx_t_8) {
 
-          /* "histUtils.pyx":171
+          /* "histUtils.pyx":176
  *             if weight:
  *                 if flag_formula.EvalInstance(0):
  *                     hPass[bnidx].Fill(pair_mass, weight)             # <<<<<<<<<<<<<<
@@ -3803,66 +3700,102 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
           (void)((__pyx_v_hPass[__pyx_v_bnidx])->Fill(__pyx_v_pair_mass, __pyx_v_weight));
 
-          /* "histUtils.pyx":170
+          /* "histUtils.pyx":175
  *             weight = bin_formulas[bnidx].EvalInstance(0)
  *             if weight:
  *                 if flag_formula.EvalInstance(0):             # <<<<<<<<<<<<<<
  *                     hPass[bnidx].Fill(pair_mass, weight)
  *                 else:
  */
-          goto __pyx_L32;
+          goto __pyx_L36;
         }
 
-        /* "histUtils.pyx":173
+        /* "histUtils.pyx":178
  *                     hPass[bnidx].Fill(pair_mass, weight)
  *                 else:
  *                     hFail[bnidx].Fill(pair_mass, weight)             # <<<<<<<<<<<<<<
  *                 break
- * 
+ *     print "Pass JSON filter: ", passjson
  */
         /*else*/ {
           (void)((__pyx_v_hFail[__pyx_v_bnidx])->Fill(__pyx_v_pair_mass, __pyx_v_weight));
         }
-        __pyx_L32:;
+        __pyx_L36:;
 
-        /* "histUtils.pyx":174
+        /* "histUtils.pyx":179
  *                 else:
  *                     hFail[bnidx].Fill(pair_mass, weight)
  *                 break             # <<<<<<<<<<<<<<
- * 
- *     #####################
+ *     print "Pass JSON filter: ", passjson
+ *     print "Fail JSON filter: ", failjson
  */
-        goto __pyx_L28_break;
+        goto __pyx_L34_break;
 
-        /* "histUtils.pyx":169
- *                 continue
+        /* "histUtils.pyx":174
+ *         for bnidx in range(nbins):
  *             weight = bin_formulas[bnidx].EvalInstance(0)
  *             if weight:             # <<<<<<<<<<<<<<
  *                 if flag_formula.EvalInstance(0):
  *                     hPass[bnidx].Fill(pair_mass, weight)
  */
       }
-      __pyx_L27_continue:;
     }
-    __pyx_L28_break:;
+    __pyx_L34_break:;
+    __pyx_L24_continue:;
   }
 
   /* "histUtils.pyx":180
+ *                     hFail[bnidx].Fill(pair_mass, weight)
+ *                 break
+ *     print "Pass JSON filter: ", passjson             # <<<<<<<<<<<<<<
+ *     print "Fail JSON filter: ", failjson
+ * 
+ */
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_kp_s_Pass_JSON_filter);
+  __Pyx_GIVEREF(__pyx_kp_s_Pass_JSON_filter);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s_Pass_JSON_filter);
+  __Pyx_INCREF(__pyx_v_passjson);
+  __Pyx_GIVEREF(__pyx_v_passjson);
+  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_passjson);
+  if (__Pyx_Print(0, __pyx_t_1, 1) < 0) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "histUtils.pyx":181
+ *                 break
+ *     print "Pass JSON filter: ", passjson
+ *     print "Fail JSON filter: ", failjson             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_kp_s_Fail_JSON_filter);
+  __Pyx_GIVEREF(__pyx_kp_s_Fail_JSON_filter);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s_Fail_JSON_filter);
+  __Pyx_INCREF(__pyx_v_failjson);
+  __Pyx_GIVEREF(__pyx_v_failjson);
+  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_failjson);
+  if (__Pyx_Print(0, __pyx_t_1, 1) < 0) __PYX_ERR(0, 181, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "histUtils.pyx":188
  *     #####################
  * 
  *     for ib in range(len(bindef['bins'])):             # <<<<<<<<<<<<<<
  *         removeNegativeBins(hPass[ib])
  *         removeNegativeBins(hFail[ib])
  */
-  __pyx_t_25 = __Pyx_PyObject_Dict_GetItem(__pyx_v_bindef, __pyx_n_s_bins); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 180, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_25);
-  __pyx_t_11 = PyObject_Length(__pyx_t_25); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 180, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_bindef, __pyx_n_s_bins); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_11 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 188, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_4 = __pyx_t_11;
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_4; __pyx_t_12+=1) {
     __pyx_v_ib = __pyx_t_12;
 
-    /* "histUtils.pyx":181
+    /* "histUtils.pyx":189
  * 
  *     for ib in range(len(bindef['bins'])):
  *         removeNegativeBins(hPass[ib])             # <<<<<<<<<<<<<<
@@ -3871,7 +3804,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     __pyx_f_9histUtils_removeNegativeBins((__pyx_v_hPass[__pyx_v_ib]));
 
-    /* "histUtils.pyx":182
+    /* "histUtils.pyx":190
  *     for ib in range(len(bindef['bins'])):
  *         removeNegativeBins(hPass[ib])
  *         removeNegativeBins(hFail[ib])             # <<<<<<<<<<<<<<
@@ -3880,7 +3813,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     __pyx_f_9histUtils_removeNegativeBins((__pyx_v_hFail[__pyx_v_ib]));
 
-    /* "histUtils.pyx":184
+    /* "histUtils.pyx":192
  *         removeNegativeBins(hFail[ib])
  * 
  *         hPass[ib].Write(hPass[ib].GetName())             # <<<<<<<<<<<<<<
@@ -3889,7 +3822,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     (void)((__pyx_v_hPass[__pyx_v_ib])->Write((__pyx_v_hPass[__pyx_v_ib])->GetName()));
 
-    /* "histUtils.pyx":185
+    /* "histUtils.pyx":193
  * 
  *         hPass[ib].Write(hPass[ib].GetName())
  *         hFail[ib].Write(hFail[ib].GetName())             # <<<<<<<<<<<<<<
@@ -3898,7 +3831,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     (void)((__pyx_v_hFail[__pyx_v_ib])->Write((__pyx_v_hFail[__pyx_v_ib])->GetName()));
 
-    /* "histUtils.pyx":187
+    /* "histUtils.pyx":195
  *         hFail[ib].Write(hFail[ib].GetName())
  * 
  *         bin1 = 1             # <<<<<<<<<<<<<<
@@ -3907,7 +3840,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     __pyx_v_bin1 = 1;
 
-    /* "histUtils.pyx":188
+    /* "histUtils.pyx":196
  * 
  *         bin1 = 1
  *         bin2 = hPass[ib].GetXaxis().GetNbins()             # <<<<<<<<<<<<<<
@@ -3916,7 +3849,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     __pyx_v_bin2 = (__pyx_v_hPass[__pyx_v_ib])->GetXaxis()->GetNbins();
 
-    /* "histUtils.pyx":189
+    /* "histUtils.pyx":197
  *         bin1 = 1
  *         bin2 = hPass[ib].GetXaxis().GetNbins()
  *         passI = hPass[ib].IntegralAndError(bin1,bin2,epass)             # <<<<<<<<<<<<<<
@@ -3925,7 +3858,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     __pyx_v_passI = (__pyx_v_hPass[__pyx_v_ib])->IntegralAndError(__pyx_v_bin1, __pyx_v_bin2, __pyx_v_epass);
 
-    /* "histUtils.pyx":190
+    /* "histUtils.pyx":198
  *         bin2 = hPass[ib].GetXaxis().GetNbins()
  *         passI = hPass[ib].IntegralAndError(bin1,bin2,epass)
  *         failI = hFail[ib].IntegralAndError(bin1,bin2,efail)             # <<<<<<<<<<<<<<
@@ -3934,7 +3867,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     __pyx_v_failI = (__pyx_v_hFail[__pyx_v_ib])->IntegralAndError(__pyx_v_bin1, __pyx_v_bin2, __pyx_v_efail);
 
-    /* "histUtils.pyx":191
+    /* "histUtils.pyx":199
  *         passI = hPass[ib].IntegralAndError(bin1,bin2,epass)
  *         failI = hFail[ib].IntegralAndError(bin1,bin2,efail)
  *         eff   = 0             # <<<<<<<<<<<<<<
@@ -3943,7 +3876,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
     __pyx_v_eff = 0.0;
 
-    /* "histUtils.pyx":192
+    /* "histUtils.pyx":200
  *         failI = hFail[ib].IntegralAndError(bin1,bin2,efail)
  *         eff   = 0
  *         e_eff = 0             # <<<<<<<<<<<<<<
@@ -3953,17 +3886,17 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_XDECREF_SET(__pyx_v_e_eff, __pyx_int_0);
 
-    /* "histUtils.pyx":193
+    /* "histUtils.pyx":201
  *         eff   = 0
  *         e_eff = 0
  *         if passI > 0 :             # <<<<<<<<<<<<<<
  *             itot  = (passI+failI)
  *             eff   = passI / (passI+failI)
  */
-    __pyx_t_9 = ((__pyx_v_passI > 0.0) != 0);
-    if (__pyx_t_9) {
+    __pyx_t_8 = ((__pyx_v_passI > 0.0) != 0);
+    if (__pyx_t_8) {
 
-      /* "histUtils.pyx":194
+      /* "histUtils.pyx":202
  *         e_eff = 0
  *         if passI > 0 :
  *             itot  = (passI+failI)             # <<<<<<<<<<<<<<
@@ -3972,7 +3905,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
       __pyx_v_itot = (__pyx_v_passI + __pyx_v_failI);
 
-      /* "histUtils.pyx":195
+      /* "histUtils.pyx":203
  *         if passI > 0 :
  *             itot  = (passI+failI)
  *             eff   = passI / (passI+failI)             # <<<<<<<<<<<<<<
@@ -3982,50 +3915,50 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
       __pyx_t_14 = (__pyx_v_passI + __pyx_v_failI);
       if (unlikely(__pyx_t_14 == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-        __PYX_ERR(0, 195, __pyx_L1_error)
+        __PYX_ERR(0, 203, __pyx_L1_error)
       }
       __pyx_v_eff = (__pyx_v_passI / __pyx_t_14);
 
-      /* "histUtils.pyx":196
+      /* "histUtils.pyx":204
  *             itot  = (passI+failI)
  *             eff   = passI / (passI+failI)
  *             e_eff = math.sqrt(passI*passI*efail*efail + failI*failI*epass*epass) / (itot*itot)             # <<<<<<<<<<<<<<
  *         #print cuts
  *         #print '    ==> pass: %.1f +/- %.1f ; fail : %.1f +/- %.1f : eff: %1.3f +/- %1.3f' % (passI,epass,failI,efail,eff,e_eff)
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_math); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_math); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_28 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sqrt_2); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 196, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_28);
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_sqrt_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyFloat_FromDouble(((((__pyx_v_passI * __pyx_v_passI) * __pyx_v_efail) * __pyx_v_efail) + (((__pyx_v_failI * __pyx_v_failI) * __pyx_v_epass) * __pyx_v_epass))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L1_error)
+      __pyx_t_3 = PyFloat_FromDouble(((((__pyx_v_passI * __pyx_v_passI) * __pyx_v_efail) * __pyx_v_efail) + (((__pyx_v_failI * __pyx_v_failI) * __pyx_v_epass) * __pyx_v_epass))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_18 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_28))) {
-        __pyx_t_18 = PyMethod_GET_SELF(__pyx_t_28);
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_18 = PyMethod_GET_SELF(__pyx_t_6);
         if (likely(__pyx_t_18)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_28);
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
           __Pyx_INCREF(__pyx_t_18);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_28, function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
         }
       }
-      __pyx_t_25 = (__pyx_t_18) ? __Pyx_PyObject_Call2Args(__pyx_t_28, __pyx_t_18, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_28, __pyx_t_3);
+      __pyx_t_1 = (__pyx_t_18) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_18, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_3);
       __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 196, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_25);
-      __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-      __pyx_t_28 = PyFloat_FromDouble((__pyx_v_itot * __pyx_v_itot)); if (unlikely(!__pyx_t_28)) __PYX_ERR(0, 196, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_28);
-      __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_25, __pyx_t_28); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyFloat_FromDouble((__pyx_v_itot * __pyx_v_itot)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 204, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-      __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF_SET(__pyx_v_e_eff, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "histUtils.pyx":193
+      /* "histUtils.pyx":201
  *         eff   = 0
  *         e_eff = 0
  *         if passI > 0 :             # <<<<<<<<<<<<<<
@@ -4035,7 +3968,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
     }
   }
 
-  /* "histUtils.pyx":204
+  /* "histUtils.pyx":212
  *     ##########
  * 
  *     outfile.Close()             # <<<<<<<<<<<<<<
@@ -4043,7 +3976,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
  */
   __pyx_v_outfile->Close();
 
-  /* "histUtils.pyx":205
+  /* "histUtils.pyx":213
  * 
  *     outfile.Close()
  *     tree.Delete()             # <<<<<<<<<<<<<<
@@ -4053,7 +3986,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   /* "histUtils.pyx":29
  * ##################################
  * 
- * def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):             # <<<<<<<<<<<<<<
+ * def makePassFailHistograms( sample, flag, bindef, var, jsonfile='' ):             # <<<<<<<<<<<<<<
  * 
  *     #####################
  */
@@ -4067,10 +4000,7 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_18);
-  __Pyx_XDECREF(__pyx_t_25);
-  __Pyx_XDECREF(__pyx_t_26);
-  __Pyx_XDECREF(__pyx_t_27);
-  __Pyx_XDECREF(__pyx_t_28);
+  __Pyx_XDECREF(__pyx_t_22);
   __Pyx_AddTraceback("histUtils.makePassFailHistograms", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -4082,6 +4012,8 @@ static PyObject *__pyx_pf_9histUtils_2makePassFailHistograms(CYTHON_UNUSED PyObj
   __Pyx_XDECREF(__pyx_v_branches);
   __Pyx_XDECREF(__pyx_v_jsonfilter);
   __Pyx_XDECREF(__pyx_v_br);
+  __Pyx_XDECREF(__pyx_v_passjson);
+  __Pyx_XDECREF(__pyx_v_failjson);
   __Pyx_XDECREF(__pyx_v_e_eff);
   __Pyx_XDECREF(__pyx_v_x);
   __Pyx_XGIVEREF(__pyx_r);
@@ -4329,11 +4261,11 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
   {&__pyx_kp_s_Adding_weight_tree_s_from_file, __pyx_k_Adding_weight_tree_s_from_file, sizeof(__pyx_k_Adding_weight_tree_s_from_file), 0, 0, 1, 0},
-  {&__pyx_kp_s_JpsiKE_Jpsi_mass, __pyx_k_JpsiKE_Jpsi_mass, sizeof(__pyx_k_JpsiKE_Jpsi_mass), 0, 0, 1, 0},
+  {&__pyx_kp_s_Fail_JSON_filter, __pyx_k_Fail_JSON_filter, sizeof(__pyx_k_Fail_JSON_filter), 0, 0, 1, 0},
+  {&__pyx_kp_s_JpsiKE_Jpsi_mass_nofit, __pyx_k_JpsiKE_Jpsi_mass_nofit, sizeof(__pyx_k_JpsiKE_Jpsi_mass_nofit), 0, 0, 1, 0},
   {&__pyx_n_s_JsonFilter, __pyx_k_JsonFilter, sizeof(__pyx_k_JsonFilter), 0, 0, 1, 1},
   {&__pyx_n_s_LoadMacro, __pyx_k_LoadMacro, sizeof(__pyx_k_LoadMacro), 0, 0, 1, 1},
-  {&__pyx_kp_s_NOT_OK, __pyx_k_NOT_OK, sizeof(__pyx_k_NOT_OK), 0, 0, 1, 0},
-  {&__pyx_n_s_OK, __pyx_k_OK, sizeof(__pyx_k_OK), 0, 0, 1, 1},
+  {&__pyx_kp_s_Pass_JSON_filter, __pyx_k_Pass_JSON_filter, sizeof(__pyx_k_Pass_JSON_filter), 0, 0, 1, 0},
   {&__pyx_n_s_ROOT, __pyx_k_ROOT, sizeof(__pyx_k_ROOT), 0, 0, 1, 1},
   {&__pyx_kp_s_Starting_event_loop_to_fill_hist, __pyx_k_Starting_event_loop_to_fill_hist, sizeof(__pyx_k_Starting_event_loop_to_fill_hist), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
@@ -4376,6 +4308,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_epass, __pyx_k_epass, sizeof(__pyx_k_epass), 0, 0, 1, 1},
   {&__pyx_kp_s_fabs, __pyx_k_fabs, sizeof(__pyx_k_fabs), 0, 0, 1, 0},
   {&__pyx_n_s_failI, __pyx_k_failI, sizeof(__pyx_k_failI), 0, 0, 1, 1},
+  {&__pyx_n_s_failjson, __pyx_k_failjson, sizeof(__pyx_k_failjson), 0, 0, 1, 1},
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_fillRunLSMap, __pyx_k_fillRunLSMap, sizeof(__pyx_k_fillRunLSMap), 0, 0, 1, 1},
   {&__pyx_n_s_fitUtils, __pyx_k_fitUtils, sizeof(__pyx_k_fitUtils), 0, 0, 1, 1},
@@ -4416,6 +4349,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_p, __pyx_k_p, sizeof(__pyx_k_p), 0, 0, 1, 1},
   {&__pyx_n_s_pair_mass, __pyx_k_pair_mass, sizeof(__pyx_k_pair_mass), 0, 0, 1, 1},
   {&__pyx_n_s_passI, __pyx_k_passI, sizeof(__pyx_k_passI), 0, 0, 1, 1},
+  {&__pyx_n_s_passjson, __pyx_k_passjson, sizeof(__pyx_k_passjson), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_puTree, __pyx_k_puTree, sizeof(__pyx_k_puTree), 0, 0, 1, 1},
@@ -4491,14 +4425,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "histUtils.pyx":29
  * ##################################
  * 
- * def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):             # <<<<<<<<<<<<<<
+ * def makePassFailHistograms( sample, flag, bindef, var, jsonfile='' ):             # <<<<<<<<<<<<<<
  * 
  *     #####################
  */
-  __pyx_tuple__19 = PyTuple_Pack(41, __pyx_n_s_sample, __pyx_n_s_flag, __pyx_n_s_bindef, __pyx_n_s_var, __pyx_n_s_jsonfile, __pyx_n_s_run, __pyx_n_s_lumi, __pyx_n_s_pair_mass, __pyx_n_s_nbins, __pyx_n_s_nevts, __pyx_n_s_frac_of_nevts, __pyx_n_s_index, __pyx_n_s_bnidx, __pyx_n_s_outcount, __pyx_n_s_weight, __pyx_n_s_tree, __pyx_n_s_flag_formula, __pyx_n_s_bin_formulas, __pyx_n_s_hPass, __pyx_n_s_hFail, __pyx_n_s_formulas_list, __pyx_n_s_epass, __pyx_n_s_efail, __pyx_n_s_p, __pyx_n_s_outfile, __pyx_n_s_cutBinList, __pyx_n_s_ib, __pyx_n_s_cuts, __pyx_n_s_cutBin, __pyx_n_s_replace_patterns, __pyx_n_s_branches, __pyx_n_s_jsonfilter, __pyx_n_s_br, __pyx_n_s_bin1, __pyx_n_s_bin2, __pyx_n_s_passI, __pyx_n_s_failI, __pyx_n_s_eff, __pyx_n_s_e_eff, __pyx_n_s_itot, __pyx_n_s_x); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(43, __pyx_n_s_sample, __pyx_n_s_flag, __pyx_n_s_bindef, __pyx_n_s_var, __pyx_n_s_jsonfile, __pyx_n_s_run, __pyx_n_s_lumi, __pyx_n_s_pair_mass, __pyx_n_s_nbins, __pyx_n_s_nevts, __pyx_n_s_frac_of_nevts, __pyx_n_s_index, __pyx_n_s_bnidx, __pyx_n_s_outcount, __pyx_n_s_weight, __pyx_n_s_tree, __pyx_n_s_flag_formula, __pyx_n_s_bin_formulas, __pyx_n_s_hPass, __pyx_n_s_hFail, __pyx_n_s_formulas_list, __pyx_n_s_epass, __pyx_n_s_efail, __pyx_n_s_p, __pyx_n_s_outfile, __pyx_n_s_cutBinList, __pyx_n_s_ib, __pyx_n_s_cuts, __pyx_n_s_cutBin, __pyx_n_s_replace_patterns, __pyx_n_s_branches, __pyx_n_s_jsonfilter, __pyx_n_s_br, __pyx_n_s_passjson, __pyx_n_s_failjson, __pyx_n_s_bin1, __pyx_n_s_bin2, __pyx_n_s_passI, __pyx_n_s_failI, __pyx_n_s_eff, __pyx_n_s_e_eff, __pyx_n_s_itot, __pyx_n_s_x); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(5, 0, 41, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_histUtils_pyx, __pyx_n_s_makePassFailHistograms, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(5, 0, 43, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_histUtils_pyx, __pyx_n_s_makePassFailHistograms, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -4509,6 +4443,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_999 = PyInt_FromLong(999); if (unlikely(!__pyx_int_999)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -4797,9 +4732,9 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_kp_s__11);
-  __Pyx_GIVEREF(__pyx_kp_s__11);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s__11);
+  __Pyx_INCREF(__pyx_kp_s__12);
+  __Pyx_GIVEREF(__pyx_kp_s__12);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s__12);
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_fitUtils, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4853,7 +4788,7 @@ if (!__Pyx_RefNanny) {
   /* "histUtils.pyx":29
  * ##################################
  * 
- * def makePassFailHistograms( sample, flag, bindef, var, jsonfile ):             # <<<<<<<<<<<<<<
+ * def makePassFailHistograms( sample, flag, bindef, var, jsonfile='' ):             # <<<<<<<<<<<<<<
  * 
  *     #####################
  */
@@ -5986,6 +5921,130 @@ static CYTHON_INLINE int __Pyx_mod_int(int a, int b) {
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
     PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
 }
+
+/* PyIntBinop */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
+    (void)inplace;
+    (void)zerodivision_check;
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long x;
+        long a = PyInt_AS_LONG(op1);
+            x = (long)((unsigned long)a + b);
+            if (likely((x^a) >= 0 || (x^b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_add(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        const long b = intval;
+        long a, x;
+#ifdef HAVE_LONG_LONG
+        const PY_LONG_LONG llb = intval;
+        PY_LONG_LONG lla, llx;
+#endif
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            a = likely(size) ? digits[0] : 0;
+            if (size == -1) a = -a;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
+            }
+        }
+                x = a + b;
+            return PyLong_FromLong(x);
+#ifdef HAVE_LONG_LONG
+        long_long:
+                llx = lla + llb;
+            return PyLong_FromLongLong(llx);
+#endif
+        
+        
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+            double result;
+            PyFPE_START_PROTECT("add", return NULL)
+            result = ((double)a) + (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+}
+#endif
 
 /* Import */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
