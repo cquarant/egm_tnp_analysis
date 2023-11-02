@@ -40,7 +40,8 @@ flags = {
     }
 
 # Output directory
-baseOutDir = 'results/EffBothLegs_vs_elesDr_MC'
+# baseOutDir = 'results/EffBothLegs_vs_elesDr_MC'
+baseOutDir = 'results/ProbeEff_vs_elesDr_MC_NoahBins'
 
 #############################################################
 # Samples definition  - preparing the samples
@@ -51,7 +52,7 @@ import etc.inputs.tnpSampleDef as tnpSamples
 tnpTreeDir = 'nano_'
 
 samplesDef = {
-    'data' : tnpSamples.Parking_doubleEle_run3['BuToKJpsi_realisticPU'].clone(),
+    'data' : tnpSamples.Parking_doubleEle_run3['BuToKJpsi_SingleEleIncluded'].clone(),
 
     'mcNom'  : tnpSamples.Parking_doubleEle_run3['BuToKJpsi'].clone(),
     'mcAlt'  : tnpSamples.Parking_doubleEle_run3['BuToKJpsi'].clone(),
@@ -66,32 +67,35 @@ weightName = 'weight'    # 1 for data; pu_weight for MC
 biningDef = [
      
     # elesDR (electrons angular separation) binning
-    { 'var' : 'JpsiKE_elesDr', 'type': 'float', 'bins': [0.0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.6, 0.9] }, #elesDr_standard
-    
+    # { 'var' : 'JpsiKE_elesDr', 'type': 'float', 'bins': [0.0, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.6, 0.9] }, #elesDr_standard
+    { 'var' : 'JpsiKE_elesDr', 'type': 'float', 'bins': [0.0, 0.12, 0.20, 0.28, 0.44, 1.5] }, # Noah Bins
 ]
 
 #############################################################
 # Cuts definition for all samples
 
-cutBase = 'JpsiKE_Jpsi_mass_nofit>2.10001 && JpsiKE_Jpsi_mass_nofit<3.61 && abs(JpsiKE_e1_eta)<1.22 & abs(JpsiKE_e2_eta)<1.22 & JpsiKE_e1_pt>5.0 & JpsiKE_e2_pt>5.0 & JpsiKE_e1_passMVA==1'
+cutBase =   ('JpsiKE_Jpsi_mass_nofit>2.10001 && JpsiKE_Jpsi_mass_nofit<3.61'
+             ' & abs(JpsiKE_e1_eta)<1.22 & abs(JpsiKE_e2_eta)<1.22 '
+             ' & JpsiKE_e1_pt>10.0 & JpsiKE_e2_pt>5.0 & JpsiKE_e1_passMVA==1 & JpsiKE_e2_passMVA==1'
+             ' & SingleEle_fired==1 & JpsiKE_e1_istag==1')
 
 specialCut = {
-    'doubleEle4BothMatchedL1_4p5_Match'   : ' & JpsiKE_elesDr<0.9',
-    'doubleEle4BothMatchedL1_5p0_Match'   : ' & JpsiKE_elesDr<0.9',
-    'doubleEle4BothMatchedL1_5p5_Match'   : ' & JpsiKE_elesDr<0.8',
-    'doubleEle4BothMatchedL1_6p0_Match'   : ' & JpsiKE_elesDr<0.8',
-    'doubleEle4p5BothMatchedL1_6p5_Match' : ' & JpsiKE_elesDr<0.8',
-    'doubleEle5BothMatchedL1_7p0_Match'   : ' & JpsiKE_elesDr<0.8',
-    'doubleEle5BothMatchedL1_7p5_Match'   : ' & JpsiKE_elesDr<0.7',
-    'doubleEle5BothMatchedL1_8p0_Match'   : ' & JpsiKE_elesDr<0.7',
-    'doubleEle5BothMatchedL1_8p5_Match'   : ' & JpsiKE_elesDr<0.7',
-    'doubleEle5BothMatchedL1_10p5_Match'  : ' & JpsiKE_elesDr<0.6',
-    'doubleEle5p5BothMatchedL1_8p5_Match' : ' & JpsiKE_elesDr<0.7',
-    'doubleEle6BothMatchedL1_5p5_Match'   : ' & JpsiKE_elesDr<0.8',
-    'doubleEle6BothMatchedL1_9p0_Match'   : ' & JpsiKE_elesDr<0.7',
-    'doubleEle6p5BothMatchedL1_9p5_Match' : ' & JpsiKE_elesDr<0.7',
-    'doubleEle6p5BothMatchedL1_10p5_Match': ' & JpsiKE_elesDr<0.6',
-    'doubleEle6p5BothMatchedL1_11p0_Match': ' & JpsiKE_elesDr<0.6',
+    'doubleEle4BothMatchedL1_4p5_Match'   : ' & JpsiKE_e1_pt>4.5 & JpsiKE_e2_pt>4.5',
+    'doubleEle4BothMatchedL1_5p0_Match'   : ' & JpsiKE_e1_pt>5.0 & JpsiKE_e2_pt>5.0',
+    'doubleEle4BothMatchedL1_5p5_Match'   : ' & JpsiKE_e1_pt>5.5 & JpsiKE_e2_pt>5.5',
+    'doubleEle4BothMatchedL1_6p0_Match'   : ' & JpsiKE_e1_pt>6.0 & JpsiKE_e2_pt>6.0',
+    'doubleEle4p5BothMatchedL1_6p5_Match' : ' & JpsiKE_e1_pt>6.5 & JpsiKE_e2_pt>6.5',
+    'doubleEle5BothMatchedL1_7p0_Match'   : ' & JpsiKE_e1_pt>7.0 & JpsiKE_e2_pt>7.0',
+    'doubleEle5BothMatchedL1_7p5_Match'   : ' & JpsiKE_e1_pt>7.5 & JpsiKE_e2_pt>7.5',
+    'doubleEle5BothMatchedL1_8p0_Match'   : ' & JpsiKE_e1_pt>8.0 & JpsiKE_e2_pt>8.0',
+    'doubleEle5BothMatchedL1_8p5_Match'   : ' & JpsiKE_e1_pt>8.5 & JpsiKE_e2_pt>8.5',
+    'doubleEle5BothMatchedL1_10p5_Match'  : ' & JpsiKE_e1_pt>10.5 & JpsiKE_e2_pt>10.5',
+    'doubleEle5p5BothMatchedL1_8p5_Match' : ' & JpsiKE_e1_pt>8.5 & JpsiKE_e2_pt>8.5',
+    'doubleEle6BothMatchedL1_5p5_Match'   : ' & JpsiKE_e1_pt>5.5 & JpsiKE_e2_pt>5.5',
+    'doubleEle6BothMatchedL1_9p0_Match'   : ' & JpsiKE_e1_pt>9.0 & JpsiKE_e2_pt>9.0',
+    'doubleEle6p5BothMatchedL1_9p5_Match' : ' & JpsiKE_e1_pt>9.5 & JpsiKE_e2_pt>9.5',
+    'doubleEle6p5BothMatchedL1_10p5_Match': ' & JpsiKE_e1_pt>10.5 & JpsiKE_e2_pt>10.5',
+    'doubleEle6p5BothMatchedL1_11p0_Match': ' & JpsiKE_e1_pt>11.0 & JpsiKE_e2_pt>11.0',
 }
 
 # can add addtionnal cuts for some bins (first check bin number using tnpEGM --checkBins)

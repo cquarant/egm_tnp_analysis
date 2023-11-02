@@ -10,7 +10,8 @@ flags = {
     }
 
 # Output directory
-baseOutDir = 'results/SingleEleSingleEGL1_RefEff_vs_Probe_Pt'
+# baseOutDir = 'results/Ele8Jet30_RefEff_vs_Probe_Pt'
+baseOutDir = 'results/Ele8Jet30_RefEff_vs_Probe_Eta'
 
 #############################################################
 # Samples definition  - preparing the samples
@@ -21,7 +22,7 @@ import etc.inputs.tnpSampleDef as tnpSamples
 tnpTreeDir = 'nano_'
 
 samplesDef = {
-    'data' : tnpSamples.Parking_doubleEle_run3['data_SingleEleSingleEGL1_Run2022FG-Prompt'].clone(),
+    'data' : tnpSamples.Parking_doubleEle_run3['data_Run2022CDEFG-Prompt'].clone(),
 
     'mcNom'  : tnpSamples.Parking_doubleEle_run3['BuToKJpsi'].clone(),
     'mcAlt'  : tnpSamples.Parking_doubleEle_run3['BuToKJpsi'].clone(),
@@ -37,9 +38,16 @@ biningDef = [
     #{ 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0, 999.0] }, #no binning
 
     # Probe Pt binning
-    { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 9999999.0] }, #standard_2022_final
-    # { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0, 6.0,  7.0,  8.0,  9.0, 11.0, 13.0, 19.0, 9999999.0] }, #standard_2022_final
-    # { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0, 9.0, 11.0, 13.0, 9999999.0] }, #e1 eff
+    # { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 10.0, 12, 14, 16.0, 9999999.0] }, #standard_2022_final
+
+    # Probe eta binning
+    { 'var' : 'JpsiKE_e2_eta', 'type': 'float', 'bins': [-2.5, -2.0, -1.5, -1.22, -1.0, -0.5, 0.0, 0.5, 1.0, 1.22, 1.5, 2.0, 2.5] }, #standard_2022_final
+
+    # Nvtx binning
+    # { 'var' : 'nvtx', 'type': 'float', 'bins': [0, 25, 35, 9999999.0] }, #Nvtx_standard
+    
+    # elesDR (electrons angular separation) binning
+    # { 'var' : 'JpsiKE_elesDr', 'type': 'float', 'bins': [0.0, 0.15, 0.2, 0.25, 0.3, 0.35, 0.6, 0.9] }, #elesDr_standard
     
 ]
 
@@ -95,12 +103,18 @@ tnpParAltSigFitJPsi = [
 
 tnpParNomFitJPsi = [
     # DoubleCB signal + Bkg Exp on DATA
-    "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.1]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
-    "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.1]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
+    "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.06]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
+    "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.06]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
     "expalphaP[-0.7, -2.0, 0]",
     "expalphaF[-0.75, -2.0, 0]",   
 
-    # to be edited for selected bins bins
+    # use if elesDr cut
+    # "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.06]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
+    # "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.06]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
+    # "expalphaP[-0.7, -2.0, 2.0]",
+    # "expalphaF[-0.75, -2.0, 2.0]",   
+
+    # to be edited for selected bins
     # "meanP[3.096, 3.0, 3.11]","sigmaP[0.055, 0.045, 0.065]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
     # "meanF[3.096, 3.0, 3.11]","sigmaF[0.055, 0.045, 0.065]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
     # "expalphaP[-0.70, -2.0, 0.0]",
