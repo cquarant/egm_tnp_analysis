@@ -30,9 +30,9 @@ var = varConfig[args.var]
 tag = args.tag
 
 flaglist = OrderedDict([
-            ('doubleEle4BothMatchedL1_4p5_Match'   ,{'alias':'L1_4p5_HLT_4p0_Incl'}),
-            ('doubleEle4BothMatchedL1_5p0_Match'   ,{'alias':'L1_5p0_HLT_4p0_Incl'}),
-            ('doubleEle4BothMatchedL1_5p5_Match'   ,{'alias':'L1_5p5_HLT_4p0_Incl'}),
+            # ('doubleEle4BothMatchedL1_4p5_Match'   ,{'alias':'L1_4p5_HLT_4p0_Incl'}),
+            # ('doubleEle4BothMatchedL1_5p0_Match'   ,{'alias':'L1_5p0_HLT_4p0_Incl'}),
+            # ('doubleEle4BothMatchedL1_5p5_Match'   ,{'alias':'L1_5p5_HLT_4p0_Incl'}),
             ('doubleEle4BothMatchedL1_6p0_Match'   ,{'alias':'L1_6p0_HLT_4p0_Incl'}),
             ('doubleEle4p5BothMatchedL1_6p5_Match' ,{'alias':'L1_6p5_HLT_4p5_Incl'}),
             ('doubleEle5BothMatchedL1_7p0_Match'   ,{'alias':'L1_7p0_HLT_5p0_Incl'}),
@@ -51,10 +51,10 @@ flaglist = OrderedDict([
 samplesDict = OrderedDict([
 
     # Eff vs Probe Pt Noah's binning
-    ('MC'                 , { 'dir':'Eff_vs_Probe_Pt_MC_NoahBins'                   , 'col':kBlack, 'mrk':kFullCircle    , 'source':'root'}),
-    ('Ele8 + Jet30'       , { 'dir':'Eff_vs_Probe_Pt_ElePlusJet_NoahBins'           , 'col':kRed  , 'mrk':kFullSquare    , 'source':'root'}),
-    ('SingleEleSingleEGL1', { 'dir':'Eff_vs_Probe_Pt_SingleEle_SingleEGL1_NoahBins' , 'col':kBlue , 'mrk':kFullTriangleUp, 'source':'root'}),
-    ('DoubleMu'           , { 'dir':'Noah_results/TrigSFs_Incl_2_9_23_ptbinned.json', 'col':kGreen , 'mrk':kFullTriangleUp, 'source':'json'}),
+    # ('MC'                 , { 'dir':'Eff_vs_Probe_Pt_MC_NoahBins'                   , 'col':kBlack, 'mrk':kFullCircle    , 'source':'root'}),
+    # ('Ele8 + Jet30'       , { 'dir':'Eff_vs_Probe_Pt_ElePlusJet_NoahBins'           , 'col':kRed  , 'mrk':kFullSquare    , 'source':'root'}),
+    # ('SingleEleSingleEGL1', { 'dir':'Eff_vs_Probe_Pt_SingleEle_SingleEGL1_NoahBins' , 'col':kBlue , 'mrk':kFullTriangleUp, 'source':'root'}),
+    # ('DoubleMu'           , { 'dir':'Noah_results/TrigSFs_Incl_2_9_23_ptbinned.json', 'col':kGreen , 'mrk':kFullTriangleUp, 'source':'json'}),
     # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }),
 
     # # Eff vs PU
@@ -85,9 +85,9 @@ samplesDict = OrderedDict([
     # ('SingleEleSingleEGL1'   , { 'dir':'EffBothLegs_vs_elesDr_SingleEleSingleEGL1', 'col':kBlue , 'mrk':kFullTriangleUp }),
     # # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }),
 
-    # Eff vs Nvtx BothLegs
-    # ('MC'                    , { 'dir':'EffBothLegs_vs_Nvtx_MC'                 , 'col':kBlack, 'mrk':kFullCircle }),
-    # ('Ele8 + Jet30'          , { 'dir':'EffBothLegs_vs_Nvtx_ElePlusJet'         , 'col':kRed  , 'mrk':kFullSquare }),
+    # SF vs Nvtx
+    ('SingleEleRef'         , { 'dir':'resutls/testSF'                 , 'col':kBlack, 'mrk':kFullCircle, source='root' }),
+    ('DoubleMuRef'          , { 'dir':'EffBothLegs_vs_Nvtx_ElePlusJet' , 'col':kRed  , 'mrk':kFullSquare, source='json' }),
     # ('SingleEleSingleEGL1'   , { 'dir':'EffBothLegs_vs_Nvtx_SingleEleSingleEGL1', 'col':kBlue , 'mrk':kFullTriangleUp }),
     # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kGreen , 'mr)k':kFullTriangleDown }
 

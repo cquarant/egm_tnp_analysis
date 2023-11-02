@@ -14,7 +14,9 @@ args = parser.parse_args()
 
 varConfig = {
     'nvtx'         : { 'minvalue':00, 'maxvalue':70 , 'axis_label':'N_{vtx}' },
+    'JpsiKE_e1_pt' : { 'minvalue':05, 'maxvalue':20 , 'axis_label':'Tag Pt [GeV]' },
     'JpsiKE_e2_pt' : { 'minvalue':05, 'maxvalue':20 , 'axis_label':'Probe Pt [GeV]' },
+    'JpsiKE_e1_eta': { 'minvalue':-1.22, 'maxvalue':1.22 , 'axis_label':'Tag Eta' },
     'JpsiKE_e2_eta': { 'minvalue':-1.22, 'maxvalue':1.22 , 'axis_label':'Probe Eta' },
     'JpsiKE_elesDr': { 'minvalue':00, 'maxvalue':0.9, 'axis_label':'#DeltaR(e_{1},e_{2})' },
 }

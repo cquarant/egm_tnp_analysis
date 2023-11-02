@@ -105,9 +105,11 @@ htot_diEleProbe  = TH2F("htot_diEleProbe" , "htot_diEleProbe" , len(var2_binedge
 
 nEvtAllBins = 0
 for ibin in range(len(resPlist)):
+    
+    y_index = int(ibin / (len(var2_binedges)-1))
+    x_index = (ibin % (len(var2_binedges)-1))
 
-    x_index = int(ibin / (len(var1_binedges)-1))
-    y_index = (ibin % (len(var2_binedges)-1))
+    print ibin, len(var1_binedges), len(var2_binedges), x_index, y_index
 
     ### Get Pass/Fail events for doubleEle trigger bin-by-bin
     FitResultPass = fitResultsFile.Get(resPlist[ibin])
@@ -138,7 +140,8 @@ for ibin in range(len(resPlist)):
 
     htot_diEleProbe.SetBinContent(x_index+1, y_index+1, nSigTot)
     htot_diEleProbe.SetBinError  (x_index+1, y_index+1, nSigTot_err)
-
+    
+    print x_index, y_index, nSigP, nSigTot, nSigP_err, nSigTot_err
 #############################################################
 # Evaluate and plot doubleEle (probe leg) efficiency
 #############################################################
@@ -248,7 +251,7 @@ for jbin in range(heff_diEleProbe.GetNbinsY()):
     heff_diEleProbe_slices[hname].SetLineColor( (jbin+5) % 9 + 1 )
     heff_diEleProbe_slices[hname].Draw("same")
     
-    legend.AddEntry( heff_diEleProbe_slices[hname], "e_{tag} p_{T} #in [%.1f,%.1f]" %(var2_binedges[jbin],var2_binedges[jbin+1]) )
+    legend.AddEntry( heff_diEleProbe_slices[hname], "e_{tag} p_{T} #in [%.1f,%.1f]" %(var1_binedges[jbin],var1_binedges[jbin+1]) )
 
 legend.Draw("same")
 
@@ -274,16 +277,22 @@ RefEffFile = TFile.Open(args.refEffFile)
 g1_ref = RefEffFile.Get("htot_clone").CreateGraph()
 h2_ref = TH2F("h2_ref" , "h2_ref" , len(var2_binedges)-1, var2_binedges_ar, len(var1_binedges)-1, var1_binedges_ar)
 
+print var1_binedges
+print var2_binedges
 for ibin in range(len(var1_binedges)-1):
     for jbin in range(len(var2_binedges)-1):
 
-        var1_l = h2_ref.GetXaxis().GetBinLowEdge(ibin+1)
-        var1_r = h2_ref.GetXaxis().GetBinUpEdge(ibin+1)
-        var2_l = h2_ref.GetYaxis().GetBinLowEdge(jbin+1)
-        var2_r = h2_ref.GetYaxis().GetBinUpEdge(jbin+1)
+        var1_l = h2_ref.GetYaxis().GetBinLowEdge(ibin+1)
+        var1_r = h2_ref.GetYaxis().GetBinUpEdge(ibin+1)
+        var2_l = h2_ref.GetXaxis().GetBinLowEdge(jbin+1)
+        var2_r = h2_ref.GetXaxis().GetBinUpEdge(jbin+1)
+
+        print var2_l, var2_r
 
         var1_e_ref = findcorrespondingy(g1_ref, var1_l, var1_r)
         var2_e_ref = findcorrespondingy(g1_ref, var2_l, var2_r)
+
+        print var1_e_ref
 
         e_singleEle_e1e2 = 1 - (1 - var1_e_ref) * (1 - var2_e_ref)
         h2_ref.SetBinContent( jbin+1, ibin+1, e_singleEle_e1e2*100)

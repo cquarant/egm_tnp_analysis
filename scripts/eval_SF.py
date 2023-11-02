@@ -22,8 +22,7 @@ parser.add_argument('-t', '--tag', dest='tag', help = 'output tag')
 args = parser.parse_args()
 
 varConfig = {
-    'RefNvtx'      : { 'minvalue':0    , 'maxvalue':70  , 'bins': [0, 22, 27, 31, 36, 70], 'axis_label':'N_{vtx}'             , 'alias':'npv' },
-    'nvtx'         : { 'minvalue':0    , 'maxvalue':70  , 'bins': [0, 22, 27, 31, 36, 70], 'axis_label':'N_{vtx}'             , 'alias':'npv' },
+    'Nvtx'         : { 'minvalue':0    , 'maxvalue':70  , 'bins': [0, 22, 27, 31, 36, 70], 'axis_label':'N_{vtx}'             , 'alias':'npv' },
     'JpsiKE_e2_pt' : { 'minvalue':5    , 'maxvalue':20  , 'bins': [5.0,  7.0,  9.0, 10.0, 11.0, 12.0, 13.0, 20.0], 'axis_label':'Probe Pt [GeV]'      , 'alias':'pt' },
     'JpsiKE_e2_eta': { 'minvalue':-1.22, 'maxvalue':1.22, 'bins': [-1.22, -0.70, -0.20, 0.20, 0.70, 1.22], 'axis_label':'Probe Eta'           , 'alias':'eta' },
     'JpsiKE_elesDr': { 'minvalue':0    , 'maxvalue':0.6 , 'bins': [0.0, 0.12, 0.20, 0.28, 0.44, 0.6], 'axis_label':'#DeltaR(e_{1},e_{2})', 'alias':'dr' },
@@ -62,45 +61,39 @@ samplesDictAll = OrderedDict([
 
     # Eff vs ProbePt Noah's binning
     ('JpsiKE_e2_pt' , {
-        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_e2Pt_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'SingleEle_FullEff': { 'dir':'Eff_vs_e2Pt_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root'},
-        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_e2Pt_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
-        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_e2Pt_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root'},
-        'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_ptbinned.json'  , 'col':kGreen, 'mrk':kFullTriangleDown, 'source':'json'},
+        # 'SingleEle_ref': { 'dir':'EffBothLegs_vs_e2Pt_SingleEle_SingleEGL1_NoahBins', 'col':kBlue , 'mrk':kFullTriangleUp  , 'source':'root'},
+        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_e2Pt_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'Data'},
+        'MC'           : { 'dir':'ProbeEff_vs_e2Pt_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'MC'},
+        # 'MC'           : { 'dir':'Noah_results_new/TrigEffs_MC_Incl_6_13_23_ptbinned.json'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'json'},
+        # 'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_ptbinned.json'  , 'col':kRed, 'mrk':kFullTriangleDown, 'source':'json','type':'Data'},
     }),
 
     # Eff vs ProbeEta Noah's binning
     ('JpsiKE_e2_eta', {
-        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_e2Eta_SingleEleSingleEGL1_NoahBins'           , 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'SingleEle_FullEff': { 'dir':'Eff_vs_e2Eta_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root'},
-        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_e2Eta_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
-        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_e2Eta_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root'},
-        'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_etabinned.json'  , 'col':kGreen, 'mrk':kFullTriangleDown, 'source':'json'},
+        # 'SingleEle_ref': { 'dir':'EffBothLegs_vs_e2Eta_SingleEleSingleEGL1_NoahBins'           , 'col':kBlue , 'mrk':kFullTriangleUp  , 'source':'root','type':'Data'},
+        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_e2Eta_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'Data'},
+        'MC'           : { 'dir':'ProbeEff_vs_e2Eta_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'MC'},
+        # 'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_etabinned.json'  , 'col':kRed, 'mrk':kFullTriangleDown, 'source':'json','type':'Data'},
     }),
 
     # Eff vs elesDr Noah's binning
     ('JpsiKE_elesDr', {
-        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_elesDr_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'SingleEle_FullEff': { 'dir':'Eff_vs_elesDr_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root'},
-        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_elesDr_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
-        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_elesDr_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root'},
-        'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_drbinned.json'  , 'col':kGreen, 'mrk':kFullTriangleDown, 'source':'json'},
+        # 'SingleEle_ref': { 'dir':'EffBothLegs_vs_elesDr_SingleEleSingleEGL1_NoahBins', 'col':kBlue , 'mrk':kFullTriangleUp  , 'source':'root','type':'Data'},
+        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_elesDr_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'Data'},
+        'MC'           : { 'dir':'ProbeEff_vs_elesDr_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'MC'},
+        # 'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_drbinned.json'  , 'col':kRed, 'mrk':kFullTriangleDown, 'source':'json','type':'Data'},
     }),
 
     # Eff vs Nvtx Noah's binning
-    ('nvtx', {
-        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_Nvtx_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'SingleEle_FullEff': { 'dir':'Eff_vs_Nvtx_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root'},
-        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_Nvtx_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
-        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_Nvtx_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root'},
-        'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_npvbinned.json'  , 'col':kGreen, 'mrk':kFullTriangleDown, 'source':'json'},
-        # 'MC_Noah'      : { 'dir':'Noah_results_new/TrigEffs_MC_Incl_6_13_23_npvbinned.json'  , 'col':kBlack, 'mrk':kFullSquare, 'source':'json'},
+    ('Nvtx', {
+        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_Nvtx_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'Data'},
+        'MC'           : { 'dir':'ProbeEff_vs_Nvtx_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'MC'},
     }),
 
     # RefEff data vs MC
     ('RefNvtx', {
-        'SingleEle_ref': { 'dir':'RefEff_vs_Nvtx_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'MC'           : { 'dir':'RefEff_vs_Nvtx_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
+        'SingleEle_ref': { 'dir':'RefEff_vs_Nvtx_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root','type':'Data'},
+        'MC'           : { 'dir':'RefEff_vs_Nvtx_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root','type':'MC'},
     })
 ])
 samplesDict = samplesDictAll[args.var]
@@ -123,7 +116,7 @@ hset.GetYaxis().SetTitle('')
 hset.GetYaxis().SetTitleSize( 0.055 )
 hset.GetYaxis().SetTitleOffset( 0.95 )
 hset.GetYaxis().SetLabelSize( 0.06 )
-hset.GetYaxis().SetRangeUser( 0.0, 1.0 )
+hset.GetYaxis().SetRangeUser( 0.0, 3.0 )
 hset.GetYaxis().SetNdivisions( 505 )
 
 legend_top = TLegend(0.2, 0.7, 0.95, 0.88)
@@ -135,14 +128,29 @@ legend_bot.SetFillStyle(0)
 
 box = TBox(0.5,0.5,0.9,0.9)
 box.SetFillColor(kWhite)
+
 inputjson = {}
-heff = {}
+heffData = {}
+heffMC = {}
+hSF = {}
 geff = {}
 heff_temp = {}
 teff = {}
 inputfile ={}
 eff_max = 0
+
+rootoutputdir = "results/"+tag
+os.system("mkdir -p "+rootoutputdir)
+rootfile = TFile.Open(rootoutputdir+'/scale_factors.root', 'RECREATE')
+rootfile.cd()
+    
 for flag in flaglist:
+
+    print('\n\n'+flag)
+    heffData = {}
+    heffMC = {}
+    hSF = {}
+    geff = {}
 
     legend_top.Clear()
     legend_bot.Clear()
@@ -151,10 +159,9 @@ for flag in flaglist:
     histoSF = {}
 
     for isample, sample in enumerate(samplesDict.keys()):
-        print sample
         if samplesDict[sample]['source'] == 'root':
-            print sample
-            if 'MC' in samplesDict[sample]["dir"]:
+            if samplesDict[sample]['type']=='MC':
+                print('Adding ',sample, ' to MCSamples')
                 inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/differential_eff_"+flag+".root"
                 inputfile[sample] = TFile.Open(inputfilename)
                 teff[sample] = inputfile[sample].Get("htot_clone")
@@ -162,43 +169,33 @@ for flag in flaglist:
 
                 xbins = ar.array('d',var['bins'])
                 print xbins
-                heff[sample] = TH1D(sample,'',len(xbins)-1,xbins)
+                heffMC[sample] = TH1D(sample,'',len(xbins)-1,xbins)
 
                 x = ar.array('d', [0.])
                 y = ar.array('d', [0.])
                 for ipoint in range(heff_temp[sample].GetN()):
                     heff_temp[sample].GetPoint(ipoint, x, y)
-                    heff[sample].SetBinContent( heff[sample].FindBin(x[0]),  y[0] )
-                    heff[sample].SetBinError( heff[sample].FindBin(x[0]),  heff_temp[sample].GetErrorY(ipoint) )
-                    print(x,y)
-            #     inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/differential_eff_"+flag+".root"
-            #     inputfile[sample] = TFile.Open(inputfilename)
-            #     teff[sample] = inputfile[sample].Get("htot_clone")
-            #     heff[sample] = teff[sample].CreateGraph()
-            #     LastBinLowEdge = heff[sample].GetPointX(heff[sample].GetN()-1) - heff[sample].GetErrorX(heff[sample].GetN()-1)
-            #     heff[sample].SetPointX(heff[sample].GetN()-1, 0.5*(var['maxvalue']+LastBinLowEdge) )
-            #     heff[sample].SetPointEXlow(heff[sample].GetN()-1,  heff[sample].GetPointX(heff[sample].GetN()-1)-LastBinLowEdge )
-            #     heff[sample].SetPointEXhigh(heff[sample].GetN()-1,  heff[sample].GetPointX(heff[sample].GetN()-1)-LastBinLowEdge )
-            else:
-                inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/FullDoubleEleEff_"+flag+".root"
-                inputfile[sample] = TFile.Open(inputfilename)
-                heff_temp[sample] = inputfile[sample].Get("Graph")
-                
-                # inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/differential_eff_"+flag+".root"
+                    heffMC[sample].SetBinContent( heffMC[sample].FindBin(x[0]),  y[0] )
+                    heffMC[sample].SetBinError( heffMC[sample].FindBin(x[0]),  heff_temp[sample].GetErrorY(ipoint) )
+            elif samplesDict[sample]['type']=='Data':
+                print('Adding ',sample, ' to DataSamples')
+                # inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/FullDoubleEleEffCorr_"+flag+".root"
                 # inputfile[sample] = TFile.Open(inputfilename)
-                # teff[sample] = inputfile[sample].Get("htot_clone")
-                # heff_temp[sample] = teff[sample].CreateGraph()
+                # heff_temp[sample] = inputfile[sample].Get("Graph")
+                inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/differential_eff_"+flag+".root"
+                inputfile[sample] = TFile.Open(inputfilename)
+                teff[sample] = inputfile[sample].Get("htot_clone")
+                heff_temp[sample] = teff[sample].CreateGraph()
 
                 xbins = ar.array('d',var['bins'])
-                heff[sample] = TH1D(sample,'',len(xbins)-1,xbins)
+                heffData[sample] = TH1D(sample,'',len(xbins)-1,xbins)
 
                 x = ar.array('d', [0.])
                 y = ar.array('d', [0.])
                 for ipoint in range(heff_temp[sample].GetN()):
                     heff_temp[sample].GetPoint(ipoint, x, y)
-                    heff[sample].SetBinContent( heff[sample].FindBin(x[0]),  y[0] )
-                    heff[sample].SetBinError( heff[sample].FindBin(x[0]),  heff_temp[sample].GetErrorY(ipoint) )
-                
+                    heffData[sample].SetBinContent( heffData[sample].FindBin(x[0]),  y[0] )
+                    heffData[sample].SetBinError( heffData[sample].FindBin(x[0]),  heff_temp[sample].GetErrorY(ipoint) )
                 # LastBinLowEdge = heff[sample].GetPointX(heff[sample].GetN()-1) - heff[sample].GetErrorX(heff[sample].GetN()-1)
                 # heff[sample].SetPointX(heff[sample].GetN()-1, 0.5*(var['maxvalue']+LastBinLowEdge) )
                 # heff[sample].SetPointEXlow(heff[sample].GetN()-1,  heff[sample].GetPointX(heff[sample].GetN()-1)-LastBinLowEdge )
@@ -218,51 +215,37 @@ for flag in flaglist:
                 # # heff[sample].SetPointEXlow(heff[sample].GetN()-1,  heff[sample].GetPointX(heff[sample].GetN()-1)-LastBinLowEdge )
                 # # heff[sample].SetPointEXhigh(heff[sample].GetN()-1,  heff[sample].GetPointX(heff[sample].GetN()-1)-LastBinLowEdge )
 
-        elif samplesDict[sample]['source'] == 'json':
-            inputjson[sample] = open('results/'+samplesDict[sample]['dir'])
-            inputdata = json.load(inputjson[sample])
-            trigger_data = inputdata[flaglist[flag]['alias']]
+            
+    for DataSample in heffData.keys():
+        for MCSample in heffMC.keys():
+            heffData[DataSample].Divide(heffMC[MCSample])
+            hSF[flag+"_"+DataSample+"_vs_"+MCSample] = heffData[DataSample].Clone('h_'+flag+"_"+DataSample+"_vs_"+MCSample)
+    
+    for isample, sample in enumerate(hSF.keys()):
+        print(sample)   
 
-            xbins = ar.array('f',trigger_data[var['alias']])
-            xbins.append(var['maxvalue'])
-
-            heff[sample] = TH1F(sample,'',len(xbins)-1,xbins)
-            for bin in range(len(xbins)-1):
-                # print bin, heff[sample].GetBinLowEdge(bin+1), trigger_data['effs'][bin]
-                if len(trigger_data['effs'][bin])==2:
-                    if trigger_data['effs'][bin][0] >0:
-                        heff[sample].SetBinContent(bin+1, trigger_data['effs'][bin][0])
-                        heff[sample].SetBinError(bin+1, trigger_data['effs'][bin][1])
-                elif len(trigger_data['effs'][bin])==1:
-                    if trigger_data['effs'][bin] >0:
-                        heff[sample].SetBinContent(bin+1, trigger_data['effs'][bin])
-            inputjson[sample].close()
-
-    for isample, sample in enumerate(samplesDict.keys()):
-        print(sample)
-
-        geff[sample] = TGraphErrors(heff[sample].GetNbinsX()+1)
-        for ibin in range(heff[sample].GetNbinsX()+1):
-            geff[sample].SetPoint(ibin, heff[sample].GetBinCenter(ibin), heff[sample].GetBinContent(ibin))
-            geff[sample].SetPointError(ibin, heff[sample].GetBinWidth(ibin)*0.5, heff[sample].GetBinError(ibin))
+        geff[sample] = TGraphErrors(hSF[sample].GetNbinsX()+1)
+        for ibin in range(hSF[sample].GetNbinsX()+1):
+            geff[sample].SetPoint(ibin, hSF[sample].GetBinCenter(ibin), hSF[sample].GetBinContent(ibin))
+            geff[sample].SetPointError(ibin, hSF[sample].GetBinWidth(ibin)*0.5, hSF[sample].GetBinError(ibin))
             if sample=='SingleEle_ref' and ibin==1 and args.var=='JpsiKE_elesDr':
-                geff[sample].SetPointError(ibin, heff[sample].GetBinWidth(ibin)*0.5, heff[sample].GetBinError(ibin)*100)
-                
+                geff[sample].SetPointError(ibin, hSF[sample].GetBinWidth(ibin)*0.5, hSF[sample].GetBinError(ibin)*100)
+        
+        geff[sample].SetName(sample)
+        # geff[sample].SetMarkerStyle(samplesDict[sample]["mrk"])
+        # geff[sample].SetMarkerColor(samplesDict[sample]["col"])
+        # geff[sample].SetMarkerSize(1)
+        # geff[sample].SetLineColor(samplesDict[sample]["col"])
+        # geff[sample].SetLineWidth(1)
 
-
-        geff[sample].SetMarkerStyle(samplesDict[sample]["mrk"])
-        geff[sample].SetMarkerColor(samplesDict[sample]["col"])
-        geff[sample].SetMarkerSize(1)
-        geff[sample].SetLineColor(samplesDict[sample]["col"])
-        geff[sample].SetLineWidth(1)
-
-        # for ipoint in range(heff[sample].GetN()):
-        #     heff[sample].SetPointEXlow(ipoint, 0) 
-        #     heff[sample].SetPointEXhigh(ipoint, 0) 
+        # for ipoint in range(hSF[sample].GetN()):
+        #     hSF[sample].SetPointEXlow(ipoint, 0) 
+        #     hSF[sample].SetPointEXhigh(ipoint, 0) 
 
         geff[sample].Draw("same P")
-
-        # eff_lastbin = heff[sample].GetEfficiency(5)
+        rootfile.cd()
+        geff[sample].Write()
+        # eff_lastbin = hSF[sample].GetEfficiency(5)
         # print eff_lastbin
         # if eff_lastbin>eff_max:
         #     eff_max = eff_lastbin
@@ -270,14 +253,15 @@ for flag in flaglist:
         legend_top.AddEntry(geff[sample], sample, "pl")
         legend_bot.AddEntry(geff[sample], sample, "pl")
 
-    # if eff_max <= 0.5:
-    #     legend_top.Draw("same")
-    # else:
-    # box.Draw("same")
-    # legend_bot.Draw("same")
     legend_top.Draw("same")
 
     outputdir = "/afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots_2022_final/"+tag
     os.system("mkdir -p "+outputdir)
     canvas.SaveAs(outputdir+"/"+flag+"_"+tag+".png")
     os.system("cp /afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/index.php "+outputdir)
+
+rootfile.Write()
+rootfile.Close()
+
+    
+    
