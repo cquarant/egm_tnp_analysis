@@ -40,7 +40,8 @@ flags = {
     }
 
 # Output directory
-baseOutDir = 'results/Eff_vs_e2Pt_SingleEleSingleEGL1_NoahBins_eprbCorr'
+#baseOutDir = 'results/EffBothLegs_vs_e1e2Pt_SingleEle_SingleEGL1'
+baseOutDir = 'results/EffBothLegs_vs_e1e2Pt_SingleEle_SingleEGL1_NoahBins'
 
 #############################################################
 # Samples definition  - preparing the samples
@@ -65,17 +66,18 @@ weightName = 'weight'    # 1 for data; pu_weight for MC
 # Bining definition  [can be nD bining]
 biningDef = [
     # Probe Pt binning
+    # { 'var' : 'JpsiKE_e1_pt', 'type': 'float', 'bins': [5.0, 6.0,  7.0,  8.0,  9.0, 11.0, 13.0, 19.0, 9999999.0] }, #standard_2022_final
     # { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0, 6.0,  7.0,  8.0,  9.0, 11.0, 13.0, 19.0, 9999999.0] }, #standard_2022_final
+    { 'var' : 'JpsiKE_elesDr', 'type': 'float', 'bins': [0.0, 0.12, 0.20, 0.28, 0.44, 1.5] }, # Noah Bins
     { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0,  7.0,  9.0, 10.0, 11.0, 12.0, 13.0, 9999999.0] }, # Noah binning
+    # { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0, 7.<0, 9.0, 13.0, 9999999.0] }, #standard_2022_final
+    # { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0, 6.0, 7.0, 8.0, 9.0, 11.0, 13.0, 9999999.0] }, #rebinned_2022_final_Ele+Jet
 ]
 
 #############################################################
 # Cuts definition for all samples
 
-cutBase =   ('JpsiKE_Jpsi_mass_nofit>2.10001 && JpsiKE_Jpsi_mass_nofit<3.61'
-             ' & abs(JpsiKE_e1_eta)<1.22 & abs(JpsiKE_e2_eta)<1.22 '
-             ' & JpsiKE_e1_pt>10.0 & JpsiKE_e2_pt>5.0 & JpsiKE_e1_passMVA==1 & JpsiKE_e2_passMVA==1'
-            )
+cutBase = 'JpsiKE_Jpsi_mass_nofit>2.10001 && JpsiKE_Jpsi_mass_nofit<3.61 && abs(JpsiKE_e1_eta)<1.22 & abs(JpsiKE_e2_eta)<1.22 & JpsiKE_e1_pt>5.0 & JpsiKE_e2_pt>5.0 & JpsiKE_e1_passMVA==1'
 
 specialCut = {
     'doubleEle4BothMatchedL1_4p5_Match'   : ' & JpsiKE_elesDr<0.9',
@@ -130,13 +132,6 @@ jsonfileDict = {
 }
 
 #############################################################
-## File with SF to convert ProbeEff to FullEff (from MC study)
-## If provided, this file will be used to evaluate the doubleEle trigger efficiency on the electron pair,
-## which is equal to the doubleEle_probe_leg_efficiency X SF_FullOverProbeEff
-## The SF has to be evaluated with the same binning of the doubleEle trigger (probe leg) eff
-sfFile = '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SF_FullOverProbeEff_e2Pt/scale_factors.root'
-
-#############################################################
 ## File with T&P results for Single Electron Trigger (reference)
 ## If provided, this file will be used to evaluate the doubleEle trigger efficiency on the electron pair,
 ## which is equal to the doubleEle_probe_leg_efficiency X reference_trigger_efficiency
@@ -145,45 +140,6 @@ sfFile = '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_anal
 # refEffFile = '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/RefEff_vs_Probe_Pt_SingleEleSingleEGL1/probe_fired/differential_eff_probe_fired.root'
 refEffFile = '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/RefEff_eprb_vs_Probe_Pt_MC_NoahBins/probe_fired/differential_eff_probe_fired.root'
 
-# # file with efficiency of ref trigger when doubleEle trigger fired with Pt binning
-# singleEleEff_DoubleEleRef = {
-#     'doubleEle4BothMatchedL1_4p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_4p5_HLT_4p0/differential_eff_singleEle_fired_L1_4p5_HLT_4p0.root', 
-#     'doubleEle4BothMatchedL1_5p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_5p0_HLT_4p0/differential_eff_singleEle_fired_L1_5p0_HLT_4p0.root', 
-#     'doubleEle4BothMatchedL1_5p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_5p5_HLT_4p0/differential_eff_singleEle_fired_L1_5p5_HLT_4p0.root', 
-#     'doubleEle4BothMatchedL1_6p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_6p0_HLT_4p0/differential_eff_singleEle_fired_L1_6p0_HLT_4p0.root', 
-#     'doubleEle4p5BothMatchedL1_6p5_Match' : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_6p5_HLT_4p5/differential_eff_singleEle_fired_L1_6p5_HLT_4p5.root', 
-#     'doubleEle5BothMatchedL1_7p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_7p0_HLT_5p0/differential_eff_singleEle_fired_L1_7p0_HLT_5p0.root', 
-#     'doubleEle5BothMatchedL1_7p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_7p5_HLT_5p0/differential_eff_singleEle_fired_L1_7p5_HLT_5p0.root', 
-#     'doubleEle5BothMatchedL1_8p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_8p0_HLT_5p0/differential_eff_singleEle_fired_L1_8p0_HLT_5p0.root', 
-#     'doubleEle5BothMatchedL1_8p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_8p5_HLT_5p0/differential_eff_singleEle_fired_L1_8p5_HLT_5p0.root', 
-#     'doubleEle5BothMatchedL1_10p5_Match'  : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_10p5_HLT_5p0/differential_eff_singleEle_fired_L1_10p5_HLT_5p0.root', 
-#     'doubleEle5p5BothMatchedL1_8p5_Match' : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_8p5_HLT_5p5/differential_eff_singleEle_fired_L1_8p5_HLT_5p5.root', 
-#     'doubleEle6BothMatchedL1_5p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_5p5_HLT_6p0/differential_eff_singleEle_fired_L1_5p5_HLT_6p0.root', 
-#     'doubleEle6BothMatchedL1_9p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_9p0_HLT_6p0/differential_eff_singleEle_fired_L1_9p0_HLT_6p0.root', 
-#     'doubleEle6p5BothMatchedL1_9p5_Match' : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_9p5_HLT_6p5/differential_eff_singleEle_fired_L1_9p5_HLT_6p5.root', 
-#     'doubleEle6p5BothMatchedL1_10p5_Match': '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_10p5_HLT_6p5/differential_eff_singleEle_fired_L1_10p5_HLT_6p5.root', 
-#     'doubleEle6p5BothMatchedL1_11p0_Match': '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt/singleEle_fired_L1_11p0_HLT_6p5/differential_eff_singleEle_fired_L1_11p0_HLT_6p5.root', 
-# }
-
-# # file with efficiency of ref trigger when doubleEle trigger fired no Pt Binning
-# singleEleEff_DoubleEleRef_nobins = {
-#     'doubleEle4BothMatchedL1_4p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_4p5_HLT_4p0/differential_eff_singleEle_fired_L1_4p5_HLT_4p0.root', 
-#     'doubleEle4BothMatchedL1_5p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_5p0_HLT_4p0/differential_eff_singleEle_fired_L1_5p0_HLT_4p0.root', 
-#     'doubleEle4BothMatchedL1_5p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_5p5_HLT_4p0/differential_eff_singleEle_fired_L1_5p5_HLT_4p0.root', 
-#     'doubleEle4BothMatchedL1_6p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_6p0_HLT_4p0/differential_eff_singleEle_fired_L1_6p0_HLT_4p0.root', 
-#     'doubleEle4p5BothMatchedL1_6p5_Match' : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_6p5_HLT_4p5/differential_eff_singleEle_fired_L1_6p5_HLT_4p5.root', 
-#     'doubleEle5BothMatchedL1_7p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_7p0_HLT_5p0/differential_eff_singleEle_fired_L1_7p0_HLT_5p0.root', 
-#     'doubleEle5BothMatchedL1_7p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_7p5_HLT_5p0/differential_eff_singleEle_fired_L1_7p5_HLT_5p0.root', 
-#     'doubleEle5BothMatchedL1_8p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_8p0_HLT_5p0/differential_eff_singleEle_fired_L1_8p0_HLT_5p0.root', 
-#     'doubleEle5BothMatchedL1_8p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_8p5_HLT_5p0/differential_eff_singleEle_fired_L1_8p5_HLT_5p0.root', 
-#     'doubleEle5BothMatchedL1_10p5_Match'  : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_10p5_HLT_5p0/differential_eff_singleEle_fired_L1_10p5_HLT_5p0.root', 
-#     'doubleEle5p5BothMatchedL1_8p5_Match' : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_8p5_HLT_5p5/differential_eff_singleEle_fired_L1_8p5_HLT_5p5.root', 
-#     'doubleEle6BothMatchedL1_5p5_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_5p5_HLT_6p0/differential_eff_singleEle_fired_L1_5p5_HLT_6p0.root', 
-#     'doubleEle6BothMatchedL1_9p0_Match'   : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_9p0_HLT_6p0/differential_eff_singleEle_fired_L1_9p0_HLT_6p0.root', 
-#     'doubleEle6p5BothMatchedL1_9p5_Match' : '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_9p5_HLT_6p5/differential_eff_singleEle_fired_L1_9p5_HLT_6p5.root', 
-#     'doubleEle6p5BothMatchedL1_10p5_Match': '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_10p5_HLT_6p5/differential_eff_singleEle_fired_L1_10p5_HLT_6p5.root', 
-#     'doubleEle6p5BothMatchedL1_11p0_Match': '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SingleEleSingleEGL1_DoubleEleRefAlt_vs_Probe_Pt_nobins/singleEle_fired_L1_11p0_HLT_6p5/differential_eff_singleEle_fired_L1_11p0_HLT_6p5.root', 
-# }
 
 #############################################################
 # Fitting params to tune fit by hand if necessary
@@ -196,16 +152,16 @@ tnpParAltSigFitJPsi = [
 
 tnpParNomFitJPsi = [
     # DoubleCB signal + Bkg Exp on DATA
-    # "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.1]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
-    # "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.1]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
-    # "expalphaP[-0.7, -2.0, 0.0]",
-    # "expalphaF[-0.75, -2.0, 0.0]",
+    "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.1]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
+    "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.1]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
+    "expalphaP[-0.7, -2.0, 0.0]",
+    "expalphaF[-0.75, -2.0, 0.0]",
 
     # to be edited for selected bins bins
-    "meanP[3.096, 3.0, 3.11]","sigmaP[0.055, 0.045, 0.065]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
-    "meanF[3.096, 3.0, 3.11]","sigmaF[0.055, 0.045, 0.065]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
-    "expalphaP[-0.70, -2.0, 0.0]",
-    "expalphaF[-0.75, -2.0, 0.0]",   
+    # "meanP[3.096, 3.0, 3.11]","sigmaP[0.055, 0.045, 0.065]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
+    # "meanF[3.096, 3.0, 3.11]","sigmaF[0.055, 0.045, 0.065]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
+    # "expalphaP[-0.70, -2.0, 0.0]",
+    # "expalphaF[-0.75, -2.0, 0.0]",   
 ]
 
 tnpParAltBkgFitJPsi = [

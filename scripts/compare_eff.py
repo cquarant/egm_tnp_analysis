@@ -53,46 +53,39 @@ flaglist = OrderedDict([
 
 samplesDictAll = OrderedDict([
 
-    # Eff vs Probe Pt Noah's binning
-    # ('MC'              , { 'dir':'Eff_vs_Probe_Pt_MC_NoahBins'                   , 'col':kBlack, 'mrk':kFullCircle    , 'source':'root'}),
-    # ('Ele8 + Jet30'    , { 'dir':'Eff_vs_Probe_Pt_ElePlusJet_NoahBins'           , 'col':kRed  , 'mrk':kFullSquare    , 'source':'root'}),
-    # ('SingleEle (1 EGL1)', { 'dir':'EffBothLegs_vs_e2Pt_SingleEle_SingleEGL1_NoahBins', 'col':kBlue , 'mrk':kFullTriangleUp  , 'source':'root'}),
-    # ('DoubleMu'          , { 'dir':'Noah_results/TrigEffs_Incl_5_2_23_ptbinned.json'  , 'col':kBlack, 'mrk':kFullTriangleDown, 'source':'json'}),
-    # ('SingleEle (DoubleEGL1)', { 'dir':('doubleEleFired_SingleEle_DiEleEGL1_2022FG_final' , 'col':kBlack , 'mr)k':kFullTriangleDown }),
-
     # Eff vs ProbePt Noah's binning
     ('JpsiKE_e2_pt' , {
-        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_e2Pt_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'SingleEle_FullEff': { 'dir':'Eff_vs_e2Pt_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root'},
-        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_e2Pt_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
-        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_e2Pt_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root'},
+        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_e2Pt_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root', 'type'='ProbeEff'},
+        'SingleEle_FullEff': { 'dir':'Eff_vs_e2Pt_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root', 'type':'FullEff'},
+        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_e2Pt_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root', 'type':'MC'},
+        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_e2Pt_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root', 'type':'MC'},
         'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_ptbinned.json'  , 'col':kGreen, 'mrk':kFullTriangleDown, 'source':'json'},
     }),
 
     # Eff vs ProbeEta Noah's binning
     ('JpsiKE_e2_eta', {
-        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_e2Eta_SingleEleSingleEGL1_NoahBins'           , 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'SingleEle_FullEff': { 'dir':'Eff_vs_e2Eta_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root'},
-        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_e2Eta_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
-        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_e2Eta_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root'},
+        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_e2Eta_SingleEleSingleEGL1_NoahBins'           , 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root', 'type'='ProbeEff'},
+        'SingleEle_FullEff': { 'dir':'Eff_vs_e2Eta_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root', 'type':'FullEff'},
+        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_e2Eta_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root', 'type':'MC'},
+        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_e2Eta_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root', 'type':'MC'},
         'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_etabinned.json'  , 'col':kGreen, 'mrk':kFullTriangleDown, 'source':'json'},
     }),
 
     # Eff vs elesDr Noah's binning
     ('JpsiKE_elesDr', {
-        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_elesDr_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'SingleEle_FullEff': { 'dir':'Eff_vs_elesDr_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root'},
-        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_elesDr_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
-        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_elesDr_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root'},
+        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_elesDr_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root', 'type'='ProbeEff'},
+        'SingleEle_FullEff': { 'dir':'Eff_vs_elesDr_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root', 'type':'FullEff'},
+        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_elesDr_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root', 'type':'MC'},
+        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_elesDr_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root', 'type':'MC'},
         'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_drbinned.json'  , 'col':kGreen, 'mrk':kFullTriangleDown, 'source':'json'},
     }),
 
     # Eff vs Nvtx Noah's binning
     ('nvtx', {
-        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_Nvtx_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root'},
-        'SingleEle_FullEff': { 'dir':'Eff_vs_Nvtx_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root'},
-        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_Nvtx_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root'},
-        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_Nvtx_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root'},
+        # 'SingleEle_ProbeEff': { 'dir':'Eff_vs_Nvtx_SingleEleSingleEGL1_NoahBins', 'col':kRed , 'mrk':kFullTriangleUp  , 'source':'root', 'type'='ProbeEff'},
+        'SingleEle_FullEff': { 'dir':'Eff_vs_Nvtx_SingleEleSingleEGL1_NoahBins_eprbCorr', 'col':kViolet , 'mrk':kFullTriangleUp  , 'source':'root', 'type':'FullEff'},
+        # 'MC_ProbeEff'  : { 'dir':'ProbeEff_vs_Nvtx_MC_NoahBins', 'col':kBlue , 'mrk':kOpenSquare  , 'source':'root', 'type':'MC'},
+        'MC_FullEff'   : { 'dir':'EffBothLegs_vs_Nvtx_MC_NoahBins'  , 'col':kBlack, 'mrk':kOpenSquare, 'source':'root', 'type':'MC'},
         'DoubleMu_ref' : { 'dir':'Noah_results_new/TrigEffs_Data_Incl_6_13_23_npvbinned.json'  , 'col':kGreen, 'mrk':kFullTriangleDown, 'source':'json'},
         # 'MC_Noah'      : { 'dir':'Noah_results_new/TrigEffs_MC_Incl_6_13_23_npvbinned.json'  , 'col':kBlack, 'mrk':kFullSquare, 'source':'json'},
     }),
@@ -180,14 +173,16 @@ for flag in flaglist:
             #     heff[sample].SetPointEXlow(heff[sample].GetN()-1,  heff[sample].GetPointX(heff[sample].GetN()-1)-LastBinLowEdge )
             #     heff[sample].SetPointEXhigh(heff[sample].GetN()-1,  heff[sample].GetPointX(heff[sample].GetN()-1)-LastBinLowEdge )
             else:
-                inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/FullDoubleEleEff_"+flag+".root"
-                inputfile[sample] = TFile.Open(inputfilename)
-                heff_temp[sample] = inputfile[sample].Get("Graph")
-                
-                # inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/differential_eff_"+flag+".root"
-                # inputfile[sample] = TFile.Open(inputfilename)
-                # teff[sample] = inputfile[sample].Get("htot_clone")
-                # heff_temp[sample] = teff[sample].CreateGraph()
+
+                if samplesDict[sample]["type"] == 'FullEff':
+                    inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/FullDoubleEleEff_"+flag+".root"
+                    inputfile[sample] = TFile.Open(inputfilename)
+                    heff_temp[sample] = inputfile[sample].Get("Graph")
+                else:
+                    inputfilename = maindir+"/"+samplesDict[sample]["dir"]+"/"+flag+"/differential_eff_"+flag+".root"
+                    inputfile[sample] = TFile.Open(inputfilename)
+                    teff[sample] = inputfile[sample].Get("htot_clone")
+                    heff_temp[sample] = teff[sample].CreateGraph()
 
                 xbins = ar.array('d',var['bins'])
                 heff[sample] = TH1D(sample,'',len(xbins)-1,xbins)
@@ -243,8 +238,13 @@ for flag in flaglist:
 
         geff[sample] = TGraphErrors(heff[sample].GetNbinsX()+1)
         for ibin in range(heff[sample].GetNbinsX()+1):
-            geff[sample].SetPoint(ibin, heff[sample].GetBinCenter(ibin), heff[sample].GetBinContent(ibin))
-            geff[sample].SetPointError(ibin, heff[sample].GetBinWidth(ibin)*0.5, heff[sample].GetBinError(ibin))
+            
+            if heff[sample].GetBinContent(ibin)!=0 and heff[sample].GetBinError(ibin) != 0:
+                geff[sample].SetPoint(ibin, heff[sample].GetBinCenter(ibin), heff[sample].GetBinContent(ibin))
+                geff[sample].SetPointError(ibin, heff[sample].GetBinWidth(ibin)*0.5, heff[sample].GetBinError(ibin))
+            else:
+                geff[sample].SetPoint(ibin, heff[sample].GetBinCenter(ibin), -1)
+                geff[sample].SetPointError(ibin, heff[sample].GetBinWidth(ibin)*0.5, 0)
             if sample=='SingleEle_ref' and ibin==1 and args.var=='JpsiKE_elesDr':
                 geff[sample].SetPointError(ibin, heff[sample].GetBinWidth(ibin)*0.5, heff[sample].GetBinError(ibin)*100)
                 

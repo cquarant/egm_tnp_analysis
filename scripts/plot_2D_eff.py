@@ -31,6 +31,7 @@ varConfig = {
     'JpsiKE_e2_pt' : { 'minvalue':05., 'maxvalue':30. , 'axis_label':'Probe Pt [GeV]' , 'ref_eff_file': 'results/RefEff_vs_Probe_Pt_SingleEleSingleEGL1'},
     'JpsiKE_e1_eta': { 'minvalue':-1.22, 'maxvalue':1.22 , 'axis_label':'Tag Eta' , 'ref_eff_file': 'results/RefEff_vs_Probe_Eta_SingleEleSingleEGL1'},
     'JpsiKE_e2_eta': { 'minvalue':-1.22, 'maxvalue':1.22 , 'axis_label':'Probe Eta' , 'ref_eff_file': 'results/RefEff_vs_Probe_Eta_SingleEleSingleEGL1'},
+    'JpsiKE_elesDr': { 'minvalue':0, 'maxvalue':1.5 , 'axis_label':'#Delta R(ee)' , 'ref_eff_file': 'results/RefEff_vs_Probe_Pt_SingleEleSingleEGL1'},
 }
 
 fitResultsFileName = args.fitResultsFile
@@ -62,13 +63,14 @@ resPlist = []
 resFlist = []
 var1_binedges = []
 var2_binedges = []
-pattern = r"(JpsiKE_[a-zA-Z0-9]+_[a-zA-Z0-9]+)_(m*[0-9]+p[0-9]+)To(m*[0-9]+p[0-9]+)_(JpsiKE_[a-zA-Z0-9]+_[a-zA-Z0-9]+)_(m*[0-9]+p[0-9]+)To(m*[0-9]+p[0-9]+)"
+pattern = r"(JpsiKE_[a-zA-Z0-9]+)_(m*[0-9]+p[0-9]+)To(m*[0-9]+p[0-9]+)_(JpsiKE_[a-zA-Z0-9]+_[a-zA-Z0-9]+)_(m*[0-9]+p[0-9]+)To(m*[0-9]+p[0-9]+)"
 for obj in fitResultsFile.GetListOfKeys():
     objname = obj.GetName()
     if "bin" in objname:
         if "resP" in objname:
             resPlist.append(objname)
-
+            print objname
+            print pattern
             # Define the regular expression pattern
             matches = re.search(pattern, objname)
 
@@ -129,7 +131,7 @@ for ibin in range(len(resPlist)):
     inputHistoFail = inputHistoFile.Get(resFlist[ibin].replace("resF","Fail"))
     EvtBins = inputHistoPass.GetEntries() + inputHistoFail.GetEntries()
     
-    if EvtBins < 50:
+    if EvtBins < 20:
         nSigP = 0.
         nSigP_err = 0.
         nSigTot_err = 0.

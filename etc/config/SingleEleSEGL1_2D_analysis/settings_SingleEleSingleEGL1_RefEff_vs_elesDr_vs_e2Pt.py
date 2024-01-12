@@ -10,9 +10,9 @@ flags = {
     }
 
 # Output directory
-baseOutDir = 'results/RefEff_eprb_vs_Probe_Eta_MC_NoahBins'
-# baseOutDir = 'results/RefEff_eprb_vs_Probe_Eta_MC_NoBins'
-# baseOutDir = 'results/RefEff_eprb_vs_Probe_Eta_MC_NoahBins_vutPt10'
+# baseOutDir = 'results/RefEff_vs_elesDr_SingleEleSingleEGL1'
+# baseOutDir = 'results/RefEff_vs_elesDr_SingleEleSingleEGL1_NoahBins'
+baseOutDir = 'results/RefEff_vs_elesDr_vs_e2Pt_SingleEleSingleEGL1_NoahBins'
 
 #############################################################
 # Samples definition  - preparing the samples
@@ -23,7 +23,7 @@ import etc.inputs.tnpSampleDef as tnpSamples
 tnpTreeDir = 'nano_'
 
 samplesDef = {
-    'data' : tnpSamples.Parking_doubleEle_run3['BuToKJpsi_SingleEleIncluded'].clone(),
+    'data' : tnpSamples.Parking_doubleEle_run3['data_SingleEleSingleEGL1_Run2022FG-Prompt'].clone(),
 
     'mcNom'  : tnpSamples.Parking_doubleEle_run3['BuToKJpsi'].clone(),
     'mcAlt'  : tnpSamples.Parking_doubleEle_run3['BuToKJpsi'].clone(),
@@ -36,10 +36,12 @@ weightName = 'weight'    # 1 for data; pu_weight for MC
 #############################################################
 # Bining definition  [can be nD bining]
 biningDef = [
-    # Nvtx binning
-    # { 'var' : 'JpsiKE_e2_eta', 'type': 'float', 'bins': [-1.22, -1.0, -0.75, -0.50, -0.25, -0.00, 0.25, 0.50, 0.75, 1.00, 1.22] }, # Eta_standard
-    { 'var' : 'JpsiKE_e2_eta', 'type': 'float', 'bins': [-1.22, -0.70, -0.20, 0.20, 0.70, 1.22] }, # Noah Bins
-    # { 'var' : 'JpsiKE_e2_eta', 'type': 'float', 'bins': [-1.22, 1.22] }, # No Bins
+    # elesDr binning
+    # { 'var' : 'JpsiKE_elesDr', 'type': 'float', 'bins': [0, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.6, 0.9] }, #elesDr_standard
+    { 'var' : 'JpsiKE_elesDr', 'type': 'float', 'bins': [0, 0.12, 0.20, 0.28, 0.44, 1.5] }, # Noah Bins
+    { 'var' : 'JpsiKE_e2_pt', 'type': 'float', 'bins': [5.0,  7.0,  9.0, 10.0, 11.0, 12.0, 13.0, 9999999.0] }, # Noah binning
+    # { 'var' : 'JpsiKE_elesDr', 'type': 'float', 'bins': [0, 2] }, # no bins
+    
 ]
 
 #############################################################
@@ -47,8 +49,7 @@ biningDef = [
 # Cuts definition for all samples
 cutBase =   ('JpsiKE_Jpsi_mass_nofit>2.10001 && JpsiKE_Jpsi_mass_nofit<3.61'
              ' & abs(JpsiKE_e1_eta)<1.22 & abs(JpsiKE_e2_eta)<1.22 '
-             ' & JpsiKE_e1_pt>10.0 & JpsiKE_e2_pt>10.0 & JpsiKE_e1_passMVA==1 & JpsiKE_e2_passMVA==1'
-             ' & SingleEle_fired==1 && JpsiKE_e1_istag==1 '
+             ' & JpsiKE_e1_pt>5.0 & JpsiKE_e1_passMVA==1 & JpsiKE_e2_passMVA==1'
             )
 
 specialCut = {
@@ -97,17 +98,17 @@ tnpParAltSigFitJPsi = [
     ]
 
 tnpParNomFitJPsi = [
-    # standard set of initial parameters
-    # "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.1]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
-    # "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.1]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
-    # "expalphaP[-0.7, -2.0, 0.0]",
-    # "expalphaF[-0.75, -2.0, 0.0]",   
+    # use if elesDr cut
+    "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.06]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
+    "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.06]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
+    "expalphaP[-0.7, -2.0, 2.0]",
+    "expalphaF[-0.75, -2.0, 2.0]",   
 
     # to be edited for selected bins bins
-    "meanP[3.096, 3.0, 3.11]","sigmaP[0.065, 0.045, 0.1]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
-    "meanF[3.096, 3.0, 3.11]","sigmaF[0.065, 0.045, 0.1]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
-    "expalphaP[-0.5, -2.0, 0.0]",
-    "expalphaF[-0.5, -2.0, 0.0]",   
+    # "meanP[3.096, 3.0, 3.11]","sigmaP[0.055, 0.045, 0.065]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
+    # "meanF[3.096, 3.0, 3.11]","sigmaF[0.055, 0.045, 0.065]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
+    # "expalphaP[-0.70, -2.0, 2.0]",
+    # "expalphaF[-0.75, -2.0, 2.0]",   
 ]
      
 tnpParAltBkgFitJPsi = [

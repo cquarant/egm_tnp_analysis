@@ -70,6 +70,9 @@ for flag in flaglist:
         os.system("python scripts/plot_differential_eff.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root -v "+tnpConf.biningDef[0]['var'])
         if hasattr(tnpConf, 'refEffFile'):
             os.system("python scripts/plot_full_doubleEleEff.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root -r "+tnpConf.refEffFile+" -v "+tnpConf.biningDef[0]['var'])
+        if hasattr(tnpConf, 'sfFile'):
+            print("python scripts/plot_full_doubleEleEff_fromSF.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root -f "+flag+" -r "+tnpConf.sfFile+" -v "+tnpConf.biningDef[0]['var'])
+            os.system("python scripts/plot_full_doubleEleEff_fromSF.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root -f "+flag+" -r "+tnpConf.sfFile+" -v "+tnpConf.biningDef[0]['var'])
     elif hasattr(tnpConf, 'refEffFile'):
         os.system("python scripts/plot_2D_eff.py -i results/"+outdir+"/"+flag+"/"+data_tag+"_"+flag+".nominalFit.root -r "+tnpConf.refEffFile)
     else:

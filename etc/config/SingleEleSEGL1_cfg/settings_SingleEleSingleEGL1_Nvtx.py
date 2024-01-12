@@ -130,6 +130,13 @@ jsonfileDict = {
 }
 
 #############################################################
+## File with SF to convert ProbeEff to FullEff (from MC study)
+## If provided, this file will be used to evaluate the doubleEle trigger efficiency on the electron pair,
+## which is equal to the doubleEle_probe_leg_efficiency X SF_FullOverProbeEff
+## The SF has to be evaluated with the same binning of the doubleEle trigger (probe leg) eff
+sfFile = '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SF_FullOverProbeEff_Nvtx/scale_factors.root'
+
+#############################################################
 ## File with T&P results for Single Electron Trigger (reference)
 ## If provided, this file will be used to evaluate the doubleEle trigger efficiency on the electron pair,
 ## which is equal to the doubleEle_probe_leg_efficiency X reference_trigger_efficiency
@@ -189,16 +196,16 @@ tnpParAltSigFitJPsi = [
 
 tnpParNomFitJPsi = [
     # DoubleCB signal + Bkg Exp on DATA
-    "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.1]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
-    "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.1]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
-    "expalphaP[-0.7, -2.0, 0]",
-    "expalphaF[-0.75, -2.0, 0]",   
+    # "meanP[3.096, 3.0, 3.15]","sigmaP[0.055, 0.045, 0.1]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
+    # "meanF[3.096, 3.0, 3.15]","sigmaF[0.055, 0.045, 0.1]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
+    # "expalphaP[-0.7, -2.0, 0]",
+    # "expalphaF[-0.75, -2.0, 0]",   
 
     # to be edited for selected bins bins
-    # "meanP[3.096, 3.0, 3.11]","sigmaP[0.055, 0.045, 0.065]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
-    # "meanF[3.096, 3.0, 3.11]","sigmaF[0.055, 0.045, 0.065]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
-    # "expalphaP[-0.70, -2.0, 0.0]",
-    # "expalphaF[-0.75, -2.0, 0.0]",   
+    "meanP[3.096, 3.0, 3.11]","sigmaP[0.055, 0.045, 0.065]" , "alphaLP[0.5, 0.2, 0.7]" , "alphaRP[0.9, 0.8, 1.5]" , "nLP[14, 10, 16]","nRP[5, 4, 8]",
+    "meanF[3.096, 3.0, 3.11]","sigmaF[0.055, 0.045, 0.065]" , "alphaLF[0.6, 0.5, 0.7]" , "alphaRF[1.0, 0.8, 1.2]" , "nLF[14, 10, 16]","nRF[5, 4, 8]",
+    "expalphaP[-0.70, -2.0, 0.0]",
+    "expalphaF[-0.75, -2.0, 0.0]",   
 ]
 
 tnpParAltBkgFitJPsi = [

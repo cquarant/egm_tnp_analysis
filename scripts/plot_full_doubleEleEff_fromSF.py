@@ -2,13 +2,44 @@ import argparse
 import os
 import array as ar
 from ROOT import *
+import re
 
+DEBUG = True
+
+#############################################################################################################################
+# Functions
+def getObjNameMatchingString (rfile,regex):
+    nMatch = 0
+    for obj in rfile.GetListOfKeys():
+
+        # print(regex)
+        # print(obj.GetName())
+        # print(re.search(obj.GetName(), regex))
+
+        if (re.search(regex, obj.GetName())):
+            obj.Print()
+            nMatch+=1
+        continue 
+    
+    if nMatch == 0:
+        print('WARNING: No obj matching '+flag+' in '+rfile.GetName())
+    elif nMatch == 1:
+        print('Found One object matching flag '+obj.GetName())
+        return obj.GetName()
+    elif nMatch > 1:
+        print('WARNING: Found Multiple objects matching '+flag+' !!!')
+    print('')
+
+#############################################################################################################################
+
+# Main
 gROOT.SetBatch(True)
 gStyle.SetOptStat(0)
 parser = argparse.ArgumentParser(description='Plot global efficiencies for different triggers')
 parser.add_argument('-i', '--fitResultsFile', dest='fitResultsFile'  , help = 'input file with T&P fit results for doubleEle trigger (probe leg)')
-parser.add_argument('-r', '--refEffFile'    , dest='refEffFile'      , help = 'input file with T&P fit results for singleEle ref trigger')
+parser.add_argument('-r', '--sfFile'    , dest='sfFile'      , help = 'input file with T&P fit results for singleEle ref trigger')
 parser.add_argument('-v', '--var'           , dest='var'             , help = 'Variable Name: nvtx, JpsiKE_e2_pt, JpsiKE_elesDr')
+parser.add_argument('-f', '--flag'          , dest='flag'            , help = 'doubleEle trigger flag')
 #parser.add_argument('-o', '--outputdir', dest='outputdir' , help = 'output directory with plot')
 
 args = parser.parse_args()
@@ -29,11 +60,8 @@ fitResultsFile = TFile.Open(fitResultsFileName)
 inputHistoFileName = fitResultsFileName.replace("nominalFit.","")
 inputHistoFile = TFile.Open(inputHistoFileName)
 
-# if !args.refEffFile:
-#     print 'File with T&P fit results for singleEle reference trigger required'
-#     return
-RefEffFile = TFile.Open(args.refEffFile)
-
+sfFile = TFile.Open(args.sfFile)
+flag = args.flag
 tag = args.fitResultsFile.split("/")[-2]
 outdir = args.fitResultsFile.split("/")[-3]
 
@@ -106,55 +134,45 @@ for ibin in range(len(resPlist)):
 
 # Evaluate doubleEle (probe leg) efficiency
 heff_diEleProbe = TEfficiency(htrig_diEleProbe, htot_diEleProbe)
-heff_diEleProbe.SetStatisticOption(TEfficiency.kFCP);
-heff_diEleProbe.SetConfidenceLevel(0.68);
+heff_diEleProbe.SetStatisticOption(TEfficiency.kFCP)
+heff_diEleProbe.SetConfidenceLevel(0.68)
 geff_diEleProbe = heff_diEleProbe.CreateGraph()
 
+gSF_name = getObjNameMatchingString(sfFile, flag)
+gSF = sfFile.Get(gSF_name)
+print(gSF_name,gSF)
 
 npoints = geff_diEleProbe.GetN()
 geff_diEle = TGraphErrors(npoints)
 x_diEleProbe  = ar.array('d', [0.])
 y_diEleProbe  = ar.array('d', [0.])
-x_ref        = ar.array('d', [0.])
-y_ref        = ar.array('d', [0.])
-#print ''
-geff_ref = RefEffFile.Get("htot_clone").CreateGraph()
-for i in range(npoints):
+x_sf  = ar.array('d', [0.])
+y_sf  = ar.array('d', [0.])
+for i in range(0, npoints):
 
     geff_diEleProbe.GetPoint(i, x_diEleProbe, y_diEleProbe)
-    geff_ref.GetPoint(i, x_ref, y_ref)
     ey_diEleProbe = geff_diEleProbe.GetErrorY(i)
     ex_diEleProbe = geff_diEleProbe.GetErrorX(i)
-    ey_ref        = geff_ref       .GetErrorY(i)
-
-    #print x_diEleProbe, y_diEleProbe, x_ref, y_ref
-
-    e_diEleProbe = y_diEleProbe[0]
-    e2_ref       = y_ref[0]
-    e1_ref       = 0.9457
     
-    e_ref_e1e2     = 1 - ( (1-e1_ref) * (1-e2_ref)  ) # eff of singleEle ref trigger is assumed 0.84 for e_tag with pt>11.0
-    e_ref_e1e2_err = 2 * (1-e2_ref) * ey_ref
+    sf_point      = gSF.GetPoint(i+1, x_sf, y_sf)
+    e_sf          = gSF.GetErrorY(i+1)
 
-
-    eff_diEle = e_diEleProbe * e_ref_e1e2
-    eff_diEle_err = eff_diEle * TMath.Sqrt( TMath.Power(ey_diEleProbe/e_diEleProbe, 2) + TMath.Power(e_ref_e1e2_err/e_ref_e1e2, 2) )
+    print(ey_diEleProbe, y_diEleProbe[0], y_sf[0], e_sf)
+    eff_diEle = y_diEleProbe[0] * y_sf[0]
+    err_diEle = eff_diEle * TMath.Sqrt( TMath.Power(ey_diEleProbe/y_diEleProbe[0], 2) + TMath.Power(e_sf/y_sf[0], 2) )
 
     print(i)
-    print('e1_ref= ', e1_ref)
-    print('e2_ref= ', e2_ref)
-    print('e_ref_e1e2= ', e_ref_e1e2)
-    print('e_diEleProbe= ', e_diEleProbe)
+    print('e_diEleProbe= ', y_diEleProbe[0]) 
+    print('sf ', y_sf) 
     print('eff_diEle= ', eff_diEle)
     print('')
 
     geff_diEle.SetPoint(i, x_diEleProbe[0], eff_diEle)
-    geff_diEle.SetPointError(i, ex_diEleProbe, eff_diEle_err)
+    geff_diEle.SetPointError(i, ex_diEleProbe, err_diEle)
+
 
 geff_diEle.SetMarkerStyle(22)
 geff_diEle.SetMarkerSize(1.2)
-
-# Draw Histogram
 
 hset = TH2F( "hset", "", 100, var['minvalue'],   var['maxvalue'], 100, 0, 1)
 hset.GetXaxis().SetTitle(var['axis_label'])
@@ -174,7 +192,7 @@ canvas.cd()
 hset.Draw()
 #htrig.Draw("SAME")
 geff_diEle.Draw("PSAME")
-canvas.SaveAs("/afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots_2022_final/"+outdir+"/"+tag+"/FullDoubleEleEff_"+tag+".png")
+canvas.SaveAs("/afs/cern.ch/user/c/cquarant/www/DoubleEleTriggerStudy/tnpPlots_2022_final/"+outdir+"/"+tag+"/FullDoubleEleEffFromSF_"+tag+".png")
 
 outrootdir  = inputdir
 outrootfilename = inputdir+"/"+"/FullDoubleEleEff_"+tag+".root"

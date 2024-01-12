@@ -131,6 +131,13 @@ jsonfileDict = {
 }
 
 #############################################################
+## File with SF to convert ProbeEff to FullEff (from MC study)
+## If provided, this file will be used to evaluate the doubleEle trigger efficiency on the electron pair,
+## which is equal to the doubleEle_probe_leg_efficiency X SF_FullOverProbeEff
+## The SF has to be evaluated with the same binning of the doubleEle trigger (probe leg) eff
+sfFile = '/afs/cern.ch/work/c/cquarant/RKanalysis/CMSSW_10_6_29/src/egm_tnp_analysis/results/SF_FullOverProbeEff_elesDr/scale_factors.root'
+
+#############################################################
 ## File with T&P results for Single Electron Trigger (reference)
 ## If provided, this file will be used to evaluate the doubleEle trigger efficiency on the electron pair,
 ## which is equal to the doubleEle_probe_leg_efficiency X reference_trigger_efficiency

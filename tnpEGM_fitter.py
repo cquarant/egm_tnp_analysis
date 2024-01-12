@@ -6,7 +6,6 @@ import sys
 import pickle
 import shutil
 
-
 parser = argparse.ArgumentParser(description='tnp EGM fitter')
 parser.add_argument('--checkBins'  , action='store_true'  , help = 'check  bining definition')
 parser.add_argument('--createBins' , action='store_true'  , help = 'create bining definition')
@@ -56,6 +55,7 @@ print outputDirectory
 ####################################################################
 if args.checkBins:
     tnpBins = tnpBiner.createBins(tnpConf.biningDef,tnpConf.cutBase+tnpConf.specialCut[args.flag])
+    print tnpConf.cutBase+tnpConf.specialCut[args.flag]
     tnpBiner.tuneCuts( tnpBins, tnpConf.additionalCuts )
     for ib in range(len(tnpBins['bins'])):
         print tnpBins['bins'][ib]['name']
@@ -67,6 +67,7 @@ if args.createBins:
             shutil.rmtree( outputDirectory )
     os.makedirs( outputDirectory )
     tnpBins = tnpBiner.createBins(tnpConf.biningDef,tnpConf.cutBase+tnpConf.specialCut[args.flag])
+    print tnpConf.cutBase+tnpConf.specialCut[args.flag]
     tnpBiner.tuneCuts( tnpBins, tnpConf.additionalCuts )
     pickle.dump( tnpBins, open( '%s/bining.pkl'%(outputDirectory),'wb') )
     print 'created dir: %s ' % outputDirectory
